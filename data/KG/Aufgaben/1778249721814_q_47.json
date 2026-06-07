@@ -1,0 +1,15 @@
+{
+  "id": "1778249721814_q_47",
+  "text": "Was passiert, wenn die Feuerwehr kommt?",
+  "type": "single",
+  "answers": [
+    "Alle müssen weglaufen",
+    "Sie helfen den Menschen in Not",
+    "Es gibt Geschenke",
+    "Nichts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was passiert, wenn die Feuerwehr kommt?"
+}

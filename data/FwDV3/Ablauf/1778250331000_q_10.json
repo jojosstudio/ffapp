@@ -1,0 +1,15 @@
+{
+  "id": "1778250331000_q_10",
+  "text": "Wer bringt den Verteiler vor?",
+  "type": "single",
+  "answers": [
+    "Der Angriffstrupp",
+    "Der Wassertrupp",
+    "Der Schlauchtrupp",
+    "Der Melder"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Wer bringt den Verteiler vor?"
+}

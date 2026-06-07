@@ -1,0 +1,15 @@
+{
+  "id": "1778250617434_q_12",
+  "text": "Was brennt in der Brandklasse B?",
+  "type": "single",
+  "answers": [
+    "Speiseöl",
+    "Flüssige Stoffe (Benzin, Alkohol)",
+    "Holz",
+    "Metalle"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was brennt in der Brandklasse B?"
+}

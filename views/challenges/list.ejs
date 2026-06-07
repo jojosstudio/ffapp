@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>Challenges</h1>
+            <p>Finde deine nächste Herausforderung</p>
+        </div>
+        
+        <!-- Daily Challenge Banner (oben auf der Seite) -->
+        <% if (daily) { %>
+            <a href="/daily-challenge" style="text-decoration: none; display: block; margin-bottom: 2rem;">
+                <div class="card" style="background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.1)); border: 2px solid #ffc107; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255,193,7,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 2.5rem; animation: spin-star 3s ease-in-out infinite;">⭐</span>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.2rem;">⭐ Tägliche Challenge</h3>
+                                <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    <strong><%= daily.title %></strong> — <%= daily.total_points %> Punkte (×<%= daily.multiplier %> Bonus!)
+                                </p>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="countdown-big" id="dailyCountdownBanner" style="font-size: 1.8rem; font-weight: 800; color: #e65100; letter-spacing: 0.1em;"><%= countdownFormatted %></div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">bis zur nächsten Challenge</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <% } %>
+        
+        <!-- Challenges Grid -->
+        <% if (challenges && challenges.length > 0) { %>
+            <div class="challenge-grid">
+                <% challenges.forEach(challenge => { %>
+                    <div class="card challenge-card <%= challenge.is_completed ? 'challenge-completed' : '' %> <%= challenge.on_cooldown ? 'challenge-cooldown' : '' %>">
+                        <div class="challenge-header">
+                            <span class="challenge-type <%= challenge.type %>">
+                                <%= challenge.type === 'theorie' ? '📚 Theorie' : '🎯 Praxis' %>
+                            </span>
+                            <% if (challenge.target_group !== 'both') { %>
+                                <span class="badge badge-<%= challenge.target_group === 'jf' ? 'blue' : 'green' %>">
+                                    <%= challenge.target_group.toUpperCase() %>
+                                </span>
+                            <% } %>
+                            <% if (challenge.is_completed) { %>
+                                <span class="badge" style="background: var(--success);">✅ Erledigt</span>
+                            <% } else if (challenge.on_cooldown) { %>
+                                <span class="badge" style="background: var(--warning);">⏳ Wartezeit</span>
+                            <% } else { %>
+                                <span class="badge" style="background: var(--primary);">🆕 Verfügbar</span>
+                            <% } %>
+                        </div>
+                        <h4 class="challenge-title"><%= challenge.title %></h4>
+                        <p class="challenge-description"><%= challenge.description %></p>
+                        
+                        <% if (challenge.question_count > 0) { %>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                                📝 <%= challenge.question_count %> Fragen
+                            </p>
+                        <% } %>
+                        
+                        <div class="challenge-footer">
+                            <span class="challenge-points">+<%= challenge.points %> Punkte</span>
+                            <% if (challenge.is_completed) { %>
+                                <span class="btn btn-secondary btn-sm" style="opacity: 0.6; cursor: not-allowed;">✅ Abgeschlossen</span>
+                            <% } else if (challenge.on_cooldown) { 
+                                // Calculate remaining time from cooldown_until
+                                const cooldownDate = new Date(challenge.cooldown_until + 'Z');
+                                const now = new Date();
+                                const diffMs = cooldownDate - now;
+                                const daysLeft = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                                const hoursLeft = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            %>
+                                <span class="btn btn-secondary btn-sm" style="opacity: 0.6; cursor: not-allowed;">
+                                    ⏳ <%= daysLeft %>d <%= hoursLeft %>h
+                                </span>
+                            <% } else { %>
+                                <a href="/challenges/<%= challenge.id %>" class="btn btn-primary btn-sm">Starten</a>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <p style="color: var(--text-secondary);">
+                    Keine Challenges gefunden. Versuche andere Filter oder schau später wieder vorbei!
+                </p>
+            </div>
+        <% } %>
+        
+        <!-- Live Countdown Script -->
+        <% if (daily && secondsUntilNext > 0) { %>
+        <script>
+            let secondsLeft = <%= secondsUntilNext %>;
+            setInterval(function() {
+                const h = Math.floor(secondsLeft / 3600);
+                const m = Math.floor((secondsLeft % 3600) / 60);
+                const s = secondsLeft % 60;
+                const fmt = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+                const el = document.getElementById('dailyCountdownBanner');
+                if (el) el.textContent = fmt;
+                if (secondsLeft > 0) secondsLeft--;
+            }, 1000);
+        </script>
+        <% } %>
+    </main>
+</body>
+</html>

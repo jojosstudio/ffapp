@@ -1,0 +1,15 @@
+{
+  "id": "1778250755231_q_20",
+  "text": "Was ist ein 'Unterflurhydrant'?",
+  "type": "single",
+  "answers": [
+    "Ein Hydrant im Keller",
+    "Ein Hydrant unter einem Metalldeckel in der Straße",
+    "Ein Brunnen",
+    "Ein Abfluss"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'Unterflurhydrant'?"
+}

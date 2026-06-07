@@ -1,0 +1,15 @@
+{
+  "id": "1778249748323_q_21",
+  "text": "Wie lautet die erste W-Frage beim Notruf?",
+  "type": "single",
+  "answers": [
+    "Wer ruft an?",
+    "Was ist passiert?",
+    "Wo ist es passiert?",
+    "Wie viele Verletzte?"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Wie lautet die erste W-Frage beim Notruf?"
+}

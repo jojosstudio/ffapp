@@ -1,0 +1,15 @@
+{
+  "id": "1778249501836_q_34",
+  "text": "Darf die Feuerwehr eigenmächtig eine Tür aufbrechen?",
+  "type": "single",
+  "answers": [
+    "Ja, zur Rettung oder Brandbekämpfung",
+    "Nein, man muss auf den Schlüsseldienst warten",
+    "Nur mit Zustimmung",
+    "Nur bei Vollmond"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Darf die Feuerwehr eigenmächtig eine Tür aufbrechen?"
+}

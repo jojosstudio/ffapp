@@ -1,0 +1,15 @@
+{
+  "id": "1778250565001_q_43",
+  "text": "Wie lautet der Status für 'Ankunft Krankenhaus' (im Rettungsdienst)?",
+  "type": "single",
+  "answers": [
+    "Status 1",
+    "Status 7",
+    "Status 4",
+    "Status 8"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet der Status für 'Ankunft Krankenhaus' (im Rettungsdienst)?"
+}

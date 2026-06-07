@@ -1,0 +1,15 @@
+{
+  "id": "1778250423888_q_7",
+  "text": "Wann kann auf einen Sicherheitstrupp verzichtet werden?",
+  "type": "single",
+  "answers": [
+    "Nie",
+    "Nur bei Einsätzen im Freien oder wenn keine Gefahr für den Trupp besteht",
+    "Wenn es regnet",
+    "Wenn der Einsatzleiter keine Lust hat"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wann kann auf einen Sicherheitstrupp verzichtet werden?"
+}

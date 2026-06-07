@@ -1,0 +1,15 @@
+{
+  "id": "1778250691723_q_52",
+  "text": "Darf man mit einem Pulverlöscher in der Küche löschen?",
+  "type": "single",
+  "answers": [
+    "Ja, aber das Pulver verursacht große Verschmutzungen in der ganzen Wohnung",
+    "Nein, verboten",
+    "Nur bei Fettbränden",
+    "Nur wenn der Herd aus ist"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Darf man mit einem Pulverlöscher in der Küche löschen?"
+}

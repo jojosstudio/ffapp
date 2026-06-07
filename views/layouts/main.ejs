@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        <%- body %>
+    </main>
+    
+    <footer class="footer glass">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; <%= new Date().getFullYear() %> Feuerwehr-Challenge NRW</p>
+                <p class="footer-tagline">Gemeinsam für NRW - FF & JF im Wettbewerb</p>
+            </div>
+            <div class="footer-links">
+                <ul class="d-flex flex-row list-unstyled">
+                    <li class="me-4">
+                        <a href="/datenschutz">Datenschutz</a>
+                    </li>
+                    <li class="me-4">
+                        <a href="/nutzungsbedingungen">Nutzungsbedingungen</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

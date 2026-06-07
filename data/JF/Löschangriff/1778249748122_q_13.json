@@ -1,0 +1,15 @@
+{
+  "id": "1778249748122_q_13",
+  "text": "Wer gibt das Kommando 'Wasser marsch!'?",
+  "type": "single",
+  "answers": [
+    "Maschinist",
+    "Melder",
+    "Einheitsführer",
+    "Angriffstruppführer"
+  ],
+  "correctAnswers": [
+    3
+  ],
+  "fileName": "Wer gibt das Kommando 'Wasser marsch!'?"
+}

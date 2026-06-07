@@ -1,0 +1,15 @@
+{
+  "id": "1778250755167_q_12",
+  "text": "Wie viele Leiterteile der Steckleiter darf man maximal übereinander stecken?",
+  "type": "single",
+  "answers": [
+    "2 Teile",
+    "4 Teile",
+    "6 Teile",
+    "10 Teile"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie viele Leiterteile der Steckleiter darf man maximal übereinander stecken?"
+}

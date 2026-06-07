@@ -1,0 +1,15 @@
+{
+  "id": "1778250424062_q_18",
+  "text": "Was ist die 'Einsatzkurzprüfung'?",
+  "type": "single",
+  "answers": [
+    "Ein Test in der Schule",
+    "Prüfung von Maskendichtigkeit und Flaschendruck direkt vor dem Einsatz",
+    "Reinigung des Geräts",
+    "Wiegen des Geräts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die 'Einsatzkurzprüfung'?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778249501652_q_18",
+  "text": "Darf die Feuerwehr Personen festnehmen?",
+  "type": "single",
+  "answers": [
+    "Ja, zur Befragung",
+    "Nein, das ist Aufgabe der Polizei (Ausnahme: Jedermann-Festnahmerecht)",
+    "Nur wenn sie betrunken sind",
+    "Nur bei Bränden"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr Personen festnehmen?"
+}

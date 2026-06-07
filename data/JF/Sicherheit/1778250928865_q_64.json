@@ -1,0 +1,15 @@
+{
+  "id": "1778250928865_q_64",
+  "text": "Warum kein Wasser in einen brennenden Kamin?",
+  "type": "single",
+  "answers": [
+    "Der Kamin wird dreckig",
+    "Wegen der enormen Dampfbildung kann der Kamin platzen",
+    "Das Wasser verdampft zu schnell",
+    "Es regnet dann im Haus"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Warum kein Wasser in einen brennenden Kamin?"
+}

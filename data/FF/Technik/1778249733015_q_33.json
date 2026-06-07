@@ -1,0 +1,15 @@
+{
+  "id": "1778249733015_q_33",
+  "text": "Welche Spannungshöhe wird bei der Bahn-Oberleitung in Deutschland verwendet?",
+  "type": "single",
+  "answers": [
+    "1.000 V Gleichstrom",
+    "15.000 V Wechselstrom",
+    "380.000 V Drehstrom",
+    "230 V"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Spannungshöhe wird bei der Bahn-Oberleitung in Deutschland verwendet?"
+}

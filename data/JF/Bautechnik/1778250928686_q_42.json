@@ -1,0 +1,15 @@
+{
+  "id": "1778250928686_q_42",
+  "text": "Was ist eine 'Brandschutzmauer'?",
+  "type": "single",
+  "answers": [
+    "Eine Mauer aus Eis",
+    "Wand, die die Ausbreitung von Feuer auf andere Gebäudeteile verhindern soll",
+    "Ein Zaun",
+    "Eine Glaswand"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist eine 'Brandschutzmauer'?"
+}

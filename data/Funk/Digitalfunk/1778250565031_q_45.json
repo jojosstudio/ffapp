@@ -1,0 +1,15 @@
+{
+  "id": "1778250565031_q_45",
+  "text": "Was ist die 'Rufgruppe'?",
+  "type": "single",
+  "answers": [
+    "Eine Telefonnummer",
+    "Die Kennung, unter der eine Einheit erreichbar ist",
+    "Ein Treffen",
+    "Die Lautstärke"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die 'Rufgruppe'?"
+}

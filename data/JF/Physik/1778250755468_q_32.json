@@ -1,0 +1,15 @@
+{
+  "id": "1778250755468_q_32",
+  "text": "Was ist die 'geodätische Saughöhe'?",
+  "type": "single",
+  "answers": [
+    "Die Länge des Schlauchs",
+    "Senkrechter Abstand zwischen Wasserspiegel und Pumpenmitte",
+    "Die Höhe des Berges",
+    "Die Tiefe des Sees"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die 'geodätische Saughöhe'?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250691227_q_1",
+  "text": "Welcher Trupp ist für die Wasserversorgung zwischen Hydrant und Pumpe zuständig?",
+  "type": "single",
+  "answers": [
+    "Angriffstrupp",
+    "Wassertrupp",
+    "Schlauchtrupp",
+    "Melder"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp ist für die Wasserversorgung zwischen Hydrant und Pumpe zuständig?"
+}

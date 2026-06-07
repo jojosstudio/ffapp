@@ -1,0 +1,15 @@
+{
+  "id": "1778250424207_q_31",
+  "text": "Welche Informationen benötigt die Atemschutzüberwachung vom Trupp?",
+  "type": "single",
+  "answers": [
+    "Namen, Funkrufname, Druck, Zeit, Einsatzort",
+    "Lieblingsessen",
+    "Schuhgröße",
+    "Wetterdaten"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Welche Informationen benötigt die Atemschutzüberwachung vom Trupp?"
+}

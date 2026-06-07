@@ -1,0 +1,15 @@
+{
+  "id": "1778250755216_q_18",
+  "text": "Welche Leitung wird zuerst verlegt?",
+  "type": "single",
+  "answers": [
+    "C-Leitung",
+    "B-Leitung (Wasserversorgung)",
+    "D-Leitung",
+    "Saugleitung"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Leitung wird zuerst verlegt?"
+}

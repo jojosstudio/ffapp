@@ -1,0 +1,15 @@
+{
+  "id": "1778250331272_q_29",
+  "text": "Welcher Trupp nimmt das zweite Rohr vor?",
+  "type": "single",
+  "answers": [
+    "Angriffstrupp",
+    "Wassertrupp",
+    "Schlauchtrupp",
+    "Melder"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp nimmt das zweite Rohr vor?"
+}

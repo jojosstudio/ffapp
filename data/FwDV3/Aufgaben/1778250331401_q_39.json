@@ -1,0 +1,15 @@
+{
+  "id": "1778250331401_q_39",
+  "text": "Wer bedient den Verteiler?",
+  "type": "single",
+  "answers": [
+    "Der Angriffstruppmann",
+    "Der Schlauchtruppführer",
+    "Der Wassertruppmann",
+    "Der Maschinist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wer bedient den Verteiler?"
+}

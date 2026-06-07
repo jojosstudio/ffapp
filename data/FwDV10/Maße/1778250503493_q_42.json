@@ -1,0 +1,15 @@
+{
+  "id": "1778250503493_q_42",
+  "text": "Wie viele Leiterteile dürfen bei der Steckleiter maximal zusammengesteckt werden?",
+  "type": "single",
+  "answers": [
+    "2",
+    "4",
+    "5",
+    "Unbegrenzt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie viele Leiterteile dürfen bei der Steckleiter maximal zusammengesteckt werden?"
+}

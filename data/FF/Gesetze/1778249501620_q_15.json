@@ -1,0 +1,15 @@
+{
+  "id": "1778249501620_q_15",
+  "text": "Wann kann ein Einsatz kostenpflichtig werden?",
+  "type": "single",
+  "answers": [
+    "Bei jedem Einsatz",
+    "Bei vorsätzlicher Fehlalarmierung oder Trunkenheitsfahrten",
+    "Nur bei Regen",
+    "Wenn die Feuerwehr länger als eine Stunde braucht"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wann kann ein Einsatz kostenpflichtig werden?"
+}

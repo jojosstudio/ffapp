@@ -1,0 +1,233 @@
+
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <style>
+        .daily-badge {
+            background: linear-gradient(135deg, #f9a825, #ff6f00);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.85rem;
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 193, 7, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.8); }
+        }
+        
+        .countdown-big {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+        }
+        
+        .daily-hero {
+            background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.1));
+            border: 2px solid #ffc107;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .daily-hero h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .daily-hero .star-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: spin-star 3s ease-in-out infinite;
+        }
+        
+        @keyframes spin-star {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(15deg) scale(1.1); }
+        }
+        
+        .multiplier-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6f00, #f9a825);
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-full);
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <!-- Daily Challenge Hero -->
+        <div class="daily-hero">
+            <span class="star-icon">⭐</span>
+            <h2>Tägliche Challenge</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                Jeden Tag eine neue Challenge mit <strong>doppelten Punkten</strong>! ⚡
+            </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <span class="multiplier-badge">×<%= daily.multiplier %> PUNKTE</span>
+                <span class="daily-badge">⚡ TAGESAKTION</span>
+            </div>
+            
+            <!-- Live Countdown -->
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    ⏳ Nächste Challenge in:
+                </p>
+                <div class="countdown-big" id="dailyCountdown"><%= countdownFormatted %></div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                    Neue Challenge täglich um <strong>12:00 Uhr</strong>!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Challenge Info -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <span class="challenge-type <%= challenge.type %>">
+                    📚 Theorie
+                </span>
+                <% if (challenge.target_group !== 'both') { %>
+                    <span class="badge badge-<%= challenge.target_group === 'jf' ? 'blue' : 'green' %>">
+                        <%= challenge.target_group.toUpperCase() %>
+                    </span>
+                <% } %>
+                <% if (completed) { %>
+                    <span class="badge badge-green">✓ Abgeschlossen</span>
+                <% } %>
+            </div>
+            
+            <h1 style="margin-bottom: 0.5rem;"><%= challenge.title %></h1>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                <%= challenge.description %>
+            </p>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <span class="points-badge" style="background: linear-gradient(135deg, #ff6f00, #f9a825);">
+                    ⭐ <%= daily.total_points %> Punkte
+                    <small style="font-weight: 400; opacity: 0.8;">(×<%= daily.multiplier %> Bonus)</small>
+                </span>
+                <% if (challenge.question_count) { %>
+                    <span style="color: var(--text-muted);">
+                        📝 <%= challenge.question_count %> Fragen
+                    </span>
+                <% } %>
+            </div>
+        </div>
+        
+        <% if (completed) { %>
+            <div class="card" style="text-align: center; padding: 2rem; border: 2px solid var(--success);">
+                <p style="color: var(--success); font-size: 1.25rem; margin-bottom: 0.5rem;">
+                    ✓ Du hast die heutige Challenge bereits abgeschlossen!
+                </p>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    Komm morgen um 12:00 Uhr für eine neue Challenge vorbei!
+                </p>
+                <div class="countdown-big" id="dailyCountdown2" style="font-size: 2rem; margin-bottom: 1rem;"><%= countdownFormatted %></div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    bis zur nächsten täglichen Challenge
+                </p>
+            </div>
+        <% } else if (!canRetry) { %>
+            <!-- Cooldown -->
+            <div class="card" style="text-align: center; padding: 2rem; border: 2px solid var(--warning);">
+                <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">⏳</span>
+                <h3 style="margin-bottom: 1rem;">Wartezeit aktiv</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    Du musst noch <strong><%= cooldownRemaining.hours %> Stunden und <%= cooldownRemaining.minutes %> Minuten</strong> warten.
+                </p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Nach Abschluss einer Challenge musst du 3 Tage warten.
+                </p>
+            </div>
+        <% } else { %>
+            <!-- Quiz Form -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">
+                    ⭐ Tägliches Quiz
+                    <small style="font-weight: 400; color: var(--text-muted); font-size: 0.8rem;">
+                        (×<%= daily.multiplier %> Punkte)
+                    </small>
+                </h3>
+                
+                <form action="/daily-challenge/submit" method="POST">
+                    <% challenge.questions.forEach((q, index) => { %>
+                        <div class="form-group" style="padding: 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); margin-bottom: 1rem;">
+                            <p style="font-weight: 600; margin-bottom: 1rem;">
+                                <%= index + 1 %>. <%= q.question %>
+                            </p>
+                            
+                            <% q.options.forEach((option, optIndex) => { %>
+                                <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; cursor: pointer; border-radius: var(--radius-sm); transition: background 0.2s;" onmouseover="this.style.background='var(--glass-bg-light)'" onmouseout="this.style.background='transparent'">
+                                    <input type="radio" 
+                                           name="answers[<%= index %>]" 
+                                           value="<%= optIndex %>" 
+                                           required
+                                           style="width: 20px; height: 20px; accent-color: var(--ff-red);">
+                                    <span><%= option %></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    <% }); %>
+                    
+                    <div style="background: linear-gradient(135deg, rgba(255,193,7,0.2), rgba(255,152,0,0.1)); border: 2px solid #ffc107; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; text-align: center;">
+                        <p style="font-weight: 700; font-size: 1.2rem; margin-bottom: 0.25rem; color: #e65100;">
+                            ⭐ <span id="multiplierDisplay">×<%= daily.multiplier %></span> PUNKTE BONUS!
+                        </p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+                            Diese Challenge bringt die <strong>doppelte Punktzahl</strong>! 
+                            Morgen um 12:00 gibt es eine neue Challenge.
+                        </p>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; background: linear-gradient(135deg, #ff6f00, #f9a825); border: none;">
+                        ⭐ Quiz absenden & doppelte Punkte sichern!
+                    </button>
+                </form>
+            </div>
+        <% } %>
+    </main>
+    
+    <script>
+        // Live Countdown Timer - aktualisiert jede Sekunde
+        let secondsLeft = <%= secondsUntilNext %>;
+        
+        function updateCountdown() {
+            const h = Math.floor(secondsLeft / 3600);
+            const m = Math.floor((secondsLeft % 3600) / 60);
+            const s = secondsLeft % 60;
+            const formatted = 
+                String(h).padStart(2, '0') + ':' + 
+                String(m).padStart(2, '0') + ':' + 
+                String(s).padStart(2, '0');
+            
+            document.querySelectorAll('[id^="dailyCountdown"]').forEach(el => {
+                el.textContent = formatted;
+            });
+            
+            if (secondsLeft > 0) {
+                secondsLeft--;
+            } else {
+                // Reload page when countdown reaches 0 (new challenge available!)
+                location.reload();
+            }
+        }
+        
+        // Update every second
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

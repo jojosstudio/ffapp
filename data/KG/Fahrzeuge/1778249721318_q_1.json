@@ -1,0 +1,15 @@
+{
+  "id": "1778249721318_q_1",
+  "text": "Welche Farbe haben die Autos der Feuerwehr meistens?",
+  "type": "single",
+  "answers": [
+    "Blau",
+    "Grün",
+    "Gelb",
+    "Rot"
+  ],
+  "correctAnswers": [
+    3
+  ],
+  "fileName": "Welche Farbe haben die Autos der Feuerwehr meistens?"
+}

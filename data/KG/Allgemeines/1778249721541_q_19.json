@@ -1,0 +1,15 @@
+{
+  "id": "1778249721541_q_19",
+  "text": "Wo stehen die Feuerwehrautos, wenn sie keinen Einsatz haben?",
+  "type": "single",
+  "answers": [
+    "In der Garage zu Hause",
+    "Im Feuerwehrhaus",
+    "Auf dem Spielplatz",
+    "Im Parkhaus"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wo stehen die Feuerwehrautos, wenn sie keinen Einsatz haben?"
+}

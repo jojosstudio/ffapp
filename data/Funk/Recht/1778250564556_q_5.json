@@ -1,0 +1,15 @@
+{
+  "id": "1778250564556_q_5",
+  "text": "Dürfen personenbezogene Daten (Namen, Adressen) uneingeschränkt gefunkt werden?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, nur wenn es für den Einsatz zwingend notwendig ist (Datenschutz)",
+    "Nur bei Übungen",
+    "Nur im Digitalfunk"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Dürfen personenbezogene Daten (Namen, Adressen) uneingeschränkt gefunkt werden?"
+}

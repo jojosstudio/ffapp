@@ -1,0 +1,15 @@
+{
+  "id": "1778250331463_q_47",
+  "text": "Wann darf die Pumpe gestartet werden?",
+  "type": "single",
+  "answers": [
+    "Sobald der Motor läuft",
+    "Wenn die Wasserversorgung steht und 'Wasser marsch' befohlen wurde",
+    "Immer sofort",
+    "Wenn der Bürgermeister da ist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wann darf die Pumpe gestartet werden?"
+}

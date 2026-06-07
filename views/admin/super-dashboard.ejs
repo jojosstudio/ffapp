@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>⚡ Super Admin Dashboard</h1>
+            <p>Verwaltung der Feuerwehr-Challenge NRW</p>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-grid mb-4">
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalUsers || 0 %></span>
+                <span class="stat-label">Nutzer</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalStations || 0 %></span>
+                <span class="stat-label">Löschzüge</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalPoints || 0 %></span>
+                <span class="stat-label">Punkte gesamt</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= pendingSubmissions ? pendingSubmissions.length : 0 %></span>
+                <span class="stat-label">Offene Prüfungen</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-grid mb-4">
+            <% if (unverifiedStations && unverifiedStations.length > 0) { %>
+            <div class="card admin-card">
+                <h3>🚒 Nicht verifizierte Löschzüge (<%= unverifiedStations.length %>)</h3>
+                <ul class="admin-list" style="max-height: 220px; overflow-y: auto;">
+                    <% unverifiedStations.forEach(station => { %>
+                        <li class="admin-list-item">
+                            <div>
+                                <strong>LZ <%= station.lz_number %> <%= station.name %></strong>
+                                <br><small style="color: var(--text-muted);"><%= station.city_name %></small>
+                            </div>
+                            <form action="/admin/verify-station/<%= station.id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-primary btn-sm">Verifizieren</button>
+                            </form>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            <% } %>
+
+            <div class="card admin-card">
+                <h3>📋 Schnellzugriff</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <a href="/admin/challenges" class="btn btn-secondary" style="text-align: center;">Challenge-Verwaltung</a>
+                    <% if (usersWithoutStation > 0) { %>
+                        <button type="button" class="btn btn-secondary" onclick="filterNoStation()">
+                            <%= usersWithoutStation %> Nutzer ohne Löschzug
+                        </button>
+                    <% } else { %>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Alle Nutzer haben einen Löschzug zugewiesen.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-grid">
+            <!-- Create City -->
+            <div class="card admin-card">
+                <h3>🏙️ Neue Stadt/Kreis hinzufügen</h3>
+                <form action="/admin/create-city" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Bundesland</label>
+                        <select name="state_id" class="form-select" required>
+                            <option value="">Wählen...</option>
+                            <% if (states) { states.forEach(s => { %>
+                                <option value="<%= s.id %>"><%= s.name %></option>
+                            <% }); } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-input" placeholder="z.B. Essen" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Typ</label>
+                        <select name="type" class="form-select" required>
+                            <option value="kreisfreie_stadt">Kreisfreie Stadt</option>
+                            <option value="kreis">Kreis</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Hinzufügen</button>
+                </form>
+            </div>
+            
+            <!-- Create Station -->
+            <div class="card admin-card">
+                <h3>🚒 Neuen Löschzug erstellen</h3>
+                <form action="/admin/create-station" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Bundesland</label>
+                        <select id="admin-state" class="form-select" required>
+                            <option value="">Wählen...</option>
+                            <% if (states) { states.forEach(s => { %>
+                                <option value="<%= s.id %>"><%= s.name %></option>
+                            <% }); } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Postleitzahl (PLZ)</label>
+                        <input type="text" name="plz" id="plz-input" class="form-input" placeholder="z.B. 10115" required>
+                        <small class="form-text mt-1">Postleitzahl angeben (PLZ). Um die Stadt/den Kreis zu bestimmen, wird die PLZ zur Validierung verwendet.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bundesstadt/Kreis</label>
+                        <select id="admin-city" name="city_id" class="form-select" required>
+                            <option value="">Bitte wählen Sie die Stadt/den Kreis aus</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LZ-Nummer</label>
+                        <input type="number" name="lz_number" class="form-input" placeholder="z.B. 19" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-input" placeholder="z.B. Heßler" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="verified" value="1" checked style="width: 20px; height: 20px;">
+                            <span>Sofort verifizieren</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Erstellen</button>
+                </form>
+            </div>
+        </div>
+        <!-- Create User -->
+<div class="card mt-4">
+    <h3>👤 Neuen Nutzer erstellen</h3>
+    <form action="/admin/create-user" method="POST">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+            <div class="form-group">
+                <label class="form-label">Vollständiger Name</label>
+                <input type="text" name="realname" class="form-input" placeholder="z.B. Max Mustermann" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nickname</label>
+                <input type="text" name="nickname" class="form-input" placeholder="z.B. maxmuster" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">E-Mail</label>
+                <input type="email" name="email" class="form-input" placeholder="z.B. max@example.com" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Passwort</label>
+                <input type="text" name="password" id="create-user-password" class="form-input" placeholder="Passwort" required>
+                <small style="color: var(--text-muted);">
+                    <a href="#" onclick="generatePassword(); return false;">🎲 Zufällig generieren</a>
+                </small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Rolle</label>
+                <select name="role" id="create-user-role" class="form-select" onchange="toggleCreateUserFields()" required>
+                    <option value="ff">Einsatzabteilung (FF)</option>
+                    <option value="jf">Jugendfeuerwehr (JF)</option>
+                    <option value="zugfuehrer">Zugführer</option>
+                    <option value="leitstelle">Leitstelle</option>
+                    <option value="super_admin">Super Admin</option>
+                </select>
+            </div>
+            <div class="form-group" id="create-user-station-group">
+                <label class="form-label">Löschzug <small style="color: var(--text-muted);">(optional)</small></label>
+                <select name="station_id" class="form-select">
+                    <option value="">— Kein Löschzug —</option>
+                    <% if (allStations) { allStations.forEach(st => { %>
+                        <option value="<%= st.id %>">LZ <%= st.lz_number %> <%= st.name %> (<%= st.city_name %>)</option>
+                    <% }); } %>
+                </select>
+            </div>
+            <div class="form-group" id="create-user-city-group" style="display: none;">
+                <label class="form-label">Stadt <small style="color: var(--text-muted);">(für Leitstelle)</small></label>
+                <select name="city_id" class="form-select">
+                    <option value="">— Stadt wählen —</option>
+                    <% if (allCities) { allCities.forEach(city => { %>
+                        <option value="<%= city.id %>"><%= city.name %></option>
+                    <% }); } %>
+                </select>
+            </div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary">Nutzer erstellen</button>
+        </div>
+    </form>
+</div>
+
+        <!-- User Management -->
+        <div class="card mt-4">
+            <div class="user-mgmt-header">
+                <h3>👥 Nutzerverwaltung</h3>
+                <span class="user-count-badge" id="user-count"><%= totalUsers %> Nutzer</span>
+            </div>
+
+            <div class="user-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="user-search" class="form-input" placeholder="Suche nach Name, Nickname, E-Mail oder Löschzug..." autocomplete="off">
+                </div>
+                <select id="filter-role" class="form-select filter-select">
+                    <option value="">Alle Rollen</option>
+                    <option value="zugfuehrer">Zugführer</option>
+                    <option value="ff">Einsatzabteilung</option>
+                    <option value="jf">Jugendfeuerwehr</option>
+                    <option value="leitstelle">Leitstelle</option>
+                    <option value="super_admin">Super Admin</option>
+                </select>
+                <select id="filter-station" class="form-select filter-select">
+                    <option value="">Alle Löschzüge</option>
+                    <option value="none">Ohne Löschzug</option>
+                    <% if (allStations) { allStations.forEach(st => { %>
+                        <option value="<%= st.id %>">LZ <%= st.lz_number %> <%= st.name %></option>
+                    <% }); } %>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="resetFilters()">Filter zurücksetzen</button>
+            </div>
+
+            <div class="user-table-wrap">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Nickname</th>
+                            <th>Löschzug</th>
+                            <th>Rolle</th>
+                            <th>Punkte</th>
+                            <th>Letzter Login</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <% if (allUsers && allUsers.length > 0) { %>
+                            <% allUsers.forEach(u => { %>
+                                <tr class="user-row <%= !u.active ? 'user-inactive' : '' %>"
+                                    data-id="<%= u.id %>"
+                                    data-active="<%= u.active ? '1' : '0' %>"
+                                    data-realname="<%= u.realname %>"
+                                    data-nickname="<%= u.nickname %>"
+                                    data-email="<%= u.email || '' %>"
+                                    data-role="<%= u.role %>"
+                                    data-points="<%= u.points || 0 %>"
+                                    data-station-id="<%= u.station_id || '' %>"
+                                    data-station-label="<%= u.station_name ? 'LZ ' + u.lz_number + ' ' + u.station_name : '' %>"
+                                    data-city="<%= u.city_name || '' %>"
+                                    data-city-id="<%= u.city_id || '' %>"
+                                    data-assigned-city="<%= u.assigned_city_name || '' %>"
+                                    data-last-login="<%= u.last_login || '' %>">
+                                    <td>
+                                       <strong><%= u.realname %></strong>
+                                       <% if (!u.active) { %> <span class="badge badge-warning">Deaktiviert</span><% } %>
+                                       <% if (u.email) { %><br><small class="text-muted"><%= u.email %></small><% } %>
+                                    </td>
+                                    <td><%= u.nickname %></td>
+                                    <td>
+                                        <% if (u.role === 'leitstelle') { %>
+                                            <span class="station-tag">🏛️ <%= u.assigned_city_name || 'Keine Stadt' %></span>
+                                        <% } else if (u.station_name) { %>
+                                            <span class="station-tag">🚒 LZ <%= u.lz_number %> <%= u.station_name %></span>
+                                            <% if (u.city_name) { %><br><small class="text-muted"><%= u.city_name %></small><% } %>
+                                        <% } else { %>
+                                            <span class="badge badge-warning">Kein Löschzug</span>
+                                        <% } %>
+                                    </td>
+                                    <td><span class="role-badge role-<%= u.role %>"><%= u.role === 'zugfuehrer' ? 'Zugführer' : u.role === 'leitstelle' ? 'Leitstelle' : u.role === 'jf' ? 'JF' : u.role === 'super_admin' ? 'Super Admin' : 'FF' %></span></td>
+                                    <td><strong class="points-cell"><%= u.points || 0 %></strong></td>
+                                    <td><small class="text-muted"><%= u.last_login ? new Date(u.last_login).toLocaleDateString('de-DE') : '—' %></small></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary edit-user-btn" data-id="<%= u.id %>">Bearbeiten</button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div id="no-results" class="no-results" style="display: none;">
+                    <p>Keine Nutzer gefunden.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit User Modal -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-card card">
+            <div class="modal-header">
+                <h3>✏️ Nutzer bearbeiten</h3>
+                <button type="button" class="modal-close" onclick="closeEditModal()">×</button>
+            </div>
+            <form id="edit-user-form" method="POST">
+                <div class="modal-grid">
+                    <div class="form-group">
+                        <label class="form-label">Vollständiger Name</label>
+                        <input type="text" name="realname" id="edit-realname" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nickname</label>
+                        <input type="text" name="nickname" id="edit-nickname" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">E-Mail</label>
+                        <input type="email" name="email" id="edit-email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rolle</label>
+                        <select name="role" id="edit-role" class="form-select" onchange="toggleEditRoleFields()">
+                            <option value="ff">Einsatzabteilung (FF)</option>
+                            <option value="jf">Jugendfeuerwehr (JF)</option>
+                            <option value="zugfuehrer">Zugführer</option>
+                            <option value="leitstelle">Leitstelle</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="edit-points-group">
+                        <label class="form-label">Punkte</label>
+                        <input type="number" name="points" id="edit-points" class="form-input" min="0" required>
+                    </div>
+                    <div class="form-group" id="edit-station-group">
+                        <label class="form-label">Löschzug</label>
+                        <select name="station_id" id="edit-station" class="form-select">
+                            <option value="">— Kein Löschzug —</option>
+                            <% if (allStations) { allStations.forEach(st => { %>
+                                <option value="<%= st.id %>">LZ <%= st.lz_number %> <%= st.name %> (<%= st.city_name %>)</option>
+                            <% }); } %>
+                        </select>
+                    </div>
+                    <div class="form-group" id="edit-city-group" style="display: none;">
+                        <label class="form-label">Stadt (Leitstelle)</label>
+                        <select name="city_id" id="edit-city" class="form-select">
+                            <option value="">— Stadt wählen —</option>
+                            <% if (allCities) { allCities.forEach(city => { %>
+                                <option value="<%= city.id %>"><%= city.name %></option>
+                            <% }); } %>
+                        </select>
+                    </div>
+                </div>
+               <div class="modal-actions">
+    <button type="submit" class="btn btn-primary">Speichern</button>
+    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Abbrechen</button>
+    <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+        <button type="button" id="deactivate-btn" class="btn btn-danger" onclick="confirmDeactivate()">Deaktivieren</button>
+        <button type="button" id="delete-btn" class="btn btn-danger" style="background: #7f1d1d;" onclick="confirmDelete()">??? L�schen</button>
+    </div>
+</div>
+            </form>
+            <form id="deactivate-form" method="POST" style="display: none;"></form>
+        </div>
+    </div>
+    
+    <script>
+        let currentEditId = null;
+
+        function toggleFolder(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (!content) return;
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                if (icon) icon.textContent = '📂';
+            } else {
+                content.style.display = 'none';
+                if (icon) icon.textContent = '📁';
+            }
+        }
+
+        function filterUsers() {
+            const query = document.getElementById('user-search').value.toLowerCase().trim();
+            const roleFilter = document.getElementById('filter-role').value;
+            const stationFilter = document.getElementById('filter-station').value;
+            const rows = document.querySelectorAll('.user-row');
+            let visible = 0;
+
+            rows.forEach(row => {
+                const searchText = [
+                    row.dataset.realname,
+                    row.dataset.nickname,
+                    row.dataset.email,
+                    row.dataset.stationLabel,
+                    row.dataset.city,
+                    row.dataset.role
+                ].join(' ').toLowerCase();
+
+                const matchesSearch = !query || searchText.includes(query);
+                const matchesRole = !roleFilter || row.dataset.role === roleFilter;
+                let matchesStation = true;
+                if (stationFilter === 'none') {
+                    matchesStation = !row.dataset.stationId;
+                } else if (stationFilter) {
+                    matchesStation = row.dataset.stationId === stationFilter;
+                }
+
+                const show = matchesSearch && matchesRole && matchesStation;
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            document.getElementById('user-count').textContent = visible + ' Nutzer';
+            document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        function resetFilters() {
+            document.getElementById('user-search').value = '';
+            document.getElementById('filter-role').value = '';
+            document.getElementById('filter-station').value = '';
+            filterUsers();
+        }
+
+        function filterNoStation() {
+            document.getElementById('filter-station').value = 'none';
+            document.getElementById('user-search').value = '';
+            document.getElementById('filter-role').value = '';
+            filterUsers();
+            document.querySelector('.user-table-wrap').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleEditRoleFields() {
+            const role = document.getElementById('edit-role').value;
+            const isLeitstelle = role === 'leitstelle';
+            document.getElementById('edit-points-group').style.display = isLeitstelle ? 'none' : '';
+            document.getElementById('edit-station-group').style.display = isLeitstelle ? 'none' : '';
+            document.getElementById('edit-city-group').style.display = isLeitstelle ? '' : 'none';
+            document.getElementById('edit-points').required = !isLeitstelle;
+        }
+
+        function openEditModal(userId) {
+            const row = document.querySelector(`.user-row[data-id="${userId}"]`);
+            if (!row) return;
+
+            currentEditId = userId;
+            document.getElementById('edit-realname').value = row.dataset.realname;
+            document.getElementById('edit-nickname').value = row.dataset.nickname;
+            document.getElementById('edit-email').value = row.dataset.email;
+            document.getElementById('edit-points').value = row.dataset.points;
+            document.getElementById('edit-station').value = row.dataset.stationId || '';
+            document.getElementById('edit-city').value = row.dataset.cityId || '';
+
+            const roleSelect = document.getElementById('edit-role');
+            const isSuperAdmin = row.dataset.role === 'super_admin';
+            roleSelect.value = isSuperAdmin ? 'ff' : row.dataset.role;
+            roleSelect.disabled = isSuperAdmin;
+            toggleEditRoleFields();
+
+            document.getElementById('edit-user-form').action = '/admin/update-user/' + userId;
+            document.getElementById('deactivate-form').action = '/admin/deactivate-user/' + userId;
+            document.getElementById('deactivate-btn').style.display = isSuperAdmin ? 'none' : '';
+
+            const isInactive = row.dataset.active === '0';
+            document.getElementById('deactivate-btn').textContent = isInactive ? 'Reaktivieren' : 'Deaktivieren';
+            document.getElementById('deactivate-btn').onclick = isInactive ? confirmReactivate : confirmDeactivate;
+            document.getElementById('deactivate-btn').style.display = isSuperAdmin ? 'none' : '';
+            document.getElementById('delete-btn').style.display = isSuperAdmin ? 'none' : '';
+
+            document.getElementById('edit-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+function confirmDelete() {
+    if (!currentEditId) return;
+    const name = document.getElementById('edit-realname').value;
+    if (confirm(`?? "${name}" wirklich dauerhaft aus der Datenbank l�schen? Das kann nicht r�ckg�ngig gemacht werden.`)) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/delete-user/' + currentEditId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+// NEU: Reaktivieren
+function confirmReactivate() {
+    if (!currentEditId) return;
+    const name = document.getElementById('edit-realname').value;
+    if (confirm(`"${name}" wieder aktivieren?`)) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/reactivate-user/' + currentEditId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentEditId = null;
+        }
+
+        function confirmDeactivate() {
+            if (!currentEditId) return;
+            const name = document.getElementById('edit-realname').value;
+            if (confirm(`Möchtest du "${name}" wirklich deaktivieren? Der Account kann nicht wiederhergestellt werden.`)) {
+                document.getElementById('deactivate-form').submit();
+            }
+        }
+
+        async function loadAdminCities(stateId) {
+            const citySelect = document.getElementById('admin-city');
+            if (!stateId) {
+                citySelect.disabled = true;
+                citySelect.innerHTML = '<option value="">Zuerst Bundesland wählen...</option>';
+                return;
+            }
+            try {
+                const response = await fetch(`/api/cities/${stateId}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const cities = await response.json();
+                citySelect.innerHTML = '<option value="">Bitte auswählen...</option>';
+                if (cities.length > 0) {
+                    cities.forEach(city => {
+                        citySelect.innerHTML += `<option value="${city.id}">${city.name}</option>`;
+                    });
+                    citySelect.disabled = false;
+                } else {
+                    citySelect.innerHTML = '<option value="" disabled>Keine Städte gefunden</option>';
+                    citySelect.disabled = true;
+                }
+            } catch (error) {
+                citySelect.innerHTML = '<option value="" disabled>Laden fehlgeschlagen</option>';
+                citySelect.disabled = true;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-search').addEventListener('input', filterUsers);
+            document.getElementById('filter-role').addEventListener('change', filterUsers);
+            document.getElementById('filter-station').addEventListener('change', filterUsers);
+
+            document.querySelectorAll('.edit-user-btn').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+            });
+
+            document.getElementById('edit-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeEditModal();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeEditModal();
+            });
+
+            const stateSelect = document.getElementById('admin-state');
+            if (stateSelect) {
+                stateSelect.addEventListener('change', function() {
+                    loadAdminCities(this.value);
+                });
+            }
+        });
+
+        function generatePassword() {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+    let pw = '';
+    for (let i = 0; i < 12; i++) pw += chars[Math.floor(Math.random() * chars.length)];
+    document.getElementById('create-user-password').value = pw;
+}
+
+function toggleCreateUserFields() {
+    const role = document.getElementById('create-user-role').value;
+    const isLeitstelle = role === 'leitstelle';
+    const isSuperAdmin = role === 'super_admin';
+    document.getElementById('create-user-station-group').style.display = isLeitstelle ? 'none' : '';
+    document.getElementById('create-user-city-group').style.display = isLeitstelle ? '' : 'none';
+}
+
+    </script>
+</body>
+</html>

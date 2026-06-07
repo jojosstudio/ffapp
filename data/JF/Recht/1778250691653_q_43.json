@@ -1,0 +1,15 @@
+{
+  "id": "1778250691653_q_43",
+  "text": "Darf man an einem Hydranten parken?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, Unterflurhydranten müssen freigehalten werden",
+    "Nur kurz zum Einkaufen",
+    "Nur mit einem roten Auto"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man an einem Hydranten parken?"
+}

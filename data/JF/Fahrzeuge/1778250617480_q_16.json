@@ -1,0 +1,15 @@
+{
+  "id": "1778250617480_q_16",
+  "text": "Wofür steht das 'H' im Fahrzeugnamen (z.B. HLF)?",
+  "type": "single",
+  "answers": [
+    "Hochdruck",
+    "Hilfeleistung",
+    "Heckpumpe",
+    "Hauptfahrzeug"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wofür steht das 'H' im Fahrzeugnamen (z.B. HLF)?"
+}

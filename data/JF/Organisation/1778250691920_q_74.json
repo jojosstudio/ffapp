@@ -1,0 +1,15 @@
+{
+  "id": "1778250691920_q_74",
+  "text": "Wer leitet einen Einsatz vor Ort?",
+  "type": "single",
+  "answers": [
+    "Der Bürgermeister",
+    "Der Einsatzleiter",
+    "Der Polizist",
+    "Der lauteste Feuerwehrmann"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wer leitet einen Einsatz vor Ort?"
+}

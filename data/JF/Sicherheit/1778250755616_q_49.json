@@ -1,0 +1,15 @@
+{
+  "id": "1778250755616_q_49",
+  "text": "Darf man Feuerlöscher zum Spaß ausprobieren?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, sie sind nur für den Notfall und die Wartung ist teuer",
+    "Nur im Sommer",
+    "Nur im Wald"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man Feuerlöscher zum Spaß ausprobieren?"
+}

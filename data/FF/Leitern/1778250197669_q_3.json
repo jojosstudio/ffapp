@@ -1,0 +1,15 @@
+{
+  "id": "1778250197669_q_3",
+  "text": "Wie viele Personen dürfen eine vierteilige Steckleiter gleichzeitig besteigen?",
+  "type": "single",
+  "answers": [
+    "Maximal eine Person pro Leiterteil",
+    "Zwei Personen pro Leiter (eine pro zwei Leiterteile)",
+    "Beliebig viele",
+    "Maximal drei Personen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie viele Personen dürfen eine vierteilige Steckleiter gleichzeitig besteigen?"
+}

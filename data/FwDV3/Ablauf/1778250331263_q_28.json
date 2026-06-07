@@ -1,0 +1,15 @@
+{
+  "id": "1778250331263_q_28",
+  "text": "Wo wird das erste Rohr vorgenommen?",
+  "type": "single",
+  "answers": [
+    "Am Verteiler links (Abgang 1)",
+    "Am Verteiler rechts (Abgang 2)",
+    "In der Mitte (Abgang 3)",
+    "Direkt an der Pumpe"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Wo wird das erste Rohr vorgenommen?"
+}

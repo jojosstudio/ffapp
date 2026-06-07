@@ -1,0 +1,15 @@
+{
+  "id": "1778249721787_q_44",
+  "text": "Darf die Feuerwehr im Wald Feuer machen?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, nur an festen Grillplätzen oder im Notfall",
+    "Nur wenn es regnet",
+    "Nur sonntags"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr im Wald Feuer machen?"
+}

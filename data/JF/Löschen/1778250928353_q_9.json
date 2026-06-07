@@ -1,0 +1,15 @@
+{
+  "id": "1778250928353_q_9",
+  "text": "Darf ein Metallbrand mit Wasser gelöscht werden?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, es entstehen extrem hohe Temperaturen und Wasserzersetzung (Explosionsgefahr)",
+    "Nur mit viel Wasser",
+    "Nur im Freien"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf ein Metallbrand mit Wasser gelöscht werden?"
+}

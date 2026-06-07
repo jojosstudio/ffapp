@@ -1,0 +1,15 @@
+{
+  "id": "1778250564636_q_7",
+  "text": "Welche Taste muss gedrückt werden, um zu sprechen?",
+  "type": "single",
+  "answers": [
+    "Lautstärketaste",
+    "PTT-Taste (Push-to-Talk)",
+    "Menü-Taste",
+    "SOS-Taste"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Taste muss gedrückt werden, um zu sprechen?"
+}

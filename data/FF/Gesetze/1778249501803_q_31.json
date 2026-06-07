@@ -1,0 +1,15 @@
+{
+  "id": "1778249501803_q_31",
+  "text": "Darf ein Maschinist bei einer Alarmfahrt die Höchstgeschwindigkeit überschreiten?",
+  "type": "single",
+  "answers": [
+    "Nein",
+    "Ja, unter Inanspruchnahme von Sonderrechten",
+    "Nur wenn er jung ist",
+    "Nur wenn das Horn aus ist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf ein Maschinist bei einer Alarmfahrt die Höchstgeschwindigkeit überschreiten?"
+}

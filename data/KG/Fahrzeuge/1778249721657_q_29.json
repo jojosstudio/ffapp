@@ -1,0 +1,15 @@
+{
+  "id": "1778249721657_q_29",
+  "text": "Darf die Feuerwehr über eine rote Ampel fahren, wenn Blaulicht und Horn an sind?",
+  "type": "single",
+  "answers": [
+    "Nein, niemals",
+    "Ja, aber sie muss vorsichtig sein",
+    "Nur wenn kein anderes Auto da ist",
+    "Nur nachts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr über eine rote Ampel fahren, wenn Blaulicht und Horn an sind?"
+}

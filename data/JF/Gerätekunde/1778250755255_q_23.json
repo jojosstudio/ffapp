@@ -1,0 +1,15 @@
+{
+  "id": "1778250755255_q_23",
+  "text": "Was ist ein 'ABC-Pulverlöscher'?",
+  "type": "single",
+  "answers": [
+    "Ein Löscher für Alphabet-Brände",
+    "Ein Löscher für Glut-, Flüssigkeits- und Gasbrände",
+    "Ein Löscher für die Schule",
+    "Ein Wasserlöscher"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'ABC-Pulverlöscher'?"
+}

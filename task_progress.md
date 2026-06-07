@@ -1,0 +1,11 @@
+- [ ] 1. Datenbank-Schema erweitern (cooldown, season, season_history Tabellen)
+- [ ] 2. Season Model erstellen (Season.js)
+- [ ] 3. Data-Import-Script (Fragen aus data/ in Challenges + quiz_questions importieren)
+- [ ] 4. Challenge Model erweitern (Cooldown-Prüfung, 3-Tage-Wartezeit)
+- [ ] 5. Submission Model erweitern (Season-Bezug, cooldown_until)
+- [ ] 6. routes/challenges.js anpassen (Cooldown-Logik)
+- [ ] 7. routes/rankings.js anpassen (Season-Infos, Countdown)
+- [ ] 8. Views anpassen (Countdown in Rankings, Cooldown in Challenges)
+- [ ] 9. Season-Reset-Script (monatlicher Reset am 1. um 00:00)
+- [ ] 10. Server.js erweitern (Season-Prüfung beim Start, Routen einbinden)
+- [ ] 11. Optional: auto-approve theory quiz with seasonal tracking

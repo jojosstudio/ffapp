@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+
+        <% 
+            const isLs = typeof isLeitstelle !== 'undefined' && isLeitstelle;
+            const actionBase = typeof stationActionBase !== 'undefined' ? stationActionBase : '/admin';
+        %>
+        <% if (typeof backUrl !== 'undefined' && backUrl) { %>
+            <a href="<%= backUrl %>" class="admin-back-link">← Zurück zur Leitstelle</a>
+        <% } %>
+
+        <!-- Invitation Modal -->
+        <div class="modal-overlay" id="inviteModal">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>📨 Einladung erstellt!</h3>
+                    <button type="button" class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <p><strong>👤 Name:</strong> <span id="modalName">-</span></p>
+                    <p><strong>🎖️ Rolle:</strong> <span id="modalRole">-</span></p>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">🔗 Einladungslink:</label>
+                    <div class="invite-link-box" id="modalLink">-</div>
+                    <button class="copy-btn" onclick="copyInviteLink()" style="margin-top: 0.5rem;">📋 Link kopieren</button>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">🔑 Temporäres Passwort:</label>
+                    <div class="temp-pw" id="modalPw">-</div>
+                    <button class="copy-btn" onclick="copyTempPw()">📋 Passwort kopieren</button>
+                </div>
+                <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--warning);">
+                        Der Nutzer loggt sich über den Link ein und setzt E-Mail sowie Passwort.
+                    </p>
+                </div>
+                <button class="btn btn-primary" onclick="closeModal()" style="width: 100%;">Verstanden</button>
+            </div>
+        </div>
+
+        <!-- Password Reset Modal -->
+        <div class="modal-overlay" id="resetModal">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>🔒 Passwort-Reset-Link erstellt!</h3>
+                    <button type="button" class="modal-close" onclick="closeResetModal()">×</button>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <p><strong>👤 Name:</strong> <span id="resetModalName">-</span></p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">🔗 Reset-Link (7 Tage gültig):</label>
+                    <div class="invite-link-box" id="resetModalLink">-</div>
+                    <button class="copy-btn" onclick="copyResetLink()" style="margin-top: 0.5rem;">📋 Link kopieren</button>
+                </div>
+                <button class="btn btn-primary" onclick="closeResetModal()" style="width: 100%;">Verstanden</button>
+            </div>
+        </div>
+        
+        <div class="dashboard-welcome">
+            <h1><%= isLs ? '🚒 Löschzug verwalten' : '🚒 Löschzug Verwaltung' %></h1>
+            <p>
+                <% if (station) { %>
+                    LZ <%= station.lz_number %> <%= station.name %>, <%= station.city_name %>
+                <% } else { %>
+                    Kein Löschzug zugewiesen
+                <% } %>
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid mb-4">
+            <div class="card stat-card">
+                <span class="stat-value"><%= members ? members.length : 0 %></span>
+                <span class="stat-label">Mitglieder</span>
+            </div>
+            <% if (!isLs) { %>
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalPoints || 0 %></span>
+                <span class="stat-label">Punkte gesamt</span>
+            </div>
+            <% } %>
+            <div class="card stat-card">
+                <span class="stat-value"><%= pendingInvitations ? pendingInvitations.length : 0 %></span>
+                <span class="stat-label">Ausstehend</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= pendingSubmissions ? pendingSubmissions.length : 0 %></span>
+                <span class="stat-label">Zu prüfen</span>
+            </div>
+        </div>
+
+        <div class="admin-grid mb-4">
+            <!-- Invite Member -->
+            <div class="card admin-card">
+                <h3>📨 Mitglied einladen</h3>
+                <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+                    Konto anlegen und Einladungslink erhalten.
+                </p>
+                <form action="<%= isLs ? actionBase + '/generate-invitation' : '/admin/generate-invitation' %>" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Name *</label>
+                        <input type="text" name="realname" class="form-input" placeholder="Max Mustermann" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nickname *</label>
+                        <input type="text" name="nickname" class="form-input" placeholder="FireFighterMax" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rolle *</label>
+                        <select name="role" class="form-select" required>
+                            <option value="ff">Einsatzabteilung (FF)</option>
+                            <option value="jf">Jugendfeuerwehr (JF)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Einladung erstellen</button>
+                </form>
+            </div>
+
+            <!-- Pending quick info -->
+            <div class="card admin-card">
+                <h3>⏳ Ausstehende Aktionen</h3>
+                <% if ((pendingInvitations && pendingInvitations.length > 0) || (pendingSubmissions && pendingSubmissions.length > 0)) { %>
+                    <ul class="admin-list">
+                        <% if (pendingInvitations && pendingInvitations.length > 0) { %>
+                            <li class="admin-list-item">
+                                <span><%= pendingInvitations.length %> Einladungen / Bewerbungen</span>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="scrollToSection('section-pending')">Anzeigen</button>
+                            </li>
+                        <% } %>
+                        <% if (pendingSubmissions && pendingSubmissions.length > 0) { %>
+                            <li class="admin-list-item">
+                                <span><%= pendingSubmissions.length %> Einreichungen zu prüfen</span>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="scrollToSection('section-submissions')">Anzeigen</button>
+                            </li>
+                        <% } %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-muted" style="margin: 0;">Alles erledigt — keine ausstehenden Aktionen.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Members Table -->
+        <div class="card mb-4">
+            <div class="admin-section-header">
+                <h3>👥 Mitglieder</h3>
+                <span class="admin-count-badge" id="member-count"><%= members ? members.length : 0 %> Mitglieder</span>
+            </div>
+
+            <div class="admin-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="member-search" class="form-input" placeholder="Suche nach Name oder Nickname..." autocomplete="off">
+                </div>
+                <select id="filter-member-role" class="form-select filter-select">
+                    <option value="">Alle Rollen</option>
+                    <option value="zugfuehrer">Zugführer</option>
+                    <option value="ff">FF</option>
+                    <option value="jf">JF</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="resetMemberFilters()">Zurücksetzen</button>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Nickname</th>
+                            <th>Rolle</th>
+                            <% if (!isLs) { %><th>Punkte</th><% } %>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (members && members.length > 0) { %>
+                            <% members.forEach(member => { %>
+                                <tr class="member-row"
+                                    data-name="<%= member.realname %>"
+                                    data-nickname="<%= member.nickname %>"
+                                    data-role="<%= member.role %>">
+                                    <td><strong><%= member.realname %></strong></td>
+                                    <td><%= member.nickname %></td>
+                                    <td>
+                                        <span class="role-badge role-<%= member.role %>">
+                                            <%= member.role === 'zugfuehrer' ? 'Zugführer' : member.role === 'jf' ? 'JF' : 'FF' %>
+                                        </span>
+                                    </td>
+                                    <% if (!isLs) { %>
+                                    <td><span class="points-cell"><%= member.points || 0 %></span></td>
+                                    <% } %>
+                                    <td>
+                                        <div class="admin-table-actions">
+                                            <form action="<%= isLs ? actionBase + '/generate-password-reset/' + member.id : '/admin/generate-password-reset/' + member.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Passwort-Reset-Link erstellen? (7 Tage gültig)');">
+                                                <button type="submit" class="btn btn-sm btn-secondary" title="Passwort zurücksetzen">🔒</button>
+                                            </form>
+                                            <% if (member.role !== 'zugfuehrer' && member.id !== user.id) { %>
+                                                <form action="<%= isLs ? actionBase + '/remove-member/' + member.id : '/admin/remove-from-station/' + member.id %>" method="POST" style="display:inline;" onsubmit="return confirm('<%= member.realname %> wirklich aus dem Löschzug entfernen?');">
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Entfernen">❌</button>
+                                                </form>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div id="member-no-results" class="no-results" style="display: none;">
+                    <p>Keine Mitglieder gefunden.</p>
+                </div>
+                <% if (!members || members.length === 0) { %>
+                    <div class="no-results"><p>Noch keine aktiven Mitglieder.</p></div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Pending Invitations -->
+        <div class="card mb-4" id="section-pending">
+            <div class="admin-section-header">
+                <h3>⏳ Einladungen & Bewerbungen</h3>
+                <span class="admin-count-badge"><%= pendingInvitations ? pendingInvitations.length : 0 %> ausstehend</span>
+            </div>
+
+            <% if (pendingInvitations && pendingInvitations.length > 0) { %>
+                <% pendingInvitations.forEach(inv => { %>
+                    <div class="admin-item-card">
+                        <div class="admin-item-card-header">
+                            <div>
+                                <% if (inv.email && inv.email.includes('@einladung.')) { %>
+                                    <strong>Einladung</strong>
+                                    <span class="role-badge role-<%= inv.role === 'jf' ? 'jf' : 'ff' %>"><%= inv.role === 'jf' ? 'JF' : 'FF' %></span>
+                                    <br><small class="text-muted"><%= inv.email %></small>
+                                <% } else if (inv.applicant_realname) { %>
+                                    <strong><%= inv.applicant_realname %></strong>
+                                    <span class="role-badge role-<%= inv.role === 'jf' ? 'jf' : 'ff' %>"><%= inv.role === 'jf' ? 'JF' : 'FF' %></span>
+                                    <br><small class="text-muted"><%= inv.applicant_nickname %> · <%= inv.email %></small>
+                                <% } else { %>
+                                    <strong>Bewerbung</strong>
+                                    <span class="role-badge role-<%= inv.role === 'jf' ? 'jf' : 'ff' %>"><%= inv.role === 'jf' ? 'JF' : 'FF' %></span>
+                                    <br><small class="text-muted"><%= inv.email %></small>
+                                <% } %>
+                                <% if (inv.expires_at) { %>
+                                    <br><small style="color: var(--warning);">Läuft ab: <%= new Date(inv.expires_at).toLocaleDateString('de-DE') %></small>
+                                <% } %>
+                            </div>
+                            <div class="admin-item-actions">
+                                <% if (inv.email && inv.email.includes('@einladung.')) { %>
+                                    <button onclick="copyText('<%= inv.invite_link %>')" class="btn btn-sm btn-primary">📋 Link</button>
+                                    <form action="<%= isLs ? actionBase + '/delete-invitation/' + inv.id : '/admin/delete-invitation/' + inv.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Einladung widerrufen?');">
+                                        <button type="submit" class="btn btn-sm btn-secondary">✗</button>
+                                    </form>
+                                <% } else { %>
+                                    <form action="<%= isLs ? actionBase + '/accept-invitation/' + inv.id : '/admin/accept-invitation/' + inv.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Bewerbung annehmen?');">
+                                        <button type="submit" class="btn btn-sm btn-success">✓ Annehmen</button>
+                                    </form>
+                                    <form action="<%= isLs ? actionBase + '/reject-invitation/' + inv.id : '/admin/reject-invitation/' + inv.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Bewerbung ablehnen?');">
+                                        <button type="submit" class="btn btn-sm btn-secondary">✗ Ablehnen</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="text-muted">Keine ausstehenden Einladungen oder Bewerbungen.</p>
+            <% } %>
+        </div>
+
+        <!-- Pending Submissions -->
+        <div class="card" id="section-submissions">
+            <div class="admin-section-header">
+                <h3>📸 Einreichungen prüfen</h3>
+                <span class="admin-count-badge"><%= pendingSubmissions ? pendingSubmissions.length : 0 %> ausstehend</span>
+            </div>
+
+            <% if (pendingSubmissions && pendingSubmissions.length > 0) { %>
+                <% pendingSubmissions.forEach(sub => { %>
+                    <div class="review-card">
+                        <div class="review-card-header">
+                            <% if (sub.proof_image) { %>
+                                <img src="/uploads/<%= sub.proof_image %>" alt="Nachweis" class="pending-image">
+                            <% } %>
+                            <div style="flex: 1;">
+                                <strong><%= sub.challenge_title %></strong>
+                                <p style="margin: 0.25rem 0; font-size: 0.9rem;">
+                                    von <strong><%= sub.user_realname %></strong> (<%= sub.user_nickname %>)
+                                </p>
+                                <% if (sub.answer_data) { %>
+                                    <% try { const data = JSON.parse(sub.answer_data); %>
+                                        <% if (data.description) { %>
+                                            <p class="text-muted" style="margin: 0; font-size: 0.85rem;"><%= data.description %></p>
+                                        <% } %>
+                                    <% } catch(e) {} %>
+                                <% } %>
+                                <small class="text-muted">Max. <%= sub.max_points %> Punkte</small>
+                            </div>
+                        </div>
+                        <form action="<%= isLs ? actionBase + '/review-submission/' + sub.id : '/admin/review-submission/' + sub.id %>" method="POST">
+                            <div class="review-form-row">
+                                <div class="form-group" style="margin: 0;">
+                                    <label class="form-label" style="font-size: 0.8rem;">Punkte</label>
+                                    <input type="number" name="points" class="form-input" placeholder="Punkte" max="<%= sub.max_points %>" min="0" style="width: 120px;">
+                                </div>
+                                <div class="form-group" style="margin: 0; flex: 1; min-width: 180px;">
+                                    <label class="form-label" style="font-size: 0.8rem;">Feedback</label>
+                                    <input type="text" name="feedback" class="form-input" placeholder="Optional">
+                                </div>
+                                <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">✓ Bestätigen</button>
+                                <button type="submit" name="action" value="reject" class="btn btn-secondary btn-sm">✗ Ablehnen</button>
+                            </div>
+                        </form>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="text-muted">Keine ausstehenden Einreichungen.</p>
+            <% } %>
+        </div>
+    </main>
+
+    <script>
+        function closeModal() {
+            document.getElementById('inviteModal').classList.remove('active');
+        }
+        function closeResetModal() {
+            document.getElementById('resetModal').classList.remove('active');
+        }
+        function copyInviteLink() {
+            const link = document.getElementById('modalLink').textContent;
+            navigator.clipboard.writeText(link).then(() => alert('Link kopiert!')).catch(() => alert('Link: ' + link));
+        }
+        function copyResetLink() {
+            const link = document.getElementById('resetModalLink').textContent;
+            navigator.clipboard.writeText(link).then(() => alert('Link kopiert!')).catch(() => alert('Link: ' + link));
+        }
+        function copyTempPw() {
+            const pw = document.getElementById('modalPw').textContent;
+            navigator.clipboard.writeText(pw).then(() => alert('Passwort kopiert!')).catch(() => alert('Passwort: ' + pw));
+        }
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => alert('Kopiert!')).catch(() => alert(text));
+        }
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterMembers() {
+            const query = document.getElementById('member-search').value.toLowerCase().trim();
+            const roleFilter = document.getElementById('filter-member-role').value;
+            const rows = document.querySelectorAll('.member-row');
+            let visible = 0;
+
+            rows.forEach(row => {
+                const text = (row.dataset.name + ' ' + row.dataset.nickname).toLowerCase();
+                const matchesSearch = !query || text.includes(query);
+                const matchesRole = !roleFilter || row.dataset.role === roleFilter;
+                const show = matchesSearch && matchesRole;
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            document.getElementById('member-count').textContent = visible + ' Mitglieder';
+            const noResults = document.getElementById('member-no-results');
+            if (noResults) noResults.style.display = (visible === 0 && rows.length > 0) ? 'block' : 'none';
+        }
+
+        function resetMemberFilters() {
+            document.getElementById('member-search').value = '';
+            document.getElementById('filter-member-role').value = '';
+            filterMembers();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const search = document.getElementById('member-search');
+            const roleFilter = document.getElementById('filter-member-role');
+            if (search) search.addEventListener('input', filterMembers);
+            if (roleFilter) roleFilter.addEventListener('change', filterMembers);
+
+            document.getElementById('inviteModal').addEventListener('click', e => { if (e.target.id === 'inviteModal') closeModal(); });
+            document.getElementById('resetModal').addEventListener('click', e => { if (e.target.id === 'resetModal') closeResetModal(); });
+        });
+    </script>
+
+    <% if (locals.invite_link) { %>
+    <div id="inviteData" style="display:none;"
+         data-link="<%= invite_link %>"
+         data-pw="<%= invite_password %>"
+         data-name="<%= invite_realname %> (<%= invite_nickname %>)"
+         data-role="<%= locals.invite_role === 'jf' ? 'Jugendfeuerwehr' : 'Einsatzabteilung' %>">
+    </div>
+    <script>
+        (function() {
+            var d = document.getElementById('inviteData');
+            document.getElementById('modalName').textContent = d.dataset.name;
+            document.getElementById('modalRole').textContent = d.dataset.role;
+            document.getElementById('modalLink').textContent = d.dataset.link;
+            document.getElementById('modalPw').textContent = d.dataset.pw;
+            document.getElementById('inviteModal').classList.add('active');
+        })();
+    </script>
+    <% } %>
+
+    <% if (locals.reset_link) { %>
+    <div id="resetData" style="display:none;" data-link="<%= reset_link %>" data-name="<%= reset_user_name %>"></div>
+    <script>
+        (function() {
+            var d = document.getElementById('resetData');
+            document.getElementById('resetModalName').textContent = d.dataset.name;
+            document.getElementById('resetModalLink').textContent = d.dataset.link;
+            document.getElementById('resetModal').classList.add('active');
+        })();
+    </script>
+    <% } %>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "id": "1778249733049_q_37",
+  "text": "Wie hoch ist der Betriebsdruck in einer vollen 300-bar-Atemluftflasche?",
+  "type": "single",
+  "answers": [
+    "150 bar",
+    "300 bar",
+    "450 bar",
+    "200 bar"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie hoch ist der Betriebsdruck in einer vollen 300-bar-Atemluftflasche?"
+}

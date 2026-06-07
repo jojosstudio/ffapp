@@ -1,0 +1,15 @@
+{
+  "id": "1778250564768_q_19",
+  "text": "Was bedeutet der Status 0?",
+  "type": "single",
+  "answers": [
+    "Alles ok",
+    "Notruf / Priorisierter Sprechwunsch",
+    "Fahrzeug sauber",
+    "Testruf"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeutet der Status 0?"
+}

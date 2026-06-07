@@ -1,0 +1,15 @@
+{
+  "id": "1778250756076_q_94",
+  "text": "Wie lautet die Antwort auf einen Anruf?",
+  "type": "single",
+  "answers": [
+    "'Hallo'",
+    "'Hier [eigener Rufname] - kommen!'",
+    "'Was willst du?'",
+    "'Ja bitte'"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet die Antwort auf einen Anruf?"
+}

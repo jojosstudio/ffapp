@@ -1,0 +1,15 @@
+{
+  "id": "1778250330931_q_6",
+  "text": "Welcher Trupp besteht aus Truppführer und Truppmann?",
+  "type": "single",
+  "answers": [
+    "Nur der Angriffstrupp",
+    "Jeder Trupp",
+    "Nur der Wassertrupp",
+    "Nur der Schlauchtrupp"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp besteht aus Truppführer und Truppmann?"
+}

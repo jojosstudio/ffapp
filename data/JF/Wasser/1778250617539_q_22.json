@@ -1,0 +1,15 @@
+{
+  "id": "1778250617539_q_22",
+  "text": "Was bedeuten die Zahlen auf einem Hydrantenschild (z.B. H 100)?",
+  "type": "single",
+  "answers": [
+    "Entfernung zum nächsten Haus",
+    "Durchmesser der Wasserleitung in mm",
+    "Maximaler Druck",
+    "Baujahr"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeuten die Zahlen auf einem Hydrantenschild (z.B. H 100)?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250564890_q_32",
+  "text": "Was ist das Sprechfunkzeugnis?",
+  "type": "single",
+  "answers": [
+    "Ein Aufkleber",
+    "Nachweis über die erfolgreiche Teilnahme an einem Sprechfunklehrgang",
+    "Ein Zeugnis aus der Schule",
+    "Gibt es nicht"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist das Sprechfunkzeugnis?"
+}

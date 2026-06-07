@@ -1,0 +1,15 @@
+{
+  "id": "1778250691220_q_0",
+  "text": "Wie viele Personen bilden einen 'Trupp'?",
+  "type": "single",
+  "answers": [
+    "1 Person",
+    "2 Personen",
+    "3 Personen",
+    "9 Personen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie viele Personen bilden einen 'Trupp'?"
+}

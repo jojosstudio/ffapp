@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server nicht erreichbar | Feuerwehr-Challenge</title>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+  background:#1a1a2e;
+  color:#e0e0e0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(211,47,47,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,111,0,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(33,150,243,0.06) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== CARD ===== */
+.offline-card{
+  position:relative;
+  z-index:1;
+  max-width:520px;
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:3rem 2.5rem;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,0.5);
+}
+
+/* ===== ICON ===== */
+.icon-wrapper{
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  background:rgba(211,47,47,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 1.5rem;
+  animation:pulse 2s ease-in-out infinite;
+}
+.icon-wrapper svg{width:48px;height:48px}
+@keyframes pulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(211,47,47,0.2)}
+  50%{transform:scale(1.05);box-shadow:0 0 0 15px rgba(211,47,47,0)}
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1{
+  font-size:1.75rem;
+  font-weight:800;
+  margin-bottom:0.5rem;
+  background:linear-gradient(135deg,#fff,#ff6f00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.subtitle{
+  color:rgba(255,255,255,0.6);
+  font-size:1.05rem;
+  margin-bottom:2rem;
+}
+.status-dot{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.4rem 1rem;
+  border-radius:999px;
+  background:rgba(255,152,0,0.15);
+  border:1px solid rgba(255,152,0,0.3);
+  font-size:0.85rem;
+  color:#ff9800;
+  margin-bottom:2rem;
+}
+.status-dot::before{
+  content:'';
+  width:8px;height:8px;
+  border-radius:50%;
+  background:#ff9800;
+  animation:blink 1.2s ease-in-out infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0.3}
+}
+
+/* ===== INFO LIST ===== */
+.info-list{
+  text-align:left;
+  margin-bottom:2rem;
+  padding:1.25rem;
+  background:rgba(0,0,0,0.2);
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.05);
+}
+.info-list li{
+  list-style:none;
+  padding:0.5rem 0;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.75);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.info-list li:last-child{border-bottom:none}
+.info-list li .emoji{font-size:1.1rem;flex-shrink:0}
+
+/* ===== BUTTONS ===== */
+.btn-group{
+  display:flex;
+  gap:0.75rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:1.5rem;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.75rem 1.5rem;
+  border-radius:999px;
+  font-size:0.9rem;
+  font-weight:600;
+  text-decoration:none;
+  transition:all 0.2s;
+  cursor:pointer;
+  border:none;
+  outline:none;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#d32f2f,#ff6f00);
+  color:#fff;
+  box-shadow:0 4px 15px rgba(211,47,47,0.3);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(211,47,47,0.4);
+}
+.btn-secondary{
+  background:rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.12);
+}
+.btn-secondary:hover{
+  background:rgba(255,255,255,0.12);
+  transform:translateY(-2px);
+}
+
+/* ===== PROGRESS ===== */
+.retry-section{
+  margin-top:1.5rem;
+  padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.retry-label{
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:0.5rem;
+}
+.progress-bar{
+  height:3px;
+  background:rgba(255,255,255,0.06);
+  border-radius:2px;
+  overflow:hidden;
+  margin-bottom:0.75rem;
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#d32f2f,#ff6f00);
+  border-radius:2px;
+  animation:retry-progress 10s linear forwards;
+}
+@keyframes retry-progress{
+  0%{width:0%}
+  100%{width:100%}
+}
+.retry-text{
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.3);
+}
+
+/* ===== OFFLINE NOTICE ===== */
+.offline-notice{
+  margin-top:2rem;
+  padding:0.75rem 1rem;
+  background:rgba(33,150,243,0.1);
+  border:1px solid rgba(33,150,243,0.2);
+  border-radius:12px;
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.5);
+}
+.offline-notice strong{color:#90caf9}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:480px){
+  .offline-card{padding:2rem 1.5rem}
+  h1{font-size:1.5rem}
+  .btn{padding:0.6rem 1.2rem;font-size:0.85rem}
+  .icon-wrapper{width:72px;height:72px}
+  .icon-wrapper svg{width:36px;height:36px}
+}
+</style>
+</head>
+<body>
+
+<div class="offline-card">
+  <!-- Feuerwehr-Symbol (SVG) -->
+  <div class="icon-wrapper">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+      <path d="M2 17l10 5 10-5"/>
+      <path d="M2 12l10 5 10-5"/>
+    </svg>
+  </div>
+
+  <h1>Server nicht erreichbar</h1>
+  <p class="subtitle">Die Feuerwehr-Challenge ist momentan nicht verfügbar.</p>
+
+  <div class="status-dot">Verbindung wird geprüft…</div>
+
+  <ul class="info-list">
+    <li><span class="emoji">🔌</span> Überprüfe deine Internetverbindung</li>
+    <li><span class="emoji">🔄</span> Der Server wird möglicherweise gerade neu gestartet</li>
+    <li><span class="emoji">⏳</span> Versuche es in ein paar Minuten erneut</li>
+  </ul>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="location.reload()">
+      🔄 Neu laden
+    </button>
+    <a href="/" class="btn btn-secondary">
+      🏠 Startseite
+    </a>
+  </div>
+
+  <div class="retry-section">
+    <div class="retry-label">Automatischer Wiederholungsversuch</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="retry-text" id="countdownText">Nächster Versuch in 10 Sekunden…</p>
+  </div>
+
+  <div class="offline-notice">
+    💡 <strong>PWA-Tipp:</strong> Wenn du die Seite als App installiert hast, 
+    kannst du einige Funktionen auch offline nutzen.
+  </div>
+</div>
+
+<script>
+(function() {
+  // Automatischer Reload nach 10 Sekunden
+  let secondsLeft = 10;
+  const countdownEl = document.getElementById('countdownText');
+  
+  const interval = setInterval(function() {
+    secondsLeft--;
+    if (countdownEl) {
+      countdownEl.textContent = 'Nächster Versuch in ' + secondsLeft + ' Sekunden…';
+    }
+    if (secondsLeft <= 0) {
+      clearInterval(interval);
+      location.reload();
+    }
+  }, 1000);
+
+  // Wenn die Seite wieder erreichbar ist, weiterleiten
+  fetch('/', { method: 'HEAD', cache: 'no-store' })
+    .then(function(response) {
+      if (response.ok) {
+        window.location.href = '/';
+      }
+    })
+    .catch(function() {
+      // Server immer noch down, alles gut
+    });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "id": "1778249960526_q_23",
+  "text": "Welches Schild kennzeichnet einen Hydranten?",
+  "type": "single",
+  "answers": [
+    "Ein blaues Schild",
+    "Ein weißes Schild mit rotem Rand und einem 'H'",
+    "Ein grünes 'Notaus' Schild",
+    "Ein gelber Punkt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welches Schild kennzeichnet einen Hydranten?"
+}

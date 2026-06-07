@@ -1,0 +1,15 @@
+{
+  "id": "1778250564517_q_3",
+  "text": "Wie lautet das Funkwort, um ein Gespräch zu beenden?",
+  "type": "single",
+  "answers": [
+    "Tschüss",
+    "Ende",
+    "Aus",
+    "Over"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet das Funkwort, um ein Gespräch zu beenden?"
+}

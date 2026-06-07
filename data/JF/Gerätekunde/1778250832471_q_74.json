@@ -1,0 +1,15 @@
+{
+  "id": "1778250832471_q_74",
+  "text": "Was ist ein 'Lungenautomat'?",
+  "type": "single",
+  "answers": [
+    "Ein Roboter",
+    "Teil des Atemschutzgeräts, das die Luftzufuhr regelt",
+    "Eine Kaffeemaschine",
+    "Ein Spielzeug"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'Lungenautomat'?"
+}

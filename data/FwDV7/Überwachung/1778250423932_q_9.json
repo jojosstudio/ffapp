@@ -1,0 +1,15 @@
+{
+  "id": "1778250423932_q_9",
+  "text": "In welchen Intervallen sollte der Druck bei der Atemschutzüberwachung abgefragt werden?",
+  "type": "single",
+  "answers": [
+    "Alle 60 Minuten",
+    "Bei Eintritt, nach 10 min, bei Zielerreichung, bei Rückzug, bei Austritt",
+    "Gar nicht",
+    "Nach dem Einsatz"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "In welchen Intervallen sollte der Druck bei der Atemschutzüberwachung abgefragt werden?"
+}

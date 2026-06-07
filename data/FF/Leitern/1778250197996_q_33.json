@@ -1,0 +1,15 @@
+{
+  "id": "1778250197996_q_33",
+  "text": "Darf ein Feuerwehrmann auf der Leiter beide Hände zum Arbeiten benutzen?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, eine Hand muss zum Festhalten dienen (oder Gurt nutzen)",
+    "Nur wenn er schwindelfrei ist",
+    "Nur mit Helm"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf ein Feuerwehrmann auf der Leiter beide Hände zum Arbeiten benutzen?"
+}

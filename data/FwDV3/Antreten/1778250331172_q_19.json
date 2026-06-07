@@ -1,0 +1,15 @@
+{
+  "id": "1778250331172_q_19",
+  "text": "Wo steht der Wassertrupp beim Antreten?",
+  "type": "single",
+  "answers": [
+    "Hinter dem Maschinisten",
+    "Hinter dem Einheitsführer",
+    "Links vom Angriffstrupp",
+    "Hinter dem Schlauchtrupp"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wo steht der Wassertrupp beim Antreten?"
+}

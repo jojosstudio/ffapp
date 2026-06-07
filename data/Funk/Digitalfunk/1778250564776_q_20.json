@@ -1,0 +1,15 @@
+{
+  "id": "1778250564776_q_20",
+  "text": "Welcher Funkkanal wird meistens für den Einsatzstellenfunk (DMO) genutzt?",
+  "type": "single",
+  "answers": [
+    "Kanal 1",
+    "Ein zugewiesener Arbeitskanal (z.B. 310*)",
+    "Der Radiokanal",
+    "Kanal 500"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Funkkanal wird meistens für den Einsatzstellenfunk (DMO) genutzt?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250617441_q_13",
+  "text": "Darf man einen Fettbrand mit Wasser löschen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, es kommt zur Fettexplosion",
+    "Nur wenn das Wasser kalt ist",
+    "Nur mit viel Wasser"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man einen Fettbrand mit Wasser löschen?"
+}

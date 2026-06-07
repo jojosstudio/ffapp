@@ -1,0 +1,15 @@
+{
+  "id": "1778250617655_q_37",
+  "text": "Welcher Trupp rettet bei der Gruppe zuerst?",
+  "type": "single",
+  "answers": [
+    "Wassertrupp",
+    "Angriffstrupp",
+    "Schlauchtrupp",
+    "Maschinist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp rettet bei der Gruppe zuerst?"
+}

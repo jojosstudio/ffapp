@@ -1,0 +1,15 @@
+{
+  "id": "1778250564576_q_6",
+  "text": "Wie lautet der Anruf im Funk?",
+  "type": "single",
+  "answers": [
+    "'Hallo, wer da?'",
+    "'[Rufname Gegenstelle] von [Eigener Rufname] - kommen!'",
+    "'Hier ist Julien, bitte melden!'",
+    "'An alle: Funkspruch!'"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet der Anruf im Funk?"
+}

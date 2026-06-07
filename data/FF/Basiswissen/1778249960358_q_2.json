@@ -1,0 +1,15 @@
+{
+  "id": "1778249960358_q_2",
+  "text": "Zu welcher Brandklasse gehören Brände von festen Stoffen (z. B. Holz, Papier)?",
+  "type": "single",
+  "answers": [
+    "Brandklasse A",
+    "Brandklasse B",
+    "Brandklasse C",
+    "Brandklasse D"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Zu welcher Brandklasse gehören Brände von festen Stoffen (z. B. Holz, Papier)?"
+}

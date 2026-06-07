@@ -1,0 +1,15 @@
+{
+  "id": "1778250928710_q_45",
+  "text": "Welche Brandklasse ist 'Benzin'?",
+  "type": "single",
+  "answers": [
+    "A",
+    "B",
+    "C",
+    "F"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Brandklasse ist 'Benzin'?"
+}

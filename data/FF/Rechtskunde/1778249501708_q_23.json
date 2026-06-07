@@ -1,0 +1,15 @@
+{
+  "id": "1778249501708_q_23",
+  "text": "Wer ordnet die Brandschau an?",
+  "type": "single",
+  "answers": [
+    "Der Schornsteinfeger",
+    "Die Brandschutzbehörde (Kreis oder Stadt)",
+    "Der Wehrführer persönlich",
+    "Die Polizei"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wer ordnet die Brandschau an?"
+}

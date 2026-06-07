@@ -1,0 +1,4 @@
+PORT=3000
+NODE_ENV=development
+SESSION_SECRET=feuerwehr-challenge-nrw-secret-key-2024
+DB_PATH=./database.sqlite

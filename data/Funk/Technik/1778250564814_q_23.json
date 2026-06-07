@@ -1,0 +1,15 @@
+{
+  "id": "1778250564814_q_23",
+  "text": "Was ist die 'Rauschsperre'?",
+  "type": "single",
+  "answers": [
+    "Eine Wand",
+    "Funktion, die Hintergrundrauschen bei fehlendem Signal unterdrückt",
+    "Ein kaputtes Mikrofon",
+    "Verbot zu funken"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die 'Rauschsperre'?"
+}

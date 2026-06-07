@@ -1,0 +1,15 @@
+{
+  "id": "1778250832003_q_44",
+  "text": "Darf die Jugendfeuerwehr mit 'Sondersignal' fahren?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, Jugendliche nehmen nicht an Einsatzfahrten teil",
+    "Nur zur Schule",
+    "Nur am Geburtstag"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Jugendfeuerwehr mit 'Sondersignal' fahren?"
+}

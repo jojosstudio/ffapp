@@ -1,0 +1,15 @@
+{
+  "id": "1778249502015_q_47",
+  "text": "Darf die Feuerwehr Schaum einsetzen, wenn dieser die Umwelt belastet?",
+  "type": "single",
+  "answers": [
+    "Nein",
+    "Ja, wenn der Zweck dies rechtfertigt (Abwägung)",
+    "Nur mit Genehmigung",
+    "Nur bei Flugzeugen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr Schaum einsetzen, wenn dieser die Umwelt belastet?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250831855_q_25",
+  "text": "Was bedeutet die Zahl auf einem Hydrantenschild (z.B. 100)?",
+  "type": "single",
+  "answers": [
+    "Der Preis",
+    "Der Innendurchmesser der Leitung in mm",
+    "Die Hausnummer",
+    "Die Entfernung zum Mond"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeutet die Zahl auf einem Hydrantenschild (z.B. 100)?"
+}

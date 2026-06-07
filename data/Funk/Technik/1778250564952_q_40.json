@@ -1,0 +1,15 @@
+{
+  "id": "1778250564952_q_40",
+  "text": "Darf man Funkgeräte während des Ladens benutzen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, Akku geht kaputt",
+    "Nur im Notfall",
+    "Nur wenn es klingelt"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Darf man Funkgeräte während des Ladens benutzen?"
+}

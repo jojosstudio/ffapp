@@ -1,0 +1,15 @@
+{
+  "id": "1778250692020_q_88",
+  "text": "Darf ein Laie einen AED benutzen?",
+  "type": "single",
+  "answers": [
+    "Nein, nur Ärzte",
+    "Ja, das Gerät gibt alle Anweisungen per Sprache aus",
+    "Nur nach einer Prüfung",
+    "Nur bei der Feuerwehr"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf ein Laie einen AED benutzen?"
+}

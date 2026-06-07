@@ -1,0 +1,156 @@
+
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>🏆 Ranglisten</h1>
+            <p>Die besten Feuerwehrleute in NRW</p>
+        </div>
+        
+        <!-- Season Countdown Banner -->
+        <% if (season && countdown) { %>
+            <div class="card" style="margin-bottom: 1.5rem; border: 2px solid var(--primary); background: linear-gradient(135deg, rgba(33,150,243,0.1), rgba(33,150,243,0.05));">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.1rem;">📅 Saison: <%= season.name %></h3>
+                        <p style="color: var(--text-muted); margin: 0.25rem 0 0 0; font-size: 0.85rem;">
+                            Punkte-Reset am 1. des Monats um 00:00 Uhr
+                        </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);"><%= countdown.days %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Tage</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);"><%= countdown.hours %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Stunden</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);"><%= countdown.minutes %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Minuten</div>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.25rem 0 0 0;">
+                            bis zum Reset
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        
+        <!-- Tabs -->
+        <div class="ranking-tabs">
+            <a href="/rankings?group=both" class="ranking-tab <%= targetGroup === 'both' ? 'active' : '' %>">Alle</a>
+            <a href="/rankings?group=ff" class="ranking-tab <%= targetGroup === 'ff' ? 'active' : '' %>">🔥 Einsatzabteilung</a>
+            <a href="/rankings?group=jf" class="ranking-tab <%= targetGroup === 'jf' ? 'active' : '' %>">🌟 Jugendfeuerwehr</a>
+            <% if (user && user.station_id) { %>
+                <a href="/rankings/internal" class="ranking-tab">👥 Intern</a>
+            <% } %>
+        </div>
+        
+        <div class="grid grid-2">
+            <!-- Individual Rankings -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">Einzelwertung</h3>
+                
+                <% if (rankings && rankings.length > 0) { %>
+                    <div class="ranking-table">
+                        <% rankings.slice(0, 20).forEach((ranking, index) => { %>
+                            <div class="ranking-row">
+                                <div class="ranking-position <%= index < 3 ? 'top-3' : '' %>">
+                                    <%= index + 1 %>
+                                </div>
+                                <div class="ranking-avatar">
+                                    <%= ranking.nickname.charAt(0).toUpperCase() %>
+                                </div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">
+                                        <%= ranking.nickname %>
+                                        <% if (ranking.role === 'jf') { %>
+                                            <span class="badge badge-blue">JF</span>
+                                        <% } %>
+                                    </div>
+                                    <div class="ranking-station">
+                                        LZ <%= ranking.lz_number %> <%= ranking.station_name %>, <%= ranking.city_name %>
+                                    </div>
+                                </div>
+                                <div class="ranking-points">
+                                    <%= ranking.points %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                        Noch keine Teilnehmer in dieser Kategorie.
+                    </p>
+                <% } %>
+                
+                <!-- Season Info Text -->
+                <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                    📊 Die Punkte werden monatlich zurückgesetzt. 
+                    Die Historie bleibt erhalten, um den Jahresverlauf zu sehen.
+                </p>
+            </div>
+            
+            <!-- Station Rankings -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">Löschzug-Wertung</h3>
+                
+                <% if (stationRankings && stationRankings.length > 0) { %>
+                    <div class="ranking-table">
+                        <% stationRankings.slice(0, 15).forEach((station, index) => { %>
+                            <div class="ranking-row">
+                                <div class="ranking-position <%= index < 3 ? 'top-3' : '' %>">
+                                    <%= index + 1 %>
+                                </div>
+                                <div class="ranking-info" style="flex: 1;">
+                                    <div class="ranking-name">
+                                        LZ <%= station.lz_number %> <%= station.station_name %>
+                                    </div>
+                                    <div class="ranking-station">
+                                        <%= station.city_name %>
+                                    </div>
+                                </div>
+                                <div class="ranking-points">
+                                    <%= station.total_points %>
+                                    <small style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">
+                                        <%= station.member_count %> Mitglieder
+                                    </small>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                        Noch keine Stationswertung verfügbar.
+                    </p>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 2rem; text-align: center;">
+            <p style="color: var(--text-muted);">
+                🔒 <strong>Datenschutz:</strong> In den öffentlichen Ranglisten werden nur Nicknames angezeigt. 
+                Klarnamen sind nur in der internen Rangliste deines Löschzugs sichtbar.
+            </p>
+        </div>
+        
+        <!-- Past Seasons Link -->
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="/rankings/season/1" class="btn btn-secondary">
+                📅 Vergangene Seasons ansehen
+            </a>
+        </div>
+    </main>
+</body>
+</html>

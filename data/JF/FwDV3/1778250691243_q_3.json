@@ -1,0 +1,15 @@
+{
+  "id": "1778250691243_q_3",
+  "text": "Was ist das Kommando des Einheitsführers, um eine Übung zu beenden?",
+  "type": "single",
+  "answers": [
+    "'Alle aufhören!'",
+    "'Abmarsch!'",
+    "'Zum Abmarsch fertig!'",
+    "'Wasser halt!'"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Was ist das Kommando des Einheitsführers, um eine Übung zu beenden?"
+}

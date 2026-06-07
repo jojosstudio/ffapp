@@ -1,0 +1,15 @@
+{
+  "id": "1778250424123_q_24",
+  "text": "Welche Aufgabe hat die Feuerwehrleine im Atemschutzeinsatz?",
+  "type": "single",
+  "answers": [
+    "Zum Wäsche aufhängen",
+    "Zur Eigensicherung und Orientierung (Rückwegsicherung)",
+    "Zum Fesseln von Personen",
+    "Als Ersatzschlauch"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Aufgabe hat die Feuerwehrleine im Atemschutzeinsatz?"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "feuerwehr-challenge-nrw",
+  "version": "1.0.0",
+  "description": "Spielerischer Wettbewerb zwischen NRW-Löschzügen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:init": "node scripts/init-db.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "multer": "^1.4.5-lts.1",
+    "sqlite3": "^6.0.1",
+    "uuid": "^14.0.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "feuerwehr",
+    "challenge",
+    "nrw",
+    "competition"
+  ],
+  "author": "",
+  "license": "MIT"
+}

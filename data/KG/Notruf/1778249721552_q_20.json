@@ -1,0 +1,15 @@
+{
+  "id": "1778249721552_q_20",
+  "text": "Was ist der wichtigste Satz beim Notruf?",
+  "type": "single",
+  "answers": [
+    "Was ist passiert?",
+    "Wo ist es passiert?",
+    "Wie heißt du?",
+    "Alle Antworten sind wichtig"
+  ],
+  "correctAnswers": [
+    3
+  ],
+  "fileName": "Was ist der wichtigste Satz beim Notruf?"
+}

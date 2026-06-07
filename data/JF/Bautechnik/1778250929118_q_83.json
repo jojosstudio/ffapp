@@ -1,0 +1,15 @@
+{
+  "id": "1778250929118_q_83",
+  "text": "Was ist eine 'Brandschutztür'?",
+  "type": "single",
+  "answers": [
+    "Eine brennende Tür",
+    "Spezielle Tür, die Feuer für eine bestimmte Zeit aufhält (z.B. T30 = 30 Min)",
+    "Eine Tür aus Glas",
+    "Eine Tür ohne Schloss"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist eine 'Brandschutztür'?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778249721398_q_6",
+  "text": "Woher bekommt die Feuerwehr auf der Straße ihr Wasser?",
+  "type": "single",
+  "answers": [
+    "Aus der Trinkflasche",
+    "Vom Hydranten",
+    "Aus einer Pfütze",
+    "Aus dem Supermarkt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Woher bekommt die Feuerwehr auf der Straße ihr Wasser?"
+}

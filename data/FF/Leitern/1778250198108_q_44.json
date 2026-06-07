@@ -1,0 +1,15 @@
+{
+  "id": "1778250198108_q_44",
+  "text": "Welches Kommando beendet das Aufstellen einer Leiter?",
+  "type": "single",
+  "answers": [
+    "'Leiter steht!'",
+    "'Fertig!'",
+    "'Wasser marsch!'",
+    "'Abmarsch!'"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Welches Kommando beendet das Aufstellen einer Leiter?"
+}

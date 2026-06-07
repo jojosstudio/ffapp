@@ -1,0 +1,15 @@
+{
+  "id": "1778249732766_q_11",
+  "text": "Wie hoch ist die Prüfkraft einer Feuerwehrleine (Mehrzweckleine)?",
+  "type": "single",
+  "answers": [
+    "1 kN",
+    "14 kN",
+    "25 kN",
+    "50 kN"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie hoch ist die Prüfkraft einer Feuerwehrleine (Mehrzweckleine)?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778249721300_q_0",
+  "text": "Wie lautet die Notrufnummer der Feuerwehr?",
+  "type": "single",
+  "answers": [
+    "110",
+    "112",
+    "115",
+    "911"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet die Notrufnummer der Feuerwehr?"
+}

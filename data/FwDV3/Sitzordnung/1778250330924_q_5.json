@@ -1,0 +1,15 @@
+{
+  "id": "1778250330924_q_5",
+  "text": "Wo sitzt der Einheitsführer im Löschfahrzeug?",
+  "type": "single",
+  "answers": [
+    "Hinten links",
+    "Vorne rechts",
+    "Vorne links",
+    "In der Mitte"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wo sitzt der Einheitsführer im Löschfahrzeug?"
+}

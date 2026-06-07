@@ -1,0 +1,15 @@
+{
+  "id": "1778249721379_q_5",
+  "text": "Darfst du alleine mit Streichhölzern spielen?",
+  "type": "single",
+  "answers": [
+    "Ja, wenn ich vorsichtig bin",
+    "Nein, niemals alleine",
+    "Nur im Kinderzimmer",
+    "Nur wenn es dunkel ist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darfst du alleine mit Streichhölzern spielen?"
+}

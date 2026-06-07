@@ -1,0 +1,15 @@
+{
+  "id": "1778250331482_q_49",
+  "text": "Wo befindet sich der Sammelplatz der Trupps nach dem Absitzen?",
+  "type": "single",
+  "answers": [
+    "Hinter dem Fahrzeug",
+    "An der dem Feuer zugewandten Seite",
+    "An der dem Feuer abgewandten Seite (hinter dem Verteiler)",
+    "In der Fahrerkabine"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Wo befindet sich der Sammelplatz der Trupps nach dem Absitzen?"
+}

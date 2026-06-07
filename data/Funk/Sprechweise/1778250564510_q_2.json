@@ -1,0 +1,15 @@
+{
+  "id": "1778250564510_q_2",
+  "text": "Welches Wort wird zur Bestätigung einer Nachricht im Funk verwendet?",
+  "type": "single",
+  "answers": [
+    "OK",
+    "Jawohl",
+    "Verstanden",
+    "Roger"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Welches Wort wird zur Bestätigung einer Nachricht im Funk verwendet?"
+}

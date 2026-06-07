@@ -1,0 +1,15 @@
+{
+  "id": "1778250331342_q_36",
+  "text": "An welcher Seite des Fahrzeugs treten die Trupps an?",
+  "type": "single",
+  "answers": [
+    "Immer hinten",
+    "An der Seite, wo nicht der Verkehr fließt (Gefahrenseite meiden)",
+    "Immer links",
+    "Immer rechts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "An welcher Seite des Fahrzeugs treten die Trupps an?"
+}

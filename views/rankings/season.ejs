@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>📅 Season-Rangliste</h1>
+            <p><%= season.name %> (<%= new Date(season.start_date).toLocaleDateString('de-DE') %> – <%= new Date(season.end_date).toLocaleDateString('de-DE') %>)</p>
+        </div>
+        
+        <!-- Season Selector -->
+        <div class="card" style="margin-bottom: 1.5rem; padding: 1rem;">
+            <form method="GET" action="/rankings/season/<%= season.id %>" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label class="form-label">Season auswählen</label>
+                    <select name="season_id" class="form-select" onchange="if(this.value) window.location='/rankings/season/'+this.value">
+                        <% allSeasons.forEach(s => { %>
+                            <option value="<%= s.id %>" <%= s.id == season.id ? 'selected' : '' %>>
+                                <%= s.name %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div style="flex: 1; min-width: 150px;">
+                    <label class="form-label">Gruppe</label>
+                    <select name="group" class="form-select" onchange="this.form.submit()">
+                        <option value="both" <%= targetGroup === 'both' ? 'selected' : '' %>>Alle</option>
+                        <option value="ff" <%= targetGroup === 'ff' ? 'selected' : '' %>>🔥 Einsatzabteilung</option>
+                        <option value="jf" <%= targetGroup === 'jf' ? 'selected' : '' %>>🌟 Jugendfeuerwehr</option>
+                    </select>
+                </div>
+                <a href="/rankings" class="btn btn-secondary">← Aktuelle Saison</a>
+            </form>
+        </div>
+        
+        <div class="grid grid-2">
+            <!-- Individual Season Rankings -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">Einzelwertung — <%= season.name %></h3>
+                
+                <% if (rankings && rankings.length > 0) { %>
+                    <div class="ranking-table">
+                        <% rankings.slice(0, 20).forEach((ranking, index) => { %>
+                            <div class="ranking-row">
+                                <div class="ranking-position <%= index < 3 ? 'top-3' : '' %>">
+                                    <%= index + 1 %>
+                                </div>
+                                <div class="ranking-avatar">
+                                    <%= ranking.nickname.charAt(0).toUpperCase() %>
+                                </div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">
+                                        <%= ranking.nickname %>
+                                        <% if (ranking.role === 'jf') { %>
+                                            <span class="badge badge-blue">JF</span>
+                                        <% } %>
+                                    </div>
+                                    <div class="ranking-station">
+                                        LZ <%= ranking.lz_number %> <%= ranking.station_name %>, <%= ranking.city_name %>
+                                    </div>
+                                </div>
+                                <div class="ranking-points">
+                                    <%= ranking.points_earned %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                        Keine Daten für diese Season.
+                    </p>
+                <% } %>
+            </div>
+            
+            <!-- Station Season Rankings -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">Löschzug-Wertung — <%= season.name %></h3>
+                
+                <% if (stationRankings && stationRankings.length > 0) { %>
+                    <div class="ranking-table">
+                        <% stationRankings.slice(0, 15).forEach((station, index) => { %>
+                            <div class="ranking-row">
+                                <div class="ranking-position <%= index < 3 ? 'top-3' : '' %>">
+                                    <%= index + 1 %>
+                                </div>
+                                <div class="ranking-info" style="flex: 1;">
+                                    <div class="ranking-name">
+                                        LZ <%= station.lz_number %> <%= station.station_name %>
+                                    </div>
+                                    <div class="ranking-station">
+                                        <%= station.city_name %>
+                                    </div>
+                                </div>
+                                <div class="ranking-points">
+                                    <%= station.total_points %>
+                                    <small style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">
+                                        <%= station.member_count %> Mitglieder
+                                    </small>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                        Keine Daten für diese Season.
+                    </p>
+                <% } %>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="/rankings" class="btn btn-secondary">← Zurück zur aktuellen Rangliste</a>
+        </div>
+    </main>
+</body>
+</html>

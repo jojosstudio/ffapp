@@ -1,0 +1,15 @@
+{
+  "id": "1778250424362_q_42",
+  "text": "Was passiert bei Sauerstoffmangel (< 17 Vol-%)?",
+  "type": "single",
+  "answers": [
+    "Man wird stärker",
+    "Erstickungsgefahr / Bewusstlosigkeit",
+    "Man sieht besser",
+    "Nichts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was passiert bei Sauerstoffmangel (< 17 Vol-%)?"
+}

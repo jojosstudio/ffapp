@@ -1,0 +1,15 @@
+{
+  "id": "1778250331423_q_42",
+  "text": "Darf ein Trupp ohne Truppführer arbeiten?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, ein Trupp arbeitet immer als Einheit unter Führung",
+    "Nur im Garten",
+    "Nur beim Aufräumen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf ein Trupp ohne Truppführer arbeiten?"
+}

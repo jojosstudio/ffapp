@@ -1,0 +1,15 @@
+{
+  "id": "1778250756103_q_96",
+  "text": "Darf man im Funk private Dinge besprechen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, nur dienstliche Gespräche",
+    "Nur wenn niemand zuhört",
+    "Nur am Wochenende"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man im Funk private Dinge besprechen?"
+}

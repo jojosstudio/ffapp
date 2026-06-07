@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <style>
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .step-indicator {
+            display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;
+        }
+        .step-dot {
+            width: 40px; height: 40px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.9rem; transition: all 0.3s;
+            background: var(--glass-bg); color: var(--text-muted); border: 2px solid var(--glass-border);
+        }
+        .step-dot.active {
+            background: var(--ff-red); color: white; border-color: var(--ff-red);
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
+        }
+        .step-dot.done {
+            background: var(--success); color: white; border-color: var(--success);
+        }
+        .step-line {
+            width: 50px; height: 2px; align-self: center;
+            background: var(--glass-border); transition: background 0.3s;
+        }
+        .step-line.done { background: var(--success); }
+        
+        .city-result, .create-option {
+            padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-md);
+            margin-bottom: 0.75rem; cursor: pointer; transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .city-result:hover, .city-result.selected, .create-option:hover {
+            border-color: var(--ff-red); background: var(--glass-bg-light);
+        }
+        .city-result .city-plz { color: var(--text-muted); font-size: 0.85rem; }
+        
+        .plz-input-group {
+            display: flex; gap: 0.5rem; align-items: center;
+        }
+        .plz-input { 
+            font-size: 1.5rem; letter-spacing: 0.3em; text-align: center;
+            max-width: 180px;
+        }
+        
+        .step-title {
+            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+        }
+        .step-number {
+            width: 36px; height: 36px; border-radius: 50%; background: var(--ff-red);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem;
+        }
+        .create-link {
+            color: var(--ff-red-light); cursor: pointer; text-decoration: underline;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="auth-container" style="max-width: 600px;">
+            <div class="card auth-card">
+                <h1 class="auth-title">🚒 Zugführer Registrierung</h1>
+                <p class="auth-subtitle">
+                    Schritt für Schritt zu deinem Feuerwehr-Account
+                </p>
+                
+                <div class="step-indicator">
+                    <div class="step-dot active" id="s1">1</div>
+                    <div class="step-line" id="l1"></div>
+                    <div class="step-dot" id="s2">2</div>
+                    <div class="step-line" id="l2"></div>
+                    <div class="step-dot" id="s3">3</div>
+                    <div class="step-line" id="l3"></div>
+                    <div class="step-dot" id="s4">4</div>
+                </div>
+                
+                <form action="/register" method="POST" id="registerForm">
+                    <!-- STEP 1: Standort über PLZ -->
+                    <div class="wizard-step active" id="step1">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            <h3 style="margin:0;">Deine Feuerwache finden</h3>
+                        </div>
+                        <p style="color:var(--text-secondary); margin-bottom:1.5rem;">
+                            Gib die Postleitzahl deiner Feuerwache ein.
+                        </p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Postleitzahl *</label>
+                            <div class="plz-input-group">
+                                <input type="text" 
+                                       id="plzInput" 
+                                       class="form-input plz-input" 
+                                       placeholder="_____"
+                                       maxlength="5"
+                                       pattern="[0-9]{5}"
+                                       inputmode="numeric"
+                                       oninput="searchByPLZ(this.value)"
+                                       autofocus>
+                                <span id="plzSpinner" style="display:none; font-size:1.5rem;">⏳</span>
+                            </div>
+                            <small style="color:var(--text-muted); font-size:0.85rem;">
+                                Z.B. 45127 für Essen, 50667 für Köln, 45883 für Gelsenkirchen
+                            </small>
+                        </div>
+                        
+                        <div id="cityResults" style="margin-top:1rem;"></div>
+                        
+                        <div id="createCityForm" class="hidden" style="margin-top:1rem; padding:1rem; background:rgba(230,57,70,0.05); border-radius:var(--radius-md);">
+                            <p style="font-weight:600; margin-bottom:0.75rem;">➕ Neue Stadt anlegen:</p>
+                            <div style="display:flex; gap:0.75rem;">
+                                <input type="text" id="newCityName" class="form-input" placeholder="Stadtname" style="flex:1;">
+                                <select id="newCityType" class="form-select" style="max-width:150px;">
+                                    <option value="kreisfreie_stadt">🏙️ Stadt</option>
+                                    <option value="kreis">🏘️ Kreis</option>
+                                </select>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="createNewCity()">Anlegen</button>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="selectedCityId" name="city_id">
+                        <input type="hidden" id="selectedCityName" name="city_name">
+                        
+                        <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                            <button type="button" class="btn btn-primary" onclick="goToStep(2)" id="step1Btn" disabled>
+                                Weiter →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- STEP 2: Löschzug wählen/erstellen -->
+                    <div class="wizard-step" id="step2">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            <h3 style="margin:0;">Deinen Löschzug auswählen</h3>
+                        </div>
+                        <p style="color:var(--text-secondary); margin-bottom:1.5rem;">
+                            Wähle deinen Löschzug in <strong id="step2City">...</strong> aus oder lege ihn an.
+                        </p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Vorhandener Löschzug</label>
+                            <select id="station_select" class="form-select" onchange="onStationSelect()">
+                                <option value="">Löschzug wählen...</option>
+                            </select>
+                        </div>
+                        
+                        <div style="text-align:center; margin:1rem 0; color:var(--text-muted);">— oder —</div>
+                        
+                        <div style="padding:1rem; background:var(--glass-bg); border-radius:var(--radius-md);">
+                            <p style="font-weight:600; margin-bottom:0.75rem;">➕ Neuen Löschzug anlegen:</p>
+                            <div style="display:flex; gap:0.75rem;">
+                                <input type="number" id="newStationLz" class="form-input" placeholder="LZ-Nummer" min="1" style="max-width:130px;">
+                                <input type="text" id="newStationName" class="form-input" placeholder="Name (z.B. Heßler)" style="flex:1;">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="createNewStation()">Anlegen</button>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="station_id" name="station_id">
+                        
+                        <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Zurück</button>
+                            <button type="button" class="btn btn-primary" onclick="goToStep(3)" id="step2Btn" disabled>
+                                Weiter →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- STEP 3: Persönliche Daten -->
+                    <div class="wizard-step" id="step3">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            <h3 style="margin:0;">Deine Daten</h3>
+                        </div>
+                        <p style="color:var(--text-secondary); margin-bottom:1.5rem;">
+                            Persönliche Angaben für dein Feuerwehr-Profil.
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label class="form-label">👤 Vorname *</label>
+                                <input type="text" name="vorname" class="form-input" placeholder="Max" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">👤 Nachname *</label>
+                                <input type="text" name="nachname" class="form-input" placeholder="Mustermann" required>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" name="realname" id="realnameInput">
+                        
+                        <div class="form-group">
+                            <label class="form-label">🏷️ Nickname (öffentlich) *</label>
+                            <input type="text" name="nickname" class="form-input" placeholder="z.B. FireFighterMax" required>
+                            <small style="color:var(--text-muted);">Wird auf Ranglisten angezeigt</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">📧 E-Mail *</label>
+                            <input type="email" name="email" class="form-input" placeholder="max@feuerwehr.de" required>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label class="form-label">📅 Geburtsdatum</label>
+                                <input type="date" name="geburtsdatum" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">📞 Telefon</label>
+                                <input type="tel" name="phone" class="form-input" placeholder="0176 12345678">
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label class="form-label">🎖️ Dienstgrad</label>
+                                <select name="dienstgrad" class="form-select">
+                                    <option value="">Wählen...</option>
+                                    <option value="Feuerwehrmann/-frau">Feuerwehrmann/-frau</option>
+                                    <option value="Oberfeuerwehrmann/-frau">Oberfeuerwehrmann/-frau</option>
+                                    <option value="Hauptfeuerwehrmann/-frau">Hauptfeuerwehrmann/-frau</option>
+                                    <option value="Brandmeister">Brandmeister</option>
+                                    <option value="Oberbrandmeister">Oberbrandmeister</option>
+                                    <option value="Hauptbrandmeister">Hauptbrandmeister</option>
+                                    <option value="Brandinspektor">Brandinspektor</option>
+                                    <option value="Jugendfeuerwehr">Jugendfeuerwehr</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">⚡ Dienstjahre</label>
+                                <input type="number" name="dienstjahre" class="form-input" min="0" max="60" placeholder="z.B. 5">
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Zurück</button>
+                            <button type="button" class="btn btn-primary" onclick="goToStep(4)" id="step3Btn">
+                                Weiter →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- STEP 4: Passwort & Bestätigung -->
+                    <div class="wizard-step" id="step4">
+                        <div class="step-title">
+                            <span class="step-number">4</span>
+                            <h3 style="margin:0;">Passwort & Übersicht</h3>
+                        </div>
+                        
+                        <div style="background:var(--glass-bg); border-radius:var(--radius-md); padding:1.25rem; margin-bottom:1.5rem;">
+                            <h4 style="margin-bottom:0.75rem; font-size:1rem;">📋 Zusammenfassung</h4>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.9rem;">
+                                <span style="color:var(--text-muted);">Standort:</span>
+                                <span id="summaryLocation">-</span>
+                                <span style="color:var(--text-muted);">Feuerwache:</span>
+                                <span id="summaryStation">-</span>
+                                <span style="color:var(--text-muted);">Name:</span>
+                                <span id="summaryName">-</span>
+                                <span style="color:var(--text-muted);">Nickname:</span>
+                                <span id="summaryNick">-</span>
+                                <span style="color:var(--text-muted);">Dienstgrad:</span>
+                                <span id="summaryGrad">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">🔒 Passwort *</label>
+                            <input type="password" name="password" class="form-input" 
+                                   placeholder="Mindestens 6 Zeichen" minlength="6" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">🔒 Passwort bestätigen *</label>
+                            <input type="password" name="password_confirm" class="form-input" 
+                                   placeholder="Passwort wiederholen" required>
+                        </div>
+                        
+                        <div style="background: rgba(255, 152, 0, 0.1); border: 1px solid rgba(255, 152, 0, 0.3); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="color: var(--warning); margin: 0; font-size: 0.9rem;">
+                                ⚠️ Als Zugführer kannst du nach der Registrierung Mitglieder einladen, 
+                                Challenges erstellen und Praxis-Einreichungen prüfen.
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(3)">← Zurück</button>
+                            <button type="submit" class="btn btn-primary" style="font-size:1.1rem; padding:1rem 2rem;">
+                                🚒 Registrierung abschließen
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="auth-footer" style="margin-top:1.5rem;">
+                    Bereits registriert? <a href="/login">Jetzt anmelden</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        let selectedCityId = null;
+        let selectedCityName = '';
+        let stationData = [];
+        
+        // === STEP 1: PLZ Search ===
+        async function searchByPLZ(plz) {
+            const resultsDiv = document.getElementById('cityResults');
+            const btn = document.getElementById('step1Btn');
+            const createForm = document.getElementById('createCityForm');
+            
+            selectedCityId = null;
+            selectedCityName = '';
+            btn.disabled = true;
+            createForm.classList.add('hidden');
+            
+            if (plz.length < 4) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+            
+            document.getElementById('plzSpinner').style.display = 'inline';
+            
+            try {
+                const res = await fetch('/api/city-by-plz/' + plz);
+                const cities = await res.json();
+                
+                if (cities.length === 0) {
+                    resultsDiv.innerHTML = '<p style="color:var(--text-muted);">Keine Stadt gefunden.</p>';
+                    createForm.classList.remove('hidden');
+                    return;
+                }
+                
+                var html = '<p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:0.75rem;">Wähle deine Stadt:</p>';
+                cities.forEach(function(city) {
+                    var label = city.type === 'kreisfreie_stadt' ? '🏙️' : '🏘️';
+                    html += '<div class="city-result" onclick="selectCity(' + city.id + ', \'' + city.name.replace(/'/g, "\\'") + '\')">'
+                        + '<strong>' + label + ' ' + city.name + '</strong>'
+                        + '<span class="city-plz">PLZ: ' + (city.plz || '-') + '</span>'
+                        + '</div>';
+                });
+                html += '<div class="create-option" onclick="showCreateCity()">➕ Meine Stadt ist nicht dabei... neu anlegen</div>';
+                
+                resultsDiv.innerHTML = html;
+            } catch(e) {
+                resultsDiv.innerHTML = '<p style="color:var(--error);">Fehler bei der Suche.</p>';
+            } finally {
+                document.getElementById('plzSpinner').style.display = 'none';
+            }
+        }
+        
+        function selectCity(id, name) {
+            selectedCityId = id;
+            selectedCityName = name;
+            document.getElementById('selectedCityId').value = id;
+            document.getElementById('selectedCityName').value = name;
+            document.querySelectorAll('.city-result').forEach(function(el) { el.classList.remove('selected'); });
+            if (event && event.currentTarget) event.currentTarget.classList.add('selected');
+            document.getElementById('step1Btn').disabled = false;
+            document.getElementById('step1Btn').innerHTML = 'Weiter → ' + name;
+            document.getElementById('createCityForm').classList.add('hidden');
+        }
+        
+        function showCreateCity() {
+            document.getElementById('createCityForm').classList.remove('hidden');
+            document.getElementById('newCityName').value = document.getElementById('plzInput').value ? 'PLZ ' + document.getElementById('plzInput').value : '';
+            document.getElementById('newCityName').focus();
+        }
+        
+        async function createNewCity() {
+            const name = document.getElementById('newCityName').value.trim();
+            const type = document.getElementById('newCityType').value;
+            if (!name) { alert('Bitte Stadtnamen eingeben'); return; }
+            
+            try {
+                const res = await fetch('/api/create-city', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name: name, type: type, state_id: 1})
+                });
+                const data = await res.json();
+                if (data.error) { alert(data.error); return; }
+                
+                selectCity(data.id, data.name);
+                document.getElementById('step1Btn').disabled = false;
+                document.getElementById('step1Btn').innerHTML = 'Weiter → ' + data.name;
+            } catch(e) {
+                alert('Fehler beim Erstellen der Stadt');
+            }
+        }
+        
+        // === STEP 2: Station ===
+        async function goToStep(step) {
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('step' + i).classList.remove('active');
+                var dot = document.getElementById('s' + i);
+                dot.classList.remove('active');
+                if (i < step) dot.classList.add('done');
+                if (i < step && i < 4) document.getElementById('l' + i).classList.add('done');
+            }
+            document.getElementById('step' + step).classList.add('active');
+            document.getElementById('s' + step).classList.add('active');
+            
+            if (step === 2) {
+                document.getElementById('step2City').textContent = selectedCityName;
+                var select = document.getElementById('station_select');
+                select.innerHTML = '<option value="">Löschzug wählen...</option>';
+                select.disabled = true;
+                
+                try {
+                    var res = await fetch('/api/stations/' + selectedCityId);
+                    stationData = await res.json();
+                    
+                    stationData.forEach(function(st) {
+                        select.innerHTML += '<option value="' + st.id + '">LZ ' + st.lz_number + ' - ' + st.name + '</option>';
+                    });
+                    select.disabled = stationData.length === 0;
+                } catch(e) {
+                    select.innerHTML = '<option value="">Fehler beim Laden</option>';
+                }
+            }
+            
+            if (step === 3) {
+                var vorname = document.querySelector('input[name="vorname"]').value;
+                var nachname = document.querySelector('input[name="nachname"]').value;
+                document.getElementById('realnameInput').value = (vorname + ' ' + nachname).trim();
+            }
+            
+            if (step === 4) {
+                document.getElementById('summaryLocation').textContent = selectedCityName;
+                var stationId = document.getElementById('station_id').value;
+                var stationText = '';
+                if (stationId) {
+                    var sel = document.getElementById('station_select');
+                    for (var i = 0; i < sel.options.length; i++) {
+                        if (sel.options[i].value === stationId) {
+                            stationText = sel.options[i].text; break;
+                        }
+                    }
+                }
+                if (!stationText && document.getElementById('newStationName').value) {
+                    stationText = 'LZ ' + document.getElementById('newStationLz').value + ' - ' + document.getElementById('newStationName').value + ' (NEU)';
+                }
+                document.getElementById('summaryStation').textContent = stationText || '-';
+                document.getElementById('summaryName').textContent = (document.querySelector('input[name="vorname"]').value + ' ' + document.querySelector('input[name="nachname"]').value).trim();
+                document.getElementById('summaryNick').textContent = document.querySelector('input[name="nickname"]').value;
+                var grad = document.querySelector('select[name="dienstgrad"]');
+                document.getElementById('summaryGrad').textContent = grad.options[grad.selectedIndex] ? grad.options[grad.selectedIndex].text : '-';
+            }
+        }
+        
+        function onStationSelect() {
+            var sel = document.getElementById('station_select');
+            if (sel.value) {
+                document.getElementById('station_id').value = sel.value;
+                document.getElementById('step2Btn').disabled = false;
+            } else {
+                document.getElementById('station_id').value = '';
+                document.getElementById('step2Btn').disabled = true;
+            }
+        }
+        
+        async function createNewStation() {
+            var lz = document.getElementById('newStationLz').value;
+            var name = document.getElementById('newStationName').value.trim();
+            if (!lz || !name) { alert('Bitte LZ-Nummer und Namen eingeben'); return; }
+            
+            try {
+                var res = await fetch('/api/create-station', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({city_id: selectedCityId, lz_number: parseInt(lz), name: name})
+                });
+                var data = await res.json();
+                if (data.error) { alert(data.error); return; }
+                
+                document.getElementById('station_id').value = data.id;
+                document.getElementById('step2Btn').disabled = false;
+                
+                // Show success
+                document.getElementById('newStationLz').value = '';
+                document.getElementById('newStationName').value = '';
+                document.querySelector('#step2 p').innerHTML = '✅ Löschzug <strong>LZ ' + data.lz_number + ' - ' + data.name + '</strong> wurde angelegt!';
+            } catch(e) {
+                alert('Fehler beim Erstellen');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('plzInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && selectedCityId) goToStep(2);
+            });
+        });
+    </script>
+</body>
+</html>

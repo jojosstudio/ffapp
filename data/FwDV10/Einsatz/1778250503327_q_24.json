@@ -1,0 +1,15 @@
+{
+  "id": "1778250503327_q_24",
+  "text": "Wer gibt beim Besteigen der Leiter das Kommando?",
+  "type": "single",
+  "answers": [
+    "Der Maschinist",
+    "Der Truppführer",
+    "Der Melder",
+    "Niemand"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wer gibt beim Besteigen der Leiter das Kommando?"
+}

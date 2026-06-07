@@ -1,0 +1,15 @@
+{
+  "id": "1778250424239_q_33",
+  "text": "Dürfen Atemschutzgeräte nach dem Einsatz selbst gereinigt werden?",
+  "type": "single",
+  "answers": [
+    "Ja, mit Drahtbürste",
+    "Nur grob; die fachgerechte Reinigung erfolgt in der Atemschutzwerkstatt",
+    "Nein, wegschmeißen",
+    "Nur mit Benzin"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Dürfen Atemschutzgeräte nach dem Einsatz selbst gereinigt werden?"
+}

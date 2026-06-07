@@ -1,0 +1,15 @@
+{
+  "id": "1778250331294_q_32",
+  "text": "Darf der Maschinist den Funk bedienen?",
+  "type": "single",
+  "answers": [
+    "Nein",
+    "Ja, er ist meistens der Funker am Fahrzeug",
+    "Nur wenn er steht",
+    "Nur im Notfall"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf der Maschinist den Funk bedienen?"
+}

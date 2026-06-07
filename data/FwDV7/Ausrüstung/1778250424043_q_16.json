@@ -1,0 +1,15 @@
+{
+  "id": "1778250424043_q_16",
+  "text": "Worauf weist ein 'Pfeifen' des Druckminderers hin?",
+  "type": "single",
+  "answers": [
+    "Einsatz beendet",
+    "Restdruckwarnung (ca. 50-60 bar erreicht)",
+    "Gerät kaputt",
+    "Funkspruch kommt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Worauf weist ein 'Pfeifen' des Druckminderers hin?"
+}

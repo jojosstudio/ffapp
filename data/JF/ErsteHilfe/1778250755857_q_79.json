@@ -1,0 +1,15 @@
+{
+  "id": "1778250755857_q_79",
+  "text": "Darf man abgelaufenes Verbandmaterial benutzen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, Sterilität ist nicht mehr garantiert (in der Prüfung: Nein)",
+    "Nur bei Übungen",
+    "Nur für Tiere"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man abgelaufenes Verbandmaterial benutzen?"
+}

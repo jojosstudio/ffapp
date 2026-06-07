@@ -1,0 +1,15 @@
+{
+  "id": "1778250423852_q_4",
+  "text": "Dürfen Personen mit Bart im Bereich der Dichtlinie Atemschutz tragen?",
+  "type": "single",
+  "answers": [
+    "Ja, wenn der Bart gepflegt ist",
+    "Nein, da kein dichter Sitz der Maske garantiert ist",
+    "Nur bei Übungen",
+    "Nur mit Vollbart"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Dürfen Personen mit Bart im Bereich der Dichtlinie Atemschutz tragen?"
+}

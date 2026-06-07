@@ -1,0 +1,15 @@
+{
+  "id": "1778249501549_q_11",
+  "text": "Welche Versicherung schützt Feuerwehrangehörige bei Unfällen im Dienst?",
+  "type": "single",
+  "answers": [
+    "Die ADAC Rechtsschutz",
+    "Die gesetzliche Unfallversicherung (Feuerwehr-Unfallkasse)",
+    "Die private Krankenversicherung",
+    "Die Haftpflichtversicherung der Stadt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Versicherung schützt Feuerwehrangehörige bei Unfällen im Dienst?"
+}

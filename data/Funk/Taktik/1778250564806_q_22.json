@@ -1,0 +1,15 @@
+{
+  "id": "1778250564806_q_22",
+  "text": "Welche Informationen gehören in eine Lagemeldung?",
+  "type": "single",
+  "answers": [
+    "Wer, Wo, Was, Wie viele, Welche Gefahren",
+    "Wann gibt es Essen?",
+    "Wer hat Schuld?",
+    "Wie ist das Wetter?"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Welche Informationen gehören in eine Lagemeldung?"
+}

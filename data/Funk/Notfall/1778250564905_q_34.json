@@ -1,0 +1,15 @@
+{
+  "id": "1778250564905_q_34",
+  "text": "Was ist eine 'Gefahr im Verzug' Meldung?",
+  "type": "single",
+  "answers": [
+    "Eine Nachricht über Regen",
+    "Ein Funkspruch mit höchster Priorität wegen unmittelbarer Lebensgefahr",
+    "Eine Bestellung",
+    "Eine Statusmeldung"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist eine 'Gefahr im Verzug' Meldung?"
+}

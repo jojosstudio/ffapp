@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="auth-container" style="max-width: 450px;">
+            <div class="card auth-card">
+                <h1 class="auth-title">🚒 Anmelden</h1>
+                <p class="auth-subtitle">
+                    Melde dich mit deiner E-Mail oder deinem Benutzernamen an
+                </p>
+                
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <label class="form-label" for="email">E-Mail oder Benutzername *</label>
+                        <div class="form-input-icon">
+                            <span class="icon">👤</span>
+                            <input type="text" 
+                                   id="email" 
+                                   name="email" 
+                                   class="form-input" 
+                                   placeholder="max@feuerwehr.de oder FireFighterMax"
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Passwort *</label>
+                        <div class="form-input-icon">
+                            <span class="icon">🔒</span>
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   class="form-input" 
+                                   placeholder="Dein Passwort"
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Anmelden
+                    </button>
+                </form>
+                
+                <div class="auth-footer">
+                    Noch kein Konto? <a href="/register">Als Zugführer registrieren</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

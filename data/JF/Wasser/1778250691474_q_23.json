@@ -1,0 +1,15 @@
+{
+  "id": "1778250691474_q_23",
+  "text": "Wie wird ein Hydrantenschild gelesen?",
+  "type": "single",
+  "answers": [
+    "Zahlen geben die Lage des Hydranten in Metern vom Schild aus an (vor/seitlich)",
+    "Zahlen geben das Alter des Wassers an",
+    "Es ist eine Telefonnummer",
+    "Zahlen geben die Hausnummer an"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Wie wird ein Hydrantenschild gelesen?"
+}

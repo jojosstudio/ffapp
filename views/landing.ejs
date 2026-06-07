@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        /* ============ LANDING PAGE STYLES ============ */
+        .landing-hero {
+            text-align: center;
+            padding: 5rem 1rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .landing-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(211,47,47,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .landing-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #ff6f00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        .landing-hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .hero-badges {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hero-badges .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            font-size: 0.85rem;
+        }
+
+        .landing-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+        @media (max-width: 768px) { .landing-stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--ff-red-light);
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-4px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } }
+        .step-card {
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--ff-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        @media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; } }
+        .faq-item {
+            padding: 1.25rem;
+            cursor: pointer;
+        }
+        .faq-item summary {
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .faq-body {
+            margin-top: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            background: linear-gradient(135deg, rgba(211,47,47,0.1), rgba(255,111,0,0.05));
+            border: 2px solid rgba(211,47,47,0.2);
+            border-radius: var(--radius-lg);
+        }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        .footer p { color: var(--text-muted); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <%- include('partials/flash') %>
+
+    <!-- ===== HERO ===== -->
+    <section class="landing-hero">
+        <h1>🚒 Feuerwehr-Challenge</h1>
+        <p class="subtitle">
+            Der spielerische Wettbewerb für Feuerwehrleute in NRW.<br>
+            Löse Quiz-Fragen, meistere Praxis-Aufgaben und führe deinen Löschzug zum Sieg!
+        </p>
+        <div class="hero-cta">
+            <a href="/register" class="btn btn-primary btn-lg">🔥 Jetzt registrieren</a>
+            <a href="/login" class="btn btn-secondary btn-lg">🔐 Anmelden</a>
+            <a href="/rankings" class="btn btn-secondary btn-lg">🏆 Ranglisten</a>
+        </div>
+        <div class="hero-badges">
+            <span class="badge">⭐ Tägliche Challenge (×2 Punkte)</span>
+            <span class="badge">📚 94 Quiz-Challenges</span>
+            <span class="badge">🚒 FF & JF getrennt</span>
+            <span class="badge">📱 Als App nutzbar</span>
+            <span class="badge">🔒 DSGVO-konform</span>
+        </div>
+
+        <div class="landing-stats">
+            <div class="card stat-card">
+                <span class="stat-number">94</span>
+                <span class="stat-label">Challenges</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-number">635+</span>
+                <span class="stat-label">Fragen</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-number">9</span>
+                <span class="stat-label">Themenbereiche</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-number">NRW</span>
+                <span class="stat-label">Bundesland</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section>
+        <h2 class="section-title">🎯 So funktioniert's</h2>
+        <p class="section-sub">In 3 einfachen Schritten bist du dabei und sammelst Punkte für deinen Löschzug.</p>
+        
+        <div class="steps-grid">
+            <div class="card step-card">
+                <div class="step-number">1</div>
+                <h3>Zug registrieren</h3>
+                <p>Der Zugführer registriert seinen Löschzug und lädt die Mitglieder per Einladungslink ein.</p>
+            </div>
+            <div class="card step-card">
+                <div class="step-number">2</div>
+                <h3>Challenges absolvieren</h3>
+                <p>Wähle aus 94 Quiz-Challenges zu verschiedenen Themen. Nach Bestehen gibt's 3 Tage Cooldown.</p>
+            </div>
+            <div class="card step-card">
+                <div class="step-number">3</div>
+                <h3>Punkte sammeln & gewinnen</h3>
+                <p>Jeden Monat gibt's eine neue Season mit Reset. Die Historie bleibt! ⭐ Tägliche Challenge mit ×2 Punkten!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES GRID ===== -->
+    <section>
+        <h2 class="section-title">⚡ Features</h2>
+        <p class="section-sub">Was die Feuerwehr-Challenge besonders macht.</p>
+        
+        <div class="features-grid">
+            <div class="card feature-card">
+                <span class="feature-icon">⭐</span>
+                <h3>Tägliche Challenge</h3>
+                <p>Jeden Tag wechselt eine Challenge um 12:00 Uhr mit <strong>doppelten Punkten</strong>! ⏱️ Live-Countdown.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">📚</span>
+                <h3>94 Quiz-Challenges</h3>
+                <p>Aus FF, JF, Funk, FwDV und mehr. Über 635 Fragen aus allen Feuerwehr-Bereichen.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">🏆</span>
+                <h3>Monatliche Seasons</h3>
+                <p>Punkte-Reset am 1. um 00:00 Uhr. Alle vergangenen Seasons bleiben einsehbar.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">⏳</span>
+                <h3>3-Tage-Cooldown</h3>
+                <p>Nach jeder Challenge 3 Tage Wartezeit. Dann erneut versuchbar – für stetiges Lernen.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">👥</span>
+                <h3>FF & JF getrennt</h3>
+                <p>Getrennte Wertungen für Einsatzabteilung und Jugendfeuerwehr mit angepasstem Punktesystem.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">📊</span>
+                <h3>Ranglisten + Historie</h3>
+                <p>Öffentliche Rangliste (Nicknames), interne Rangliste (Klarnamen) und alle Seasons einsehbar.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">📱</span>
+                <h3>PWA – Wie eine App</h3>
+                <p>Installierbar auf Smartphone & Desktop. Funktioniert offline und benachrichtigt dich.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">🔒</span>
+                <h3>Datenschutz</h3>
+                <p>Öffentlich nur Nicknames. Klarnamen nur innerhalb des Löschzugs. DSGVO-konform.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== POINTS SYSTEM ===== -->
+    <section style="margin: 3rem 0;">
+        <h2 class="section-title">📊 Punktesystem</h2>
+        <p class="section-sub">Faire Punkteverteilung für alle Altersgruppen.</p>
+        <div class="features-grid">
+            <div class="card feature-card">
+                <span class="feature-icon">🔥</span>
+                <h3>Einsatzabteilung (FF)</h3>
+                <p><strong>1 Frage = 1 Punkt</strong><br>Volle Punktzahl für alle 15 Fragen einer Challenge.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">🌟</span>
+                <h3>Jugendfeuerwehr (JF)</h3>
+                <p><strong>5 Fragen = 1 Punkt</strong><br>Leichterer Einstieg für den Nachwuchs.</p>
+            </div>
+            <div class="card feature-card">
+                <span class="feature-icon">👶</span>
+                <h3>Kindergruppe (KG)</h3>
+                <p><strong>10 Fragen = 1 Punkt</strong><br>Spielerisches Lernen für die Kleinsten.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section>
+        <h2 class="section-title">❓ FAQ</h2>
+        <p class="section-sub">Häufige Fragen kurz beantwortet.</p>
+        <div class="faq-grid">
+            <details class="card faq-item">
+                <summary>Muss ich eine App installieren?</summary>
+                <div class="faq-body">Nein! Du kannst die Seite im Browser nutzen. Oder als PWA zum Startbildschirm hinzufügen – dann fühlt es sich wie eine App an.</div>
+            </details>
+            <details class="card faq-item">
+                <summary>Wie komme ich in einen Löschzug?</summary>
+                <div class="faq-body">Dein Zugführer erstellt den Löschzug und lädt dich per Link ein. Oder du bewirbst dich direkt bei einem Löschzug.</div>
+            </details>
+            <details class="card faq-item">
+                <summary>Wann werden Punkte zurückgesetzt?</summary>
+                <div class="faq-body">Am 1. jeden Monats um 00:00 Uhr startet eine neue Season. Alle Punkte werden zurückgesetzt, aber die Historie bleibt erhalten!</div>
+            </details>
+            <details class="card faq-item">
+                <summary>Was ist die tägliche Challenge?</summary>
+                <div class="faq-body">Jeden Tag um 12:00 Uhr wechselt eine zufällige Challenge mit <strong>×2 Punkten</strong>. ⭐ Lohnt sich jeden Tag!</div>
+            </details>
+            <details class="card faq-item">
+                <summary>Wie lange muss ich nach einer Challenge warten?</summary>
+                <div class="faq-body">3 Tage Cooldown pro Challenge. Danach kannst du sie erneut versuchen und wieder Punkte sammeln!</div>
+            </details>
+            <details class="card faq-item">
+                <summary>Ist die Teilnahme kostenlos?</summary>
+                <div class="faq-body">Ja! Keine versteckten Kosten. Einfach registrieren und loslegen.</div>
+            </details>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section">
+        <h2>🚒 Bereit für die Challenge?</h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+            Zeige dein Feuerwehr-Wissen und führe deinen Löschzug zum Sieg!
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+            ⭐ Tägliche Challenge · 94 Quiz · Monatliche Seasons · 3-Tage-Cooldown
+        </p>
+        <div class="cta-actions">
+            <a href="/register" class="btn btn-primary btn-lg">🔥 Jetzt registrieren</a>
+            <a href="/login" class="btn btn-secondary btn-lg">🔐 Anmelden</a>
+            <a href="/rankings" class="btn btn-secondary btn-lg">🏆 Ranglisten ansehen</a>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1.5rem;">
+            📱 Du kannst die Seite als App installieren (Chrome: "Zum Startbildschirm hinzufügen")
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>🚒 Feuerwehr-Challenge NRW © <%= new Date().getFullYear() %></p>
+        <p style="color: var(--text-muted); font-size: 0.8rem;">Gemeinsam für NRW – FF, JF & KG im Wettbewerb</p>
+    </footer>
+</body>
+</html>

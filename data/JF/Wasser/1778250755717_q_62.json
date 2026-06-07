@@ -1,0 +1,15 @@
+{
+  "id": "1778250755717_q_62",
+  "text": "Darf man Löschwasser aus einem Schwimmbad nehmen?",
+  "type": "single",
+  "answers": [
+    "Nein, verboten",
+    "Ja, im Notfall ist jedes Wasser recht",
+    "Nur wenn es beheizt ist",
+    "Nur wenn kein Chlor drin ist"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man Löschwasser aus einem Schwimmbad nehmen?"
+}

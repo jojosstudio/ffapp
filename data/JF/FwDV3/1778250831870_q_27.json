@@ -1,0 +1,15 @@
+{
+  "id": "1778250831870_q_27",
+  "text": "Welcher Trupp setzt den 'Verteiler'?",
+  "type": "single",
+  "answers": [
+    "Angriffstrupp",
+    "Schlauchtrupp",
+    "Wassertrupp",
+    "Melder"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp setzt den 'Verteiler'?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250331146_q_17",
+  "text": "Welcher Befehl leitet den Einsatz ein?",
+  "type": "single",
+  "answers": [
+    "'Wasser marsch!'",
+    "Der Einsatzbefehl (Wasserentnahmestelle, Lage des Verteilers...)",
+    "'Alle mal herhören!'",
+    "'Löschen!'"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Befehl leitet den Einsatz ein?"
+}

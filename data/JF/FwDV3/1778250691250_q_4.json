@@ -1,0 +1,15 @@
+{
+  "id": "1778250691250_q_4",
+  "text": "Was bedeutet das Kommando 'Wasser halt!'?",
+  "type": "single",
+  "answers": [
+    "Die Pumpe ausschalten",
+    "Die Strahlrohre schließen, Leitungen bleiben gefüllt",
+    "Schläuche abbauen",
+    "Essen fassen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeutet das Kommando 'Wasser halt!'?"
+}

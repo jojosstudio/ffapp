@@ -1,0 +1,15 @@
+{
+  "id": "1778250503281_q_18",
+  "text": "Welcher Sicherheitsabstand muss zu unter Spannung stehenden Leitungen (bis 1000V) gehalten werden?",
+  "type": "single",
+  "answers": [
+    "0,5 Meter",
+    "1 Meter",
+    "5 Meter",
+    "10 Meter"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Sicherheitsabstand muss zu unter Spannung stehenden Leitungen (bis 1000V) gehalten werden?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250424071_q_19",
+  "text": "Dürfen Atemschutzgeräte im Mannschaftsraum während der Fahrt angelegt werden?",
+  "type": "single",
+  "answers": [
+    "Nein, verboten",
+    "Ja, wenn das Fahrzeug entsprechend ausgerüstet ist",
+    "Nur vom Maschinisten",
+    "Nur im Winter"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Dürfen Atemschutzgeräte im Mannschaftsraum während der Fahrt angelegt werden?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250755801_q_73",
+  "text": "Was ist ein 'Notausgang'?",
+  "type": "single",
+  "answers": [
+    "Eine normale Tür",
+    "Ausgang, der nur im Notfall benutzt werden sollte",
+    "Ein Fenster",
+    "Ein Loch in der Wand"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'Notausgang'?"
+}

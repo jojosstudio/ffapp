@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    
+    <main class="main-container">
+        <div class="error-container">
+            <div class="error-code">
+                <%= title === 'Seite nicht gefunden' ? '404' : '500' %>
+            </div>
+            <h1 class="error-message"><%= message %></h1>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                <%= title === 'Seite nicht gefunden' 
+                    ? 'Die angeforderte Seite existiert nicht oder wurde verschoben.' 
+                    : 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.' %>
+            </p>
+            <a href="/" class="btn btn-primary btn-lg">Zurück zur Startseite</a>
+        </div>
+    </main>
+</body>
+</html>

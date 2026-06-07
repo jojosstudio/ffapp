@@ -1,0 +1,15 @@
+{
+  "id": "1778250692012_q_87",
+  "text": "Was ist ein 'AED'?",
+  "type": "single",
+  "answers": [
+    "Ein Auto",
+    "Automatisierter Externer Defibrillator (Herzschrittmacher-Impulsgeber)",
+    "Ein Radio",
+    "Ein Computer"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'AED'?"
+}

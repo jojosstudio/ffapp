@@ -1,0 +1,15 @@
+{
+  "id": "1778250755123_q_7",
+  "text": "Darf man auf Feuerwehrfahrzeugen während der Fahrt stehen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, absolutes Stehverbot (Unfallgefahr)",
+    "Nur hinten",
+    "Nur im Sommer"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man auf Feuerwehrfahrzeugen während der Fahrt stehen?"
+}

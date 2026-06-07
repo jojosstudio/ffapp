@@ -1,0 +1,15 @@
+{
+  "id": "1778250691431_q_20",
+  "text": "Wer bedient die Pumpe am Fahrzeug?",
+  "type": "single",
+  "answers": [
+    "Der Gruppenführer",
+    "Der Maschinist",
+    "Der Melder",
+    "Der Schlauchtruppführer"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wer bedient die Pumpe am Fahrzeug?"
+}

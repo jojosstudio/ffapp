@@ -1,0 +1,15 @@
+{
+  "id": "1778250928313_q_4",
+  "text": "Welche Brandklasse umfasst Brände von festen Stoffen (z.B. Holz, Papier)?",
+  "type": "single",
+  "answers": [
+    "Brandklasse A",
+    "Brandklasse B",
+    "Brandklasse C",
+    "Brandklasse D"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Welche Brandklasse umfasst Brände von festen Stoffen (z.B. Holz, Papier)?"
+}

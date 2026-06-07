@@ -1,0 +1,15 @@
+{
+  "id": "1778250617427_q_11",
+  "text": "Was brennt in der Brandklasse A?",
+  "type": "single",
+  "answers": [
+    "Gase",
+    "Flüssigkeiten",
+    "Feste Stoffe (Holz, Papier)",
+    "Metalle"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Was brennt in der Brandklasse A?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250424035_q_15",
+  "text": "Welche Funktion hat der Lungenautomat?",
+  "type": "single",
+  "answers": [
+    "Er misst den Puls",
+    "Er dosiert die Luftzufuhr passend zum Einatemvorgang",
+    "Er kühlt die Luft",
+    "Er macht die Luft sauber"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Funktion hat der Lungenautomat?"
+}

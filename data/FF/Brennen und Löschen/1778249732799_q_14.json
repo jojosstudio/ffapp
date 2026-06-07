@@ -1,0 +1,15 @@
+{
+  "id": "1778249732799_q_14",
+  "text": "Was ist beim Einsatz von Schaummittel 'verschäumt'?",
+  "type": "single",
+  "answers": [
+    "Das Verhältnis von Wasser zu Schaummittel",
+    "Das Verhältnis von Schaummittel zu Luft",
+    "Das Verhältnis von Schaumvolumen zu Wasser-Schaummittel-Gemisch",
+    "Die Haltbarkeit"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Was ist beim Einsatz von Schaummittel 'verschäumt'?"
+}

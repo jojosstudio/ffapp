@@ -1,0 +1,15 @@
+{
+  "id": "1778249501917_q_42",
+  "text": "Darf man als Feuerwehrmann im Dienst Alkohol trinken?",
+  "type": "single",
+  "answers": [
+    "Ja, ein Bier",
+    "Nein, laut UVV herrscht Alkoholverbot",
+    "Nur nach dem Einsatz",
+    "Nur bei Jubiläen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man als Feuerwehrmann im Dienst Alkohol trinken?"
+}

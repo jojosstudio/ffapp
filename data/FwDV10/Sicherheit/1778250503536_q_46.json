@@ -1,0 +1,15 @@
+{
+  "id": "1778250503536_q_46",
+  "text": "Was passiert, wenn der Aufstellwinkel zu steil ist (>75°)?",
+  "type": "single",
+  "answers": [
+    "Die Leiter rutscht unten weg",
+    "Die Leiter kann nach hinten umkippen",
+    "Man kommt schneller hoch",
+    "Nichts"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was passiert, wenn der Aufstellwinkel zu steil ist (>75°)?"
+}

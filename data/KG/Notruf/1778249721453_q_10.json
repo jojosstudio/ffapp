@@ -1,0 +1,15 @@
+{
+  "id": "1778249721453_q_10",
+  "text": "Was passiert, wenn man die 112 anruft?",
+  "type": "single",
+  "answers": [
+    "Man kommt bei der Oma raus",
+    "Man erreicht die Leitstelle",
+    "Das Telefon geht kaputt",
+    "Man hört Musik"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was passiert, wenn man die 112 anruft?"
+}

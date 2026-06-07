@@ -1,0 +1,15 @@
+{
+  "id": "1778250331247_q_26",
+  "text": "Wie lautet das Kommando zur Beendigung des Einsatzes?",
+  "type": "single",
+  "answers": [
+    "'Alles einpacken!'",
+    "'Zum Abmarsch fertig!'",
+    "'Feierabend!'",
+    "'Schläuche rollen!'"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie lautet das Kommando zur Beendigung des Einsatzes?"
+}

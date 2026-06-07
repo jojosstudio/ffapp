@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>Hallo, <%= user.nickname %>! 👋</h1>
+            <p>Willkommen in der Feuerwehr-Challenge</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="card stat-card">
+                <span class="stat-value"><%= user.points %></span>
+                <span class="stat-label">Deine Punkte</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats.completed_count || 0 %></span>
+                <span class="stat-label">Abgeschlossene Challenges</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats.pending_count || 0 %></span>
+                <span class="stat-label">Ausstehende Prüfungen</span>
+            </div>
+        </div>
+        
+        <!-- Super Admin Dashboard -->
+        <% if (user.role === 'super_admin') { %>
+            <div class="admin-grid">
+                <div class="card admin-card">
+                    <h3>🚒 Nicht verifizierte Löschzüge</h3>
+                    <% if (unverifiedStations && unverifiedStations.length > 0) { %>
+                        <ul class="admin-list">
+                            <% unverifiedStations.forEach(station => { %>
+                                <li class="admin-list-item">
+                                    <div>
+                                        <strong>LZ <%= station.lz_number %> <%= station.name %></strong>
+                                        <br><small><%= station.city_name %></small>
+                                    </div>
+                                    <form action="/admin/verify-station/<%= station.id %>" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary btn-sm">Verifizieren</button>
+                                    </form>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p style="color: var(--text-muted);">Alle Löschzüge sind verifiziert.</p>
+                    <% } %>
+                </div>
+                
+                <div class="card admin-card">
+                    <h3>⏳ Ausstehende Einreichungen</h3>
+                    <% if (pendingSubmissions && pendingSubmissions.length > 0) { %>
+                        <p style="margin-bottom: 1rem;"><%= pendingSubmissions.length %> Einreichungen warten auf Prüfung</p>
+                        <a href="/admin/super" class="btn btn-primary">Zur Übersicht</a>
+                    <% } else { %>
+                        <p style="color: var(--text-muted);">Keine ausstehenden Einreichungen.</p>
+                    <% } %>
+                </div>
+                
+                <div class="card admin-card">
+                    <h3>📊 Plattform-Statistiken</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="stat-card" style="padding: 1rem;">
+                            <span class="stat-value" style="font-size: 1.5rem;"><%= totalUsers || 0 %></span>
+                            <span class="stat-label" style="font-size: 0.75rem;">Nutzer</span>
+                        </div>
+                        <div class="stat-card" style="padding: 1rem;">
+                            <span class="stat-value" style="font-size: 1.5rem;"><%= totalStations || 0 %></span>
+                            <span class="stat-label" style="font-size: 0.75rem;">Löschzüge</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        
+        <!-- Zugfuehrer Dashboard -->
+        <% if (user.role === 'zugfuehrer') { %>
+            <div class="admin-grid">
+                <div class="card admin-card">
+                    <h3>👥 Mitglieder (<%= stationMembers ? stationMembers.length : 0 %>)</h3>
+                    <% if (stationMembers && stationMembers.length > 0) { %>
+                        <ul class="admin-list">
+                            <% stationMembers.slice(0, 5).forEach(member => { %>
+                                <li class="admin-list-item">
+                                    <div>
+                                        <strong><%= member.realname %></strong>
+                                        <span class="badge badge-<%= member.role === 'jf' ? 'blue' : 'green' %>">
+                                            <%= member.role.toUpperCase() %>
+                                        </span>
+                                        <br><small><%= member.points %> Punkte</small>
+                                    </div>
+                                </li>
+                            <% }); %>
+                            <% if (stationMembers.length > 5) { %>
+                                <li style="text-align: center; padding-top: 1rem;">
+                                    <a href="/admin/station" class="btn btn-secondary btn-sm">Alle anzeigen</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    <% } else { %>
+                        <p style="color: var(--text-muted);">Noch keine Mitglieder.</p>
+                    <% } %>
+                </div>
+                
+                <div class="card admin-card">
+                    <h3>⏳ Zu prüfende Einreichungen</h3>
+                    <% if (pendingSubmissions && pendingSubmissions.length > 0) { %>
+                        <p style="margin-bottom: 1rem; color: var(--ff-red-light); font-weight: 600;">
+                            <%= pendingSubmissions.length %> ausstehend
+                        </p>
+                        <ul class="admin-list">
+                            <% pendingSubmissions.slice(0, 3).forEach(sub => { %>
+                                <li class="admin-list-item">
+                                    <div>
+                                        <strong><%= sub.user_nickname %></strong>
+                                        <br><small><%= sub.challenge_title %></small>
+                                    </div>
+                                </li>
+                            <% }); %>
+                        </ul>
+                        <a href="/admin/station" class="btn btn-primary" style="margin-top: 1rem;">Prüfen</a>
+                    <% } else { %>
+                        <p style="color: var(--text-muted);">Keine ausstehenden Einreichungen.</p>
+                    <% } %>
+                </div>
+                
+                <div class="card admin-card">
+                    <h3>📋 Station-Info</h3>
+                    <% if (station) { %>
+                        <p><strong><%= station.name %></strong></p>
+                        <p style="color: var(--text-muted);">
+                            LZ <%= station.lz_number %>, <%= station.city_name %>
+                        </p>
+                        <p style="color: var(--text-muted);">
+                            <%= station.district_name %>
+                        </p>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+        
+        <!-- Regular Member Dashboard -->
+        <% if (user.role === 'ff' || user.role === 'jf') { %>
+            <h2 class="section-title">Verfügbare Challenges</h2>
+            
+            <% if (availableChallenges && availableChallenges.length > 0) { %>
+                <div class="challenge-grid">
+                    <% availableChallenges.slice(0, 6).forEach(challenge => { %>
+                        <div class="card challenge-card">
+                            <div class="challenge-header">
+                                <span class="challenge-type <%= challenge.type %>">
+                                    <%= challenge.type === 'theorie' ? '📚 Theorie' : '🎯 Praxis' %>
+                                </span>
+                                <% if (challenge.target_group !== 'both') { %>
+                                    <span class="badge badge-<%= challenge.target_group === 'jf' ? 'blue' : 'green' %>">
+                                        <%= challenge.target_group.toUpperCase() %>
+                                    </span>
+                                <% } %>
+                            </div>
+                            <h4 class="challenge-title"><%= challenge.title %></h4>
+                            <p class="challenge-description"><%= challenge.description %></p>
+                            <div class="challenge-footer">
+                                <span class="challenge-points">+<%= challenge.points %> Punkte</span>
+                                <a href="/challenges/<%= challenge.id %>" class="btn btn-primary btn-sm">
+                                    <%= challenge.type === 'theorie' ? 'Quiz starten' : 'Einreichen' %>
+                                </a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+                
+                <% if (availableChallenges.length > 6) { %>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <a href="/challenges" class="btn btn-secondary">Alle Challenges anzeigen</a>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <div class="card" style="text-align: center; padding: 3rem;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        🎉 Du hast alle verfügbaren Challenges abgeschlossen!
+                    </p>
+                    <p style="color: var(--text-muted);">
+                        Schau später wieder vorbei für neue Aufgaben.
+                    </p>
+                </div>
+            <% } %>
+        <% } %>
+    </main>
+</body>
+</html>

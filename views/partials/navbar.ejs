@@ -1,0 +1,80 @@
+<nav class="navbar glass">
+    <div class="nav-container">
+        <a href="/" class="nav-brand">
+            <img src="/icons/flame.svg" alt="Flamme" class="nav-icon" style="height:32px;width:32px;">
+            <span class="nav-title">Feuerwehr-Challenge</span>
+        </a>
+        
+        <button class="nav-toggle" onclick="toggleNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <ul class="nav-menu" id="navMenu">
+            <% if (user) { %>
+                <% if (user.role === 'leitstelle') { %>
+                    <li><a href="/leitstelle" class="nav-link">Leitstelle</a></li>
+                <% } else { %>
+                    <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+                    <li><a href="/challenges" class="nav-link">Challenges</a></li>
+                    <li><a href="/rankings" class="nav-link">Ranglisten</a></li>
+                    
+                    <% if (user.station_id) { %>
+                        <li><a href="/rankings/internal" class="nav-link">Intern</a></li>
+                    <% } %>
+                    
+                    <% if (user.role === 'zugfuehrer' || user.role === 'super_admin') { %>
+                        <li><a href="/admin/station" class="nav-link">Verwaltung</a></li>
+                    <% } %>
+                <% } %>
+                
+                <% if (user.role === 'super_admin') { %>
+                    <li class="nav-dropdown" style="position: relative;">
+                        <a href="#" class="nav-link" onclick="toggleAdminMenu(event)">⚡ Admin ▼</a>
+                        <ul id="adminMenu" style="display: none; position: absolute; top: 100%; right: 0; background: var(--bg-darker); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 0.5rem; min-width: 200px; z-index: 1000;">
+                            <li><a href="/admin/super" class="nav-link" style="display: block; padding: 0.5rem;">👥 Nutzer & Züge</a></li>
+                            <li><a href="/admin/challenges" class="nav-link" style="display: block; padding: 0.5rem;">🎯 Challenges</a></li>
+                            <li><a href="/admin/push" class="nav-link" style="display: block; padding: 0.5rem;">📢 Push-Benachrichtigungen</a></li>
+                        </ul>
+                    </li>
+                    <script>
+                        function toggleAdminMenu(e) {
+                            e.preventDefault();
+                            const menu = document.getElementById('adminMenu');
+                            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+                        }
+                        document.addEventListener('click', function(e) {
+                            const menu = document.getElementById('adminMenu');
+                            const dropdown = e.target.closest('.nav-dropdown');
+                            if (!dropdown && menu) {
+                                menu.style.display = 'none';
+                            }
+                        });
+                    </script>
+                <% } %>
+                
+                <li class="nav-user">
+                    <a href="/profile" class="nav-link user-link">
+                        <span class="user-avatar"><%= user.nickname.charAt(0).toUpperCase() %></span>
+                        <span class="user-name"><%= user.nickname %></span>
+                        <% if (user.role !== 'leitstelle' && user.points > 0) { %>
+                            <span class="user-points"><%= user.points %> P</span>
+                        <% } %>
+                    </a>
+                </li>
+                <li><a href="/logout" class="nav-link nav-logout">Abmelden</a></li>
+            <% } else { %>
+                <li><a href="/rankings" class="nav-link">Ranglisten</a></li>
+                <li><a href="/login" class="nav-link nav-login">Anmelden</a></li>
+                <li><a href="/register" class="nav-link btn-primary">Registrieren</a></li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+
+<script>
+function toggleNav() {
+    document.getElementById('navMenu').classList.toggle('active');
+}
+</script>

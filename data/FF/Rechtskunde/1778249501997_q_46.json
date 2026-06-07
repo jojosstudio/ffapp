@@ -1,0 +1,15 @@
+{
+  "id": "1778249501997_q_46",
+  "text": "Darf die Feuerwehr eine Person gegen ihren Willen retten?",
+  "type": "single",
+  "answers": [
+    "Nein",
+    "Ja, zur Abwendung einer Lebensgefahr (Notstand)",
+    "Nur mit Gerichtsbeschluss",
+    "Nur wenn die Person schreit"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr eine Person gegen ihren Willen retten?"
+}

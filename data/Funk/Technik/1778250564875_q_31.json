@@ -1,0 +1,15 @@
+{
+  "id": "1778250564875_q_31",
+  "text": "Was ist die Reichweite von Handfunkgeräten im DMO ca.?",
+  "type": "single",
+  "answers": [
+    "100 km",
+    "Abhängig von Bebauung/Gelände (ca. 500m bis 3km)",
+    "Immer genau 10 km",
+    "Weltweit"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die Reichweite von Handfunkgeräten im DMO ca.?"
+}

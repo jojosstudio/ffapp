@@ -1,0 +1,15 @@
+{
+  "id": "1778250564761_q_18",
+  "text": "Was bedeutet der Status 6?",
+  "type": "single",
+  "answers": [
+    "Pause",
+    "Nicht einsatzbereit",
+    "Ankunft auf Wache",
+    "Notruf"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeutet der Status 6?"
+}

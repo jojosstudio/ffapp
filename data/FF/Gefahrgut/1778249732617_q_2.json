@@ -1,0 +1,15 @@
+{
+  "id": "1778249732617_q_2",
+  "text": "Was bedeutet die Ziffer '4' als erste Zahl einer Gefahrnummer (Kemler-Zahl)?",
+  "type": "single",
+  "answers": [
+    "Oxidierende Wirkung",
+    "Gefahr des Entweichens von Gas",
+    "Entzündbarer fester Stoff",
+    "Radioaktivität"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Was bedeutet die Ziffer '4' als erste Zahl einer Gefahrnummer (Kemler-Zahl)?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250831893_q_30",
+  "text": "Darf man über einen liegenden Schlauch fahren?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, nur mit Schlauchbrücken",
+    "Nur wenn er leer ist",
+    "Nur mit dem Fahrrad"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man über einen liegenden Schlauch fahren?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778250755439_q_30",
+  "text": "Darf man Saugschläuche werfen?",
+  "type": "single",
+  "answers": [
+    "Ja",
+    "Nein, sie können beschädigt werden und undicht werden",
+    "Nur ins Wasser",
+    "Nur B-Schläuche"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man Saugschläuche werfen?"
+}

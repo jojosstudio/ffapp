@@ -1,0 +1,15 @@
+{
+  "id": "1778249501530_q_10",
+  "text": "Wer ist der Dienstherr einer Freiwilligen Feuerwehr?",
+  "type": "single",
+  "answers": [
+    "Der Ortsbrandmeister",
+    "Der Landkreis",
+    "Der Bürgermeister der Kommune",
+    "Der Innenminister"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Wer ist der Dienstherr einer Freiwilligen Feuerwehr?"
+}

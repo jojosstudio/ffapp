@@ -1,0 +1,15 @@
+{
+  "id": "1778249732833_q_16",
+  "text": "Welches Gas hat den weitesten Explosionsbereich (ca. 4-75 Vol.-%)?",
+  "type": "single",
+  "answers": [
+    "Methan",
+    "Propan",
+    "Wasserstoff",
+    "Acetylen"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Welches Gas hat den weitesten Explosionsbereich (ca. 4-75 Vol.-%)?"
+}

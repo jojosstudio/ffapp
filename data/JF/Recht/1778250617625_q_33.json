@@ -1,0 +1,15 @@
+{
+  "id": "1778250617625_q_33",
+  "text": "Darf die Jugendfeuerwehr mit Blaulicht zum Einsatz fahren?",
+  "type": "single",
+  "answers": [
+    "Ja, immer",
+    "Nein, die JF nimmt nicht am aktiven Einsatzdienst teil",
+    "Nur wenn der Jugendwart fährt",
+    "Nur bei Übungen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Jugendfeuerwehr mit Blaulicht zum Einsatz fahren?"
+}

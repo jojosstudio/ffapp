@@ -1,0 +1,15 @@
+{
+  "id": "1778250564753_q_17",
+  "text": "Was bedeutet der Status 5?",
+  "type": "single",
+  "answers": [
+    "Einsatz beendet",
+    "Sprechwunsch",
+    "Ankunft im Krankenhaus",
+    "Fahrzeug defekt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was bedeutet der Status 5?"
+}

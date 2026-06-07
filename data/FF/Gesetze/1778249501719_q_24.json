@@ -1,0 +1,15 @@
+{
+  "id": "1778249501719_q_24",
+  "text": "Darf die Feuerwehr bei Gefahr im Verzug eine Straßensperrung veranlassen?",
+  "type": "single",
+  "answers": [
+    "Nein, nur die Polizei",
+    "Ja, als vorübergehende Maßnahme zur Gefahrenabwehr",
+    "Nur mit schriftlicher Genehmigung",
+    "Nur auf Feldwegen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr bei Gefahr im Verzug eine Straßensperrung veranlassen?"
+}

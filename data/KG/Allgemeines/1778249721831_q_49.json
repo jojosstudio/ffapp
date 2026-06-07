@@ -1,0 +1,15 @@
+{
+  "id": "1778249721831_q_49",
+  "text": "Bist du froh, dass es die Feuerwehr gibt?",
+  "type": "single",
+  "answers": [
+    "Ja!",
+    "Nein",
+    "Vielleicht",
+    "Weiß nicht"
+  ],
+  "correctAnswers": [
+    0
+  ],
+  "fileName": "Bist du froh, dass es die Feuerwehr gibt?"
+}

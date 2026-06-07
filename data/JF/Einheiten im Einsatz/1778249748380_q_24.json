@@ -1,0 +1,15 @@
+{
+  "id": "1778249748380_q_24",
+  "text": "Was macht der Maschinist?",
+  "type": "single",
+  "answers": [
+    "Er löscht das Feuer",
+    "Er fährt das Fahrzeug und bedient die Pumpe",
+    "Er leitet den Einsatz",
+    "Er rettet Personen"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was macht der Maschinist?"
+}

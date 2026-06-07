@@ -1,0 +1,15 @@
+{
+  "id": "1778250331388_q_38",
+  "text": "Welcher Abgang am Verteiler ist für das Sonderrohr (z. B. Schaumrohr) vorgesehen?",
+  "type": "single",
+  "answers": [
+    "Abgang 1",
+    "Abgang 2",
+    "Abgang 3 (Mitte)",
+    "Egal"
+  ],
+  "correctAnswers": [
+    2
+  ],
+  "fileName": "Welcher Abgang am Verteiler ist für das Sonderrohr (z. B. Schaumrohr) vorgesehen?"
+}

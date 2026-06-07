@@ -1,0 +1,15 @@
+{
+  "id": "1778249501632_q_16",
+  "text": "Welche UVV ist für die Feuerwehr besonders wichtig?",
+  "type": "single",
+  "answers": [
+    "DGUV Vorschrift 1",
+    "DGUV Vorschrift 49 (ehemals GUV-V C53)",
+    "StVZO",
+    "Bauordnung"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche UVV ist für die Feuerwehr besonders wichtig?"
+}

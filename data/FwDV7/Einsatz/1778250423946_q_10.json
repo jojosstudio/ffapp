@@ -1,0 +1,15 @@
+{
+  "id": "1778250423946_q_10",
+  "text": "Wie viel Luft muss für den Rückzug eingeplant werden?",
+  "type": "single",
+  "answers": [
+    "10 bar",
+    "Die doppelte Menge des Hinweges",
+    "Gar keine",
+    "50 bar"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie viel Luft muss für den Rückzug eingeplant werden?"
+}

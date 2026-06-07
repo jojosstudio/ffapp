@@ -1,0 +1,15 @@
+{
+  "id": "1778250831824_q_21",
+  "text": "Was ist der 'Sicherheitsabstand' bei der Brandbekämpfung zu elektrischen Anlagen?",
+  "type": "single",
+  "answers": [
+    "Immer 100 Meter",
+    "Abhängig von Spannung und Strahlart (Sprühl-/Vollstrahl)",
+    "Gibt es nicht",
+    "Nur 1 Meter"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist der 'Sicherheitsabstand' bei der Brandbekämpfung zu elektrischen Anlagen?"
+}

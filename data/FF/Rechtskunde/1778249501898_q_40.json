@@ -1,0 +1,15 @@
+{
+  "id": "1778249501898_q_40",
+  "text": "Darf die Feuerwehr bei einem Unfall das Auto zerschneiden?",
+  "type": "single",
+  "answers": [
+    "Nein",
+    "Ja, zur Rettung (Rechtfertigender Notstand)",
+    "Nur wenn es alt ist",
+    "Nur wenn die Versicherung zahlt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf die Feuerwehr bei einem Unfall das Auto zerschneiden?"
+}

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+        
+        <div class="dashboard-welcome">
+            <h1>🏛️ Leitstelle</h1>
+            <p>
+                <% if (city) { %>
+                    Verwaltung für <%= city.name %><% if (city.state_name) { %>, <%= city.state_name %><% } %>
+                <% } else { %>
+                    Stadt-Verwaltung
+                <% } %>
+            </p>
+        </div>
+
+        <div class="stats-grid mb-4">
+            <div class="card stat-card">
+                <span class="stat-value"><%= stations ? stations.length : 0 %></span>
+                <span class="stat-label">Löschzüge</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalMembers || 0 %></span>
+                <span class="stat-label">Mitglieder gesamt</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= totalPending || 0 %></span>
+                <span class="stat-label">Ausstehende Aktionen</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="admin-section-header">
+                <h3>🚒 Löschzüge in <%= city ? city.name : 'deiner Stadt' %></h3>
+                <div class="admin-header-actions">
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="toggleCreateStationForm()">+ Neuer Löschzug</button>
+                    <span class="admin-count-badge" id="station-count"><%= stations ? stations.length : 0 %> Löschzüge</span>
+                </div>
+            </div>
+
+            <!-- Create Station Form -->
+            <div id="create-station-form" class="admin-form-section" style="display: none;">
+                <form action="/leitstelle/create-station" method="POST" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lz_number">LZ-Nummer</label>
+                            <input type="number" id="lz_number" name="lz_number" class="form-input" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" class="form-input" required placeholder="z.B. Löschzug Nord">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Erstellen</button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleCreateStationForm()">Abbrechen</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="station-search" class="form-input" placeholder="Löschzug suchen (Nummer oder Name)..." autocomplete="off">
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="resetStationSearch()">Zurücksetzen</button>
+            </div>
+
+            <% if (stations && stations.length > 0) { %>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Löschzug</th>
+                                <th>Status</th>
+                                <th>Mitglieder</th>
+                                <th>Ausstehend</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="station-table-body">
+                            <% stations.forEach(st => { %>
+                                <% const pending = (st.pending_invitations || 0) + (st.pending_submissions || 0); %>
+                                <tr class="station-row"
+                                    data-name="lz <%= st.lz_number %> <%= st.name %>"
+                                    data-lz="<%= st.lz_number %>">
+                                    <td>
+                                        <strong>LZ <%= st.lz_number %> <%= st.name %></strong>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-<%= st.verified ? 'active' : 'inactive' %>">
+                                            <%= st.verified ? 'Verifiziert' : 'Nicht verifiziert' %>
+                                        </span>
+                                    </td>
+                                    <td><%= st.member_count || 0 %></td>
+                                    <td>
+                                        <% if (pending > 0) { %>
+                                            <span class="status-badge status-pending"><%= pending %></span>
+                                        <% } else { %>
+                                            <span class="text-muted">—</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <a href="/leitstelle/station/<%= st.id %>" class="btn btn-sm btn-primary">Verwalten →</a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                    <div id="station-no-results" class="no-results" style="display: none;">
+                        <p>Keine Löschzüge gefunden.</p>
+                    </div>
+                </div>
+            <% } else { %>
+                <p class="text-muted">In dieser Stadt sind noch keine Löschzüge angelegt.</p>
+            <% } %>
+        </div>
+
+        <div class="card mt-4">
+            <div class="admin-section-header">
+                <h3>👤 Benutzer verwalten</h3>
+                <div class="admin-header-actions">
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="toggleCreateZugfuehrerForm()">+ Zugführer erstellen</button>
+                </div>
+            </div>
+
+            <!-- Create Zugführer Form -->
+            <div id="create-zugfuehrer-form" class="admin-form-section" style="display: none;">
+                <form action="/leitstelle/create-zugfuehrer" method="POST" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="z_realname">Voller Name</label>
+                            <input type="text" id="z_realname" name="realname" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="z_nickname">Spitzname</label>
+                            <input type="text" id="z_nickname" name="nickname" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="z_email">E-Mail</label>
+                            <input type="email" id="z_email" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="z_password">Passwort</label>
+                            <input type="password" id="z_password" name="password" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="z_station_id">Löschzug zuweisen</label>
+                        <select id="z_station_id" name="station_id" class="form-input" required>
+                            <option value="">-- Löschzug auswählen --</option>
+                            <% if (stations) { stations.forEach(st => { %>
+                                <option value="<%= st.id %>">LZ <%= st.lz_number %> <%= st.name %></option>
+                            <% }); } %>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Zugführer erstellen</button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleCreateZugfuehrerForm()">Abbrechen</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="user-search" class="form-input" placeholder="Benutzer suchen..." autocomplete="off">
+                </div>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Rolle</th>
+                            <th>Löschzug</th>
+                            <th>Status</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <% if (cityUsers && cityUsers.length > 0) { %>
+                            <% cityUsers.forEach(u => { %>
+                                <tr class="user-row" data-name="<%= u.realname.toLowerCase() %> <%= u.nickname.toLowerCase() %>">
+                                    <td>
+                                        <strong><%= u.realname %></strong><br>
+                                        <small class="text-muted">@<%= u.nickname %></small>
+                                    </td>
+                                    <td>
+                                        <span class="role-badge role-<%= u.role %>"><%= u.role %></span>
+                                    </td>
+                                    <td>
+                                        <% if (u.station_name) { %>
+                                            LZ <%= u.lz_number %> <%= u.station_name %>
+                                        <% } else { %>
+                                            <span class="text-muted">—</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-<%= u.active ? 'active' : 'inactive' %>">
+                                            <%= u.active ? 'Aktiv' : 'Inaktiv' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (u.role !== 'leitstelle') { %>
+                                            <form action="/leitstelle/toggle-user-status/<%= u.id %>" method="POST" style="display: inline;">
+                                                <button type="submit" class="btn btn-sm <%= u.active ? 'btn-danger' : 'btn-success' %>">
+                                                    <%= u.active ? 'Deaktivieren' : 'Aktivieren' %>
+                                                </button>
+                                            </form>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-muted">Keine Benutzer in dieser Stadt.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="admin-section-header">
+                <h3>⚙️ Einstellungen</h3>
+            </div>
+            <div class="admin-form-section">
+                <form action="/leitstelle/toggle-city-exclusion" method="POST">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" <%= city && city.excluded_from_rankings ? 'checked' : '' %>>
+                            Stadt von Ranglisten ausschließen
+                        </label>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.9rem;">
+                            Wenn aktiviert, werden alle Löschzüge und Benutzer dieser Stadt nicht in den öffentlichen Ranglisten angezeigt.
+                        </p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4" style="padding: 1rem 1.25rem;">
+            <p class="text-muted" style="margin: 0; font-size: 0.9rem;">
+                Als Leitstelle verwaltest du alle Löschzüge deiner Stadt. Du nimmst nicht an Challenges, Quiz oder Ranglisten teil.
+                Punkte können nur vom Super Admin verwaltet werden.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        function toggleCreateStationForm() {
+            const form = document.getElementById('create-station-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleCreateZugfuehrerForm() {
+            const form = document.getElementById('create-zugfuehrer-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function filterStations() {
+            const query = document.getElementById('station-search').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('.station-row');
+            let visible = 0;
+
+            rows.forEach(row => {
+                const show = !query || row.dataset.name.includes(query) || row.dataset.lz.includes(query);
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            document.getElementById('station-count').textContent = visible + ' Löschzüge';
+            const noResults = document.getElementById('station-no-results');
+            if (noResults) noResults.style.display = visible === 0 && rows.length > 0 ? 'block' : 'none';
+        }
+
+        function resetStationSearch() {
+            document.getElementById('station-search').value = '';
+            filterStations();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const search = document.getElementById('station-search');
+            if (search) search.addEventListener('input', filterStations);
+
+            const userSearch = document.getElementById('user-search');
+            if (userSearch) {
+                userSearch.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('.user-row');
+                    rows.forEach(row => {
+                        row.style.display = !query || row.dataset.name.includes(query) ? '' : 'none';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

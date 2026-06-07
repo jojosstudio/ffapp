@@ -1,0 +1,15 @@
+{
+  "id": "1778250331432_q_43",
+  "text": "Welcher Trupp verlegt die B-Leitung von der Pumpe zum Verteiler?",
+  "type": "single",
+  "answers": [
+    "Angriffstrupp",
+    "Wassertrupp (bei der Gruppe)",
+    "Schlauchtrupp",
+    "Melder"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welcher Trupp verlegt die B-Leitung von der Pumpe zum Verteiler?"
+}

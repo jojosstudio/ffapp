@@ -1,0 +1,15 @@
+{
+  "id": "1778250928734_q_48",
+  "text": "Darf man Brandklasse C mit Wasser löschen?",
+  "type": "single",
+  "answers": [
+    "Ja, aber nur bei kleinen Flammen",
+    "Nein, Gaszufuhr muss unterbrochen werden! (Explosionsgefahr)",
+    "Nur mit Sprühstrahl",
+    "Nur im Winter"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man Brandklasse C mit Wasser löschen?"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1778249721525_q_17",
+  "text": "Darf man zum Spaß die 112 anrufen?",
+  "type": "single",
+  "answers": [
+    "Ja, wenn mir langweilig ist",
+    "Nein, das ist verboten",
+    "Nur am Geburtstag",
+    "Nur wenn man die Feuerwehr grüßen will"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Darf man zum Spaß die 112 anrufen?"
+}

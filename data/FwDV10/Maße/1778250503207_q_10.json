@@ -1,0 +1,15 @@
+{
+  "id": "1778250503207_q_10",
+  "text": "Wie hoch ist ein einzelnes Steckleiterteil (Länge)?",
+  "type": "single",
+  "answers": [
+    "1,50 Meter",
+    "2,70 Meter",
+    "4,00 Meter",
+    "5,20 Meter"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Wie hoch ist ein einzelnes Steckleiterteil (Länge)?"
+}

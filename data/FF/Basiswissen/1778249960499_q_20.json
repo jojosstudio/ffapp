@@ -1,0 +1,15 @@
+{
+  "id": "1778249960499_q_20",
+  "text": "In welcher Einheit wird der Druck bei der Feuerwehr meist gemessen?",
+  "type": "single",
+  "answers": [
+    "Newton",
+    "Bar",
+    "Pascal",
+    "Volt"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "In welcher Einheit wird der Druck bei der Feuerwehr meist gemessen?"
+}

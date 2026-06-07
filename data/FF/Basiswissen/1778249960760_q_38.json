@@ -1,0 +1,15 @@
+{
+  "id": "1778249960760_q_38",
+  "text": "Was ist die PSA?",
+  "type": "single",
+  "answers": [
+    "Polizei-Sonder-Abteilung",
+    "Persönliche Schutzausrüstung",
+    "Pumpen-Service-Anlage",
+    "Privat-Sachen-Abgabe"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist die PSA?"
+}

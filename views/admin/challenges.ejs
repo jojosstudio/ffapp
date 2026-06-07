@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <main class="main-container">
+        <%- include('../partials/flash') %>
+
+        <a href="/admin/super" class="admin-back-link">← Super Admin Dashboard</a>
+        
+        <div class="dashboard-welcome">
+            <h1>🎯 Challenge-Verwaltung</h1>
+            <p>Challenges erstellen, verwalten und filtern</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid mb-4">
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats ? stats.total : 0 %></span>
+                <span class="stat-label">Challenges gesamt</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats ? stats.active : 0 %></span>
+                <span class="stat-label">Aktiv</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats ? stats.theorie : 0 %></span>
+                <span class="stat-label">Theorie</span>
+            </div>
+            <div class="card stat-card">
+                <span class="stat-value"><%= stats ? stats.praxis : 0 %></span>
+                <span class="stat-label">Praxis</span>
+            </div>
+        </div>
+
+        <!-- Challenge List -->
+        <div class="card mb-4">
+            <div class="admin-section-header">
+                <h3>📋 Challenges</h3>
+                <span class="admin-count-badge" id="challenge-count"><%= challenges ? challenges.length : 0 %> Einträge</span>
+            </div>
+
+            <div class="admin-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="challenge-search" class="form-input" placeholder="Suche nach Titel oder Beschreibung..." autocomplete="off">
+                </div>
+                <select id="filter-type" class="form-select filter-select">
+                    <option value="">Alle Typen</option>
+                    <option value="theorie">Theorie</option>
+                    <option value="praxis">Praxis</option>
+                </select>
+                <select id="filter-group" class="form-select filter-select">
+                    <option value="">Alle Zielgruppen</option>
+                    <option value="both">FF & JF</option>
+                    <option value="ff">Nur FF</option>
+                    <option value="jf">Nur JF</option>
+                </select>
+                <select id="filter-status" class="form-select filter-select">
+                    <option value="">Alle Status</option>
+                    <option value="active">Aktiv</option>
+                    <option value="inactive">Inaktiv</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="resetChallengeFilters()">Zurücksetzen</button>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Titel</th>
+                            <th>Typ</th>
+                            <th>Zielgruppe</th>
+                            <th>Punkte</th>
+                            <th>Fragen</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="challenge-table-body">
+                        <% if (challenges && challenges.length > 0) { %>
+                            <% challenges.forEach(c => { %>
+                                <tr class="challenge-row"
+                                    data-title="<%= c.title %>"
+                                    data-desc="<%= (c.description || '').toLowerCase() %>"
+                                    data-type="<%= c.type %>"
+                                    data-group="<%= c.target_group %>"
+                                    data-status="<%= c.active ? 'active' : 'inactive' %>">
+                                    <td>
+                                        <strong><%= c.title %></strong>
+                                        <% if (c.description) { %>
+                                            <br><small class="text-muted"><%= c.description.length > 80 ? c.description.substring(0, 80) + '…' : c.description %></small>
+                                        <% } %>
+                                    </td>
+                                    <td><span class="type-badge type-<%= c.type %>"><%= c.type === 'theorie' ? '📚 Theorie' : '🎯 Praxis' %></span></td>
+                                    <td><%= c.target_group === 'both' ? 'FF & JF' : c.target_group.toUpperCase() %></td>
+                                    <td><span class="points-cell">+<%= c.points %></span></td>
+                                    <td><%= c.type === 'theorie' ? (c.question_count || 0) : '—' %></td>
+                                    <td>
+                                        <span class="status-badge status-<%= c.active ? 'active' : 'inactive' %>">
+                                            <%= c.active ? 'Aktiv' : 'Inaktiv' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="admin-table-actions">
+                                            <form action="/admin/challenges/toggle/<%= c.id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm btn-secondary">
+                                                    <%= c.active ? 'Deaktivieren' : 'Aktivieren' %>
+                                                </button>
+                                            </form>
+                                            <form action="/admin/challenges/delete/<%= c.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Challenge &quot;<%= c.title %>&quot; wirklich löschen?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">Löschen</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div id="challenge-no-results" class="no-results" style="display: none;">
+                    <p>Keine Challenges gefunden.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Challenge (collapsible) -->
+        <div class="card">
+            <button type="button" class="collapse-toggle" onclick="toggleCreateForm()" id="create-toggle">
+                <span>➕ Neue Challenge erstellen</span>
+                <span id="create-toggle-icon">▼</span>
+            </button>
+            <div class="collapse-content" id="create-form-content">
+                <form action="/admin/challenges/create" method="POST" id="challengeForm">
+                    <div class="admin-form-section">
+                        <h4>📋 Basis Informationen</h4>
+                        <div class="form-group">
+                            <label class="form-label">Titel *</label>
+                            <input type="text" name="title" class="form-input" placeholder="z.B. Feuerlöscher-Quiz" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Beschreibung</label>
+                            <textarea name="description" class="form-textarea" placeholder="Beschreibe die Challenge..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-section">
+                        <h4>⚙️ Einstellungen</h4>
+                        <div class="admin-form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Typ *</label>
+                                <select name="type" class="form-select" id="challengeType" onchange="toggleQuizQuestions()" required>
+                                    <option value="theorie">📚 Theorie (Quiz)</option>
+                                    <option value="praxis">🎯 Praxis (Bild)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Zielgruppe *</label>
+                                <select name="target_group" class="form-select" required>
+                                    <option value="both">🔥 FF & 🌟 JF</option>
+                                    <option value="ff">🔥 Nur FF</option>
+                                    <option value="jf">🌟 Nur JF</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Schwierigkeit</label>
+                                <select name="difficulty" class="form-select">
+                                    <option value="leicht">🟢 Leicht</option>
+                                    <option value="mittel" selected>🟡 Mittel</option>
+                                    <option value="schwer">🔴 Schwer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Punkte (1-100) *</label>
+                                <input type="number" name="points" class="form-input" value="10" min="1" max="100" required>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="active" value="1" checked style="width: 20px; height: 20px;">
+                                <span>Sofort aktivieren</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="quizQuestions" class="admin-form-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h4 style="margin: 0;">❓ Quiz-Fragen</h4>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="addQuestion()">+ Frage hinzufügen</button>
+                        </div>
+                        <div id="questionsList">
+                            <div class="question-block" data-q="1" style="margin-bottom: 1.5rem; padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-sm);">
+                                <h5 style="margin: 0 0 1rem;">Frage 1</h5>
+                                <div class="form-group">
+                                    <input type="text" name="q1_text" class="form-input" placeholder="Frage eingeben..." required>
+                                </div>
+                                <div class="admin-form-grid">
+                                    <% ['a','b','c','d'].forEach((letter, idx) => { %>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label style="font-size: 0.85rem; color: var(--text-muted);"><%= letter.toUpperCase() %> — Richtig?</label>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <input type="text" name="q1_<%= letter %>" class="form-input" placeholder="Option <%= letter.toUpperCase() %>" style="flex: 1;" <%= idx < 2 ? 'required' : '' %>>
+                                            <input type="radio" name="q1_correct" value="<%= idx %>" style="width: 24px; height: 24px; accent-color: var(--ff-red);" <%= idx === 0 ? 'required' : '' %>>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Maximal 30 Fragen. Die markierte Option ist die richtige Antwort.</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Challenge erstellen</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let questionCounter = 1;
+        const maxQuestions = 30;
+
+        function toggleCreateForm() {
+            const content = document.getElementById('create-form-content');
+            const icon = document.getElementById('create-toggle-icon');
+            content.classList.toggle('open');
+            icon.textContent = content.classList.contains('open') ? '▲' : '▼';
+        }
+
+        function toggleQuizQuestions() {
+            document.getElementById('quizQuestions').style.display =
+                document.getElementById('challengeType').value === 'theorie' ? 'block' : 'none';
+        }
+
+        function filterChallenges() {
+            const query = document.getElementById('challenge-search').value.toLowerCase().trim();
+            const typeFilter = document.getElementById('filter-type').value;
+            const groupFilter = document.getElementById('filter-group').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            const rows = document.querySelectorAll('.challenge-row');
+            let visible = 0;
+
+            rows.forEach(row => {
+                const title = row.dataset.title.toLowerCase();
+                const desc = row.dataset.desc;
+                const matchesSearch = !query || title.includes(query) || desc.includes(query);
+                const matchesType = !typeFilter || row.dataset.type === typeFilter;
+                const matchesGroup = !groupFilter || row.dataset.group === groupFilter;
+                const matchesStatus = !statusFilter || row.dataset.status === statusFilter;
+                const show = matchesSearch && matchesType && matchesGroup && matchesStatus;
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            document.getElementById('challenge-count').textContent = visible + ' Einträge';
+            document.getElementById('challenge-no-results').style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        function resetChallengeFilters() {
+            document.getElementById('challenge-search').value = '';
+            document.getElementById('filter-type').value = '';
+            document.getElementById('filter-group').value = '';
+            document.getElementById('filter-status').value = '';
+            filterChallenges();
+        }
+
+        function addQuestion() {
+            if (questionCounter >= maxQuestions) {
+                alert('Maximum ' + maxQuestions + ' Fragen erreicht');
+                return;
+            }
+            questionCounter++;
+            const container = document.getElementById('questionsList');
+            const div = document.createElement('div');
+            div.className = 'question-block';
+            div.dataset.q = questionCounter;
+            div.style.cssText = 'margin-bottom: 1.5rem; padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-sm);';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h5 style="margin: 0;">Frage ${questionCounter}</h5>
+                    <button type="button" onclick="this.closest('.question-block').remove(); questionCounter--;"
+                            style="background: none; border: none; color: var(--error); cursor: pointer; font-size: 1.2rem;">✕</button>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="q${questionCounter}_text" class="form-input" placeholder="Frage eingeben..." required>
+                </div>
+                <div class="admin-form-grid">
+                    ${['a','b','c','d'].map((l, i) => `
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted);">${l.toUpperCase()} — Richtig?</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" name="q${questionCounter}_${l}" class="form-input" placeholder="Option ${l.toUpperCase()}" style="flex: 1;" required>
+                            <input type="radio" name="q${questionCounter}_correct" value="${i}" style="width: 24px; height: 24px; accent-color: var(--ff-red);" ${i === 0 ? 'required' : ''}>
+                        </div>
+                    </div>`).join('')}
+                </div>`;
+            container.appendChild(div);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('challenge-search').addEventListener('input', filterChallenges);
+            document.getElementById('filter-type').addEventListener('change', filterChallenges);
+            document.getElementById('filter-group').addEventListener('change', filterChallenges);
+            document.getElementById('filter-status').addEventListener('change', filterChallenges);
+        });
+    </script>
+</body>
+</html>

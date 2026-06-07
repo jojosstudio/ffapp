@@ -1,0 +1,15 @@
+{
+  "id": "1778250617553_q_24",
+  "text": "Welche 'W-Frage' ist beim Notruf die wichtigste, um bei Gesprächsabbruch Hilfe zu schicken?",
+  "type": "single",
+  "answers": [
+    "Was ist passiert?",
+    "Wo ist es passiert?",
+    "Wie viele Verletzte?",
+    "Wer ruft an?"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche 'W-Frage' ist beim Notruf die wichtigste, um bei Gesprächsabbruch Hilfe zu schicken?"
+}

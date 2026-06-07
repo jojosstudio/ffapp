@@ -1,0 +1,15 @@
+{
+  "id": "1778250755793_q_72",
+  "text": "Was ist ein 'Fluchtweg'?",
+  "type": "single",
+  "answers": [
+    "Ein Weg zum Wald",
+    "Besonders gekennzeichneter Weg, um ein Gebäude im Notfall zu verlassen",
+    "Eine Autobahn",
+    "Ein Gehweg"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Was ist ein 'Fluchtweg'?"
+}

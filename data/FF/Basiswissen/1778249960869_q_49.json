@@ -1,0 +1,15 @@
+{
+  "id": "1778249960869_q_49",
+  "text": "Welche Funkart nutzt die Feuerwehr heute primär?",
+  "type": "single",
+  "answers": [
+    "Rauchzeichen",
+    "Digitalfunk (TETRA)",
+    "Analogfunk",
+    "Handys"
+  ],
+  "correctAnswers": [
+    1
+  ],
+  "fileName": "Welche Funkart nutzt die Feuerwehr heute primär?"
+}
