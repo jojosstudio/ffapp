@@ -492,4 +492,111 @@ router.post('/profile/deactivate', async (req, res) => {
     }
 });
 
+// === NEW: Register with Invitation (QR Code based) ===
+
+// Register page with invitation token (GET)
+router.get('/register-with-invitation/:token', async (req, res) => {
+    if (req.session.user) {
+        return res.redirect('/dashboard');
+    }
+    
+    try {
+        const Invitation = require('../models/Invitation');
+        const invitation = await Invitation.findByToken(req.params.token);
+        
+        if (!invitation) {
+            req.flash('error', 'Ungültiger oder abgelaufener Einladungslink');
+            return res.redirect('/login');
+        }
+        
+        res.render('auth/register-with-invitation', {
+            title: 'Registrierung',
+            token: req.params.token,
+            invitation: {
+                station_name: invitation.station_name,
+                lz_number: invitation.lz_number,
+                city_name: invitation.city_name,
+                role: invitation.role
+            }
+        });
+    } catch (error) {
+        console.error('Register with invitation page error:', error);
+        req.flash('error', 'Fehler beim Laden der Seite');
+        res.redirect('/login');
+    }
+});
+
+// Register with invitation token (POST)
+router.post('/register-with-invitation/:token', async (req, res) => {
+    const { realname, nickname, email, password, password_confirm, role } = req.body;
+    const token = req.params.token;
+    
+    try {
+        const Invitation = require('../models/Invitation');
+        const invitation = await Invitation.findByToken(token);
+        
+        if (!invitation) {
+            req.flash('error', 'Ungültiger oder abgelaufener Einladungslink');
+            return res.redirect('/login');
+        }
+        
+        // Validate inputs
+        if (!realname || !nickname || !email || !password) {
+            req.flash('error', 'Bitte fülle alle Pflichtfelder aus');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        if (password !== password_confirm) {
+            req.flash('error', 'Die Passwörter stimmen nicht überein');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        if (password.length < 6) {
+            req.flash('error', 'Das Passwort muss mindestens 6 Zeichen lang sein');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        // Validate role (must be ff or jf)
+        if (!['ff', 'jf'].includes(role)) {
+            req.flash('error', 'Ungültige Rolle');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        // Check for existing nickname
+        const existingNickname = await User.findByNickname(nickname);
+        if (existingNickname) {
+            req.flash('error', 'Dieser Nickname ist bereits vergeben');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        // Check for existing email
+        const existingEmail = await User.findByEmail(email);
+        if (existingEmail) {
+            req.flash('error', 'Diese E-Mail ist bereits registriert');
+            return res.redirect(`/auth/register-with-invitation/${token}`);
+        }
+        
+        // Create user with invitation role
+        const userId = await User.create({
+            realname,
+            nickname,
+            email,
+            password,
+            role: role, // ff or jf from invitation
+            station_id: invitation.station_id,
+            active: true
+        });
+        
+        // Mark invitation as used
+        await Invitation.markUsed(token, userId);
+        
+        req.flash('success', `Willkommen ${nickname}! Dein Account wurde erstellt. Du kannst dich jetzt anmelden.`);
+        res.redirect('/login');
+    } catch (error) {
+        console.error('Register with invitation error:', error);
+        req.flash('error', 'Ein Fehler ist bei der Registrierung aufgetreten: ' + error.message);
+        res.redirect(`/auth/register-with-invitation/${token}`);
+    }
+});
+
 module.exports = router;

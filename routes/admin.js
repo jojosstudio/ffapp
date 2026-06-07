@@ -791,5 +791,152 @@ router.post('/delete-user/:id', requireSuperAdmin, async (req, res) => {
     }
 });
 
+// ========= NEW: QR-CODE EINLADUNGSSYSTEM =========
+
+// Zugführer: Einladungen-Verwaltungsseite (GET)
+router.get('/invitations', requireZugfuehrer, async (req, res) => {
+    try {
+        const Invitation = require('../models/Invitation');
+        const user = req.session.user;
+
+        // Get station invitations if user is Zugführer
+        let invitations = [];
+        if (user.role === 'zugfuehrer' && user.station_id) {
+            invitations = await Invitation.findByStation(user.station_id);
+        } else if (user.role === 'super_admin') {
+            invitations = await Invitation.findAll();
+        }
+
+        // Get stats for station
+        let stats = {};
+        if (user.station_id) {
+            stats = await Invitation.getStationStats(user.station_id);
+        }
+
+        res.render('admin/invitations', {
+            title: 'Einladungs-QR-Codes',
+            invitations: invitations || [],
+            stats: stats || { total: 0, used: 0, revoked: 0, expired: 0 },
+            user
+        });
+    } catch (error) {
+        console.error('Invitations page error:', error);
+        req.flash('error', 'Fehler beim Laden der Einladungen');
+        res.redirect('/admin/station');
+    }
+});
+
+// Zugführer: Neue Einladung erstellen (POST)
+router.post('/invitations/create', requireZugfuehrer, async (req, res) => {
+    try {
+        const Invitation = require('../models/Invitation');
+        const { role, quantity } = req.body;
+        const user = req.session.user;
+
+        // Validate inputs
+        if (!['ff', 'jf'].includes(role)) {
+            req.flash('error', 'Ungültige Rolle');
+            return res.redirect('/admin/invitations');
+        }
+
+        const qty = Math.min(parseInt(quantity) || 1, 50); // Max 50 invitations at once
+
+        if (!user.station_id) {
+            req.flash('error', 'Dein Löschzug konnte nicht gefunden werden');
+            return res.redirect('/admin/invitations');
+        }
+
+        // Create multiple invitations
+        const createdInvitations = [];
+        for (let i = 0; i < qty; i++) {
+            const invitation = await Invitation.create(user.station_id, role, user.id);
+            createdInvitations.push(invitation);
+        }
+
+        req.flash('success', `${qty} Einladungs-QR-Code(s) erfolgreich erstellt`);
+        res.redirect('/admin/invitations');
+    } catch (error) {
+        console.error('Create invitation error:', error);
+        req.flash('error', 'Fehler beim Erstellen der Einladung: ' + error.message);
+        res.redirect('/admin/invitations');
+    }
+});
+
+// Zugführer: QR-Code anzeigen (GET)
+router.get('/invitations/qr/:token', requireZugfuehrer, async (req, res) => {
+    try {
+        const QRCode = require('qrcode');
+        const Invitation = require('../models/Invitation');
+        const { token } = req.params;
+        const user = req.session.user;
+
+        const invitation = await Invitation.findByToken(token);
+        
+        if (!invitation) {
+            req.flash('error', 'Einladung nicht gefunden oder abgelaufen');
+            return res.redirect('/admin/invitations');
+        }
+
+        // Verify access
+        if (user.role === 'zugfuehrer' && invitation.station_id !== user.station_id) {
+            req.flash('error', 'Zugriff verweigert');
+            return res.redirect('/admin/invitations');
+        }
+
+        // Generate QR code
+        const invitationUrl = Invitation.getQRUrl(token, process.env.BASE_URL || 'http://localhost:3000');
+        const qrCodeDataUrl = await QRCode.toDataURL(invitationUrl);
+
+        res.render('admin/invitation-qr', {
+            title: 'Einladungs-QR-Code',
+            token,
+            invitation,
+            qrCode: qrCodeDataUrl,
+            invitationUrl
+        });
+    } catch (error) {
+        console.error('QR code error:', error);
+        req.flash('error', 'Fehler beim Generieren des QR-Codes');
+        res.redirect('/admin/invitations');
+    }
+});
+
+// Zugführer: Einladung widerrufen (POST)
+router.post('/invitations/revoke/:token', requireZugfuehrer, async (req, res) => {
+    try {
+        const Invitation = require('../models/Invitation');
+        const { token } = req.params;
+        const user = req.session.user;
+
+        const invitation = await Invitation.findByToken(token);
+        
+        if (!invitation) {
+            req.flash('error', 'Einladung nicht gefunden');
+            return res.redirect('/admin/invitations');
+        }
+
+        // Verify access
+        if (user.role === 'zugfuehrer' && invitation.station_id !== user.station_id) {
+            req.flash('error', 'Zugriff verweigert');
+            return res.redirect('/admin/invitations');
+        }
+
+        // Get invitation ID from database
+        const db = require('../models/db');
+        const inv = await db.get('SELECT id FROM invitations WHERE token = ?', [token]);
+        
+        if (inv) {
+            await Invitation.revoke(inv.id);
+        }
+
+        req.flash('success', 'Einladung widerrufen');
+        res.redirect('/admin/invitations');
+    } catch (error) {
+        console.error('Revoke invitation error:', error);
+        req.flash('error', 'Fehler beim Widerrufen der Einladung');
+        res.redirect('/admin/invitations');
+    }
+});
+
 
 module.exports = router;

@@ -1,0 +1,91 @@
+<%- include('../layouts/header') %>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-qrcode"></i> Einladungs-QR-Code</h4>
+                </div>
+                <div class="card-body text-center">
+                    <!-- QR Code -->
+                    <img src="<%= qrCode %>" alt="QR Code" class="img-fluid border" style="max-width: 400px; margin: 20px 0;">
+
+                    <!-- Invitation Details -->
+                    <div class="alert alert-info">
+                        <h6 class="mb-2"><i class="fas fa-info-circle"></i> Einladungs-Details</h6>
+                        <p class="mb-1"><strong>Löschzug:</strong> <br><%= invitation.station_name %> (LZ <%= invitation.lz_number %>)</p>
+                        <p class="mb-1"><strong>Rolle:</strong> <br><span class="badge badge-info" style="font-size: 14px;"><%= invitation.role === 'ff' ? 'Feuerwehrleute (FF)' : 'Jugendfeuerwehr (JF)' %></span></p>
+                        <p class="mb-0"><strong>Stadt:</strong> <br><%= invitation.city_name %></p>
+                    </div>
+
+                    <!-- Direct Link -->
+                    <div class="form-group">
+                        <label><strong>Direkter Link (zum Teilen)</strong></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="<%= invitationUrl %>" id="invitationLink" readonly>
+                            <button class="btn btn-outline-primary" type="button" onclick="copyLink()">
+                                <i class="fas fa-copy"></i> Kopieren
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Print & Actions -->
+                    <div class="mt-4">
+                        <button onclick="window.print()" class="btn btn-outline-secondary">
+                            <i class="fas fa-print"></i> Ausdrucken
+                        </button>
+                        <a href="/admin/invitations" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Zurück
+                        </a>
+                    </div>
+
+                    <!-- Warning -->
+                    <div class="alert alert-warning mt-4">
+                        <small>
+                            <i class="fas fa-exclamation-triangle"></i> Dieser QR-Code ist gültig bis <%= new Date(invitation.expires_at || Date.now() + 30*24*60*60*1000).toLocaleDateString('de-DE') %>
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="card mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-graduation-cap"></i> Anleitung für Mitglieder</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li><strong>QR-Code scannen:</strong> Mit dem Smartphone den QR-Code scannen oder auf den Link klicken</li>
+                        <li><strong>Registrieren:</strong> Vollständige Namen, Benutzernamen und E-Mail eingeben</li>
+                        <li><strong>Passwort:</strong> Ein sicheres Passwort wählen (mindestens 6 Zeichen)</li>
+                        <li><strong>Registrierungsbestätigung:</strong> Die Person wird sofort mit der Rolle <%= invitation.role === 'ff' ? 'Feuerwehrleute' : 'Jugendfeuerwehr' %> registriert</li>
+                        <li><strong>Anmelden:</strong> Mit Benutzername und Passwort anmelden und Challenges starten</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        .btn, .card-header, .alert { 
+            display: none !important; 
+        }
+        .container {
+            padding: 0;
+        }
+    }
+</style>
+
+<script>
+function copyLink() {
+    const link = document.getElementById('invitationLink');
+    link.select();
+    document.execCommand('copy');
+    alert('Link in Zwischenablage kopiert!');
+}
+</script>
+
+<%- include('../layouts/footer') %>

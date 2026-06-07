@@ -1,0 +1,146 @@
+<%- include('../layouts/header') %>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-plus"></i> 
+                        Registrierung für <%= invitation.station_name %>
+                    </h3>
+                </div>
+
+                <div class="card-body">
+                    <!-- Invitation Info -->
+                    <div class="alert alert-info">
+                        <h6 class="mb-2"><i class="fas fa-fire"></i> Willkommen in der Feuerwehr!</h6>
+                        <p class="mb-1"><strong>Löschzug:</strong> <%= invitation.station_name %> (LZ <%= invitation.lz_number %>)</p>
+                        <p class="mb-1"><strong>Stadt:</strong> <%= invitation.city_name %></p>
+                        <p class="mb-0"><strong>Deine Rolle:</strong> <span class="badge badge-info" style="font-size: 14px;"><%= invitation.role === 'ff' ? 'Feuerwehrleute (FF)' : 'Jugendfeuerwehr (JF)' %></span></p>
+                    </div>
+
+                    <form method="POST" novalidate>
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="realname"><strong>Vollständiger Name *</strong></label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="realname" 
+                                name="realname" 
+                                placeholder="z.B. Max Mustermann"
+                                required
+                            >
+                            <small class="text-muted">Dein echter Name</small>
+                        </div>
+
+                        <!-- Nickname -->
+                        <div class="form-group">
+                            <label for="nickname"><strong>Benutzername *</strong></label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="nickname" 
+                                name="nickname" 
+                                placeholder="z.B. max_mustermann"
+                                required
+                            >
+                            <small class="text-muted">Dein Benutzername für Anmeldung (ohne Leerzeichen)</small>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email"><strong>E-Mail *</strong></label>
+                            <input 
+                                type="email" 
+                                class="form-control" 
+                                id="email" 
+                                name="email" 
+                                placeholder="deine.email@example.de"
+                                required
+                            >
+                            <small class="text-muted">Zur Kontaktaufnahme und Passwort-Reset</small>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password"><strong>Passwort *</strong></label>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Mindestens 6 Zeichen"
+                                required
+                            >
+                            <small class="text-muted">Mindestens 6 Zeichen, Groß- und Kleinbuchstaben empfohlen</small>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <label for="password_confirm"><strong>Passwort wiederholen *</strong></label>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="password_confirm" 
+                                name="password_confirm" 
+                                placeholder="Passwort bestätigen"
+                                required
+                            >
+                        </div>
+
+                        <!-- Role Selection (Optional - pre-selected) -->
+                        <div class="form-group">
+                            <label for="role"><strong>Deine Rolle *</strong></label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="">-- Wähle deine Rolle --</option>
+                                <option value="ff" <%= invitation.role === 'ff' ? 'selected' : '' %>>
+                                    Feuerwehrleute (FF) - Aktive Einsatzkräfte
+                                </option>
+                                <option value="jf" <%= invitation.role === 'jf' ? 'selected' : '' %>>
+                                    Jugendfeuerwehr (JF) - Ausbildungseinheit
+                                </option>
+                            </select>
+                            <small class="text-muted">Wähle deine Gruppe in der Feuerwehr</small>
+                        </div>
+
+                        <!-- Agreement -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="agreement" name="agreement" required>
+                            <label class="form-check-label" for="agreement">
+                                Ich akzeptiere die <a href="/nutzungsbedingungen" target="_blank">Nutzungsbedingungen</a> 
+                                und <a href="/datenschutz" target="_blank">Datenschutzerklärung</a>
+                            </label>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">
+                            <i class="fas fa-check"></i> Registrieren
+                        </button>
+                    </form>
+
+                    <!-- Login Link -->
+                    <hr>
+                    <p class="text-center mb-0">
+                        Hast du bereits einen Account? 
+                        <a href="/login">Melde dich an</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card mt-4 bg-light">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-shield-alt"></i> Datenschutz</h6>
+                    <p class="card-text small">
+                        Deine Daten werden sicher gespeichert und nur für die Verwaltung dieser Feuerwehr-Challenge-Plattform verwendet.
+                        Weitere Informationen findest du in unserer <a href="/datenschutz">Datenschutzerklärung</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

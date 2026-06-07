@@ -101,11 +101,25 @@
         </div>
 
         <div class="admin-grid mb-4">
+            <!-- QR Code Invitations (NEW) -->
+            <div class="card admin-card" style="border: 2px solid #28a745;">
+                <h3>🎫 QR-Code Einladungen (NEU!)</h3>
+                <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+                    Mehrere Personen mit einem QR-Code einladen. Sie wählen die Rolle selbst.
+                </p>
+                <a href="/admin/invitations" class="btn btn-success" style="width: 100%; margin-bottom: 0.5rem;">
+                    <i class="fas fa-qrcode"></i> Zur QR-Code-Verwaltung
+                </a>
+                <p style="font-size: 0.85rem; color: #666; margin: 0;">
+                    ✨ Ideal für Massenregistrierungen und Events
+                </p>
+            </div>
+
             <!-- Invite Member -->
             <div class="card admin-card">
-                <h3>📨 Mitglied einladen</h3>
+                <h3>📨 Einzelne Einladung</h3>
                 <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
-                    Konto anlegen und Einladungslink erhalten.
+                    Personalisierte Einladung mit Namen und Rolle.
                 </p>
                 <form action="<%= isLs ? actionBase + '/generate-invitation' : '/admin/generate-invitation' %>" method="POST">
                     <div class="form-group">
